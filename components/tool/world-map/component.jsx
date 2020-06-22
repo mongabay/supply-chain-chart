@@ -145,7 +145,10 @@ class WorldMap extends React.PureComponent {
         animateFill={false}
         open={!!tooltipConfig}
       >
-        <div style={{ height: '100%', display: 'flex', alignItems: 'center' }}>
+        <div
+          className="js-visualization"
+          style={{ height: '100%', display: 'flex', alignItems: 'center' }}
+        >
           <ComposableMap
             className={cx('c-world-map')}
             projection="robinson"
