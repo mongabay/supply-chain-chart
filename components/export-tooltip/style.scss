@@ -1,0 +1,45 @@
+@import 'css/settings';
+
+.c-export-tooltip {
+  max-width: rem(340);
+
+  legend {
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+  }
+
+  .grid-buttons {
+    display: flex;
+    justify-content: space-between;
+
+    input {
+      @include sr-only();
+
+      &:disabled + label .c-icon {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      &:checked + label {
+        .c-icon use {
+          stroke: $primary;
+          fill: $primary;
+        }
+      }
+    }
+
+    label {
+      .c-icon {
+        width: rem(45);
+        height: rem(35);
+        cursor: pointer;
+
+        use {
+          stroke: $border-color-1;
+          fill: transparent;
+        }
+      }
+    }
+  }
+}
