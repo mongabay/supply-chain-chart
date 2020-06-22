@@ -6,6 +6,7 @@ import { Select } from 'components/forms';
 import { Accordion, AccordionItem, AccordionTitle, AccordionPanel } from 'components/accordion';
 import Tooltip, { sticky } from 'components/tooltip';
 import ExportTooltip from 'components/export-tooltip';
+import traseOptions from 'modules/tool/world-map/trase-options';
 import DownloadSuccessModal from '../download-success-modal';
 
 import './style.scss';
@@ -42,25 +43,19 @@ const Sidebar = ({ activeLayers, exporting, addLayer, removeLayer }) => {
           </AccordionTitle>
           <AccordionPanel>
             <div className="pt-2">
-              {Object.keys(DATA_LAYERS)
-                .sort((a, b) => DATA_LAYERS[a].label.localeCompare(DATA_LAYERS[b].label))
-                .map(key => (
+              {Object.entries(traseOptions)
+                .map(([key, val]) => (
                   <div
                     key={key}
-                    style={{ display: 'flex', flexDirection: 'column', margin: '20px 0' }}
+                    className="mt-4"
+                    style={{ display: 'flex', flexDirection: 'column' }}
                   >
-                    <label>Some text goes here</label>
+                    <label>{key}</label>
                     <Select
                       id={`data-layers-${key}`}
-                      options={[{ label: DATA_LAYERS[key].label, value: 'test', disabled: false }]}
-                      defaultValue="test"
-                      onChange={() => {
-                        if (activeLayers.indexOf(key) !== -1) {
-                          removeLayer(key);
-                        } else {
-                          addLayer(key);
-                        }
-                      }}
+                      options={val}
+                      defaultValue={val[0]?.value}
+                      onChange={() => {}}
                     />
                   </div>
                 ))}
@@ -68,7 +63,7 @@ const Sidebar = ({ activeLayers, exporting, addLayer, removeLayer }) => {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-      <div className="mt-8">
+      <div className="mt-4">
         <Tooltip sticky="popper" plugins={[sticky]} content={<ExportTooltip />}>
           <button type="button" className="btn btn-primary mr-2">
             Export
