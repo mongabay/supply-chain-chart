@@ -5,7 +5,7 @@ import range from 'lodash/range';
 import { fetchTraseContexts, fetchTraseLocationData } from 'utils/trase';
 import traseOptions from 'modules/tool/world-map/trase-options';
 
-export const getData = ({ startYear, endYear, commodity, adm0 }) =>
+const getData = ({ startYear, endYear, commodity, adm0 }) =>
   fetchTraseContexts().then(response => {
     if (response.data && response.data.data) {
       const contextsForLocation = response.data.data.filter(
@@ -60,3 +60,5 @@ export const getData = ({ startYear, endYear, commodity, adm0 }) =>
     }
     return {};
   });
+
+export default getData;

@@ -7,6 +7,7 @@ import { getLayerDef } from 'utils/map';
 import { selectQuery } from '../routing';
 import createMapSlice, * as mapModule from './map';
 import createExportSlice, * as exportModule from './export';
+import createTraseSlice, * as traseModule from './world-map';
 
 // Common actions for the tool module
 const actions = {
@@ -22,6 +23,7 @@ const actions = {
 // Slices belonging to the tool module
 const mapSlice = createMapSlice(actions);
 const exportSlice = createExportSlice(actions);
+const traseSlice = createTraseSlice(actions);
 
 // Common selectors for the tool module
 const selectors = {
@@ -162,6 +164,10 @@ export const toolSelectors = selectors;
 export const mapReducer = mapSlice.reducer;
 export const mapActions = mapSlice.actions;
 export const mapSelectors = mapModule;
+
+export const traseReducer = traseSlice.reducer;
+export const traseActions = traseSlice.actions;
+export const traseSelectors = traseModule;
 
 export const exportReducer = exportSlice.reducer;
 export const exportActions = exportSlice.actions;
