@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const { TRASE_API } = process.env;
+const TRASE_API = 'https://trase.earth/api/v3';
 
 export const fetchTraseContexts = () => axios.get(`${TRASE_API}/contexts`);
 

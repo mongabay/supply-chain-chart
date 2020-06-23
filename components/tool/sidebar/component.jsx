@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { DATA_LAYERS } from 'components/map';
 import { Select } from 'components/forms';
 import { Accordion, AccordionItem, AccordionTitle, AccordionPanel } from 'components/accordion';
 import Tooltip, { sticky } from 'components/tooltip';
 import ExportTooltip from 'components/export-tooltip';
-import traseOptions from 'modules/tool/world-map/trase-options';
+import { traseOptions } from 'modules/tool/world-map/trase-options';
 import DownloadSuccessModal from '../download-success-modal';
 
 import './style.scss';
 
-const Sidebar = ({ activeLayers, exporting, addLayer, removeLayer }) => {
+const Sidebar = ({ exporting }) => {
   const [expandedAccordion, setExpandedAccordion] = useState('data-layers');
   const [previousExporting, setPreviousExporting] = useState(false);
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
@@ -43,22 +42,21 @@ const Sidebar = ({ activeLayers, exporting, addLayer, removeLayer }) => {
           </AccordionTitle>
           <AccordionPanel>
             <div className="pt-2">
-              {Object.entries(traseOptions)
-                .map(([key, val]) => (
-                  <div
-                    key={key}
-                    className="mt-4"
-                    style={{ display: 'flex', flexDirection: 'column' }}
-                  >
-                    <label>{key}</label>
-                    <Select
-                      id={`data-layers-${key}`}
-                      options={val}
-                      defaultValue={val[0]?.value}
-                      onChange={() => {}}
-                    />
-                  </div>
-                ))}
+              {Object.entries(traseOptions).map(([key, val]) => (
+                <div
+                  key={key}
+                  className="mt-4"
+                  style={{ display: 'flex', flexDirection: 'column' }}
+                >
+                  <label>{key}</label>
+                  <Select
+                    id={`data-layers-${key}`}
+                    options={val}
+                    defaultValue={val[0]?.value}
+                    onChange={() => {}}
+                  />
+                </div>
+              ))}
             </div>
           </AccordionPanel>
         </AccordionItem>

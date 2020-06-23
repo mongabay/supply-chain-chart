@@ -1,4 +1,4 @@
-const options = {
+export const traseOptions = {
   'Source country': [
     { label: 'BRAZIL', value: 'BRA' },
     { label: 'COLOMBIA', value: 'COL' },
@@ -22,6 +22,16 @@ const options = {
     { label: 'PARAGUAY', value: 'PRY' },
     { label: 'ECUADOR', value: 'ECU' },
   ],
+};
+
+export const initialState = {
+  'Source country': 'BRA',
+  Commodity: 'SOY',
+  'Change unit': '',
+  Year: '2001', // startYear
+  Municipality: '',
+  Exporter: '', // ??
+  'Destination Country': '',
 };
 
 export const COUNTRIES_COORDINATES = {
@@ -222,5 +232,3 @@ export const COUNTRIES_COORDINATES = {
   SG: [103.85387481909902, 1.2949793251059418],
   HK: [114.18306345846304, 22.30692675357551],
 };
-
-export default options;

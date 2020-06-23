@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { toolSelectors, toolActions } from 'modules/tool';
+import { toolSelectors, toolActions, traseActions } from 'modules/tool';
 import Component from './component';
 
 export default connect(
@@ -9,5 +9,6 @@ export default connect(
   }),
   {
     restoreState: toolActions.restoreState,
+    changeTraseConfig: traseActions.changeTraseConfig,
   }
 )(Component);

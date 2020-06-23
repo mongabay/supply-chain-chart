@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 // TODO: move selectors to modules
 // import { traseActions } from 'modules/tool/world-map';
-import { traseSelectors, traseActions } from 'modules/tool';
+import { traseSelectors } from 'modules/tool';
 // import { getWorldMapProps } from './selectors';
 import Component from './component';
 
@@ -12,7 +12,5 @@ export default connect(
     selectedContext: traseSelectors.getSelectedContext(state),
     originCoordinates: traseSelectors.getOriginCoordinates(state),
   }),
-  {
-    changeTraseConfig: traseActions.changeTraseConfig,
-  }
+  {}
 )(Component);

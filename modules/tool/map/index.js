@@ -321,47 +321,7 @@ export default toolActions =>
         return {
           ...state,
           ...stateToRestore,
-          layers: {
-            ...(stateToRestore.layers ?? state.layers),
-          },
-          contextualLayers: [...(stateToRestore.contextualLayers ?? state.contextualLayers)],
         };
-      },
-      [toolActions.updateMode.toString()]: (state, action) => {
-        switch (action.payload) {
-          case '1':
-            state.viewports = [{ ...state.viewports[0] }];
-            return;
-
-          case '2-vertical':
-          case '2-horizontal':
-            // Since the default difference is spatial, we try to maintain the map positions
-            // See: modules/tool/export/index.js
-            state.viewports = new Array(2)
-              .fill(null)
-              .map((_, index) => ({ ...(state.viewports[index] ?? state.viewports[0]) }));
-            return;
-
-          case '4':
-            // Since the default difference is spatial, we try to maintain the map positions
-            // See: modules/tool/export/index.js
-            state.viewports = new Array(4)
-              .fill(null)
-              .map((_, index) => ({ ...(state.viewports[index] ?? state.viewports[0]) }));
-            return;
-
-          default:
-        }
-      },
-      [toolActions.updateMapDifference.toString()]: (state, action) => {
-        if (action.payload === 'temporal') {
-          state.viewports = state.viewports.map((viewport, index) => {
-            if (index === 0) {
-              return viewport;
-            }
-            return { ...state.viewports[0] };
-          });
-        }
       },
     },
   });

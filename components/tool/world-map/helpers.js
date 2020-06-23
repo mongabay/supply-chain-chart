@@ -3,15 +3,16 @@ import uniqBy from 'lodash/uniqBy';
 import range from 'lodash/range';
 
 import { fetchTraseContexts, fetchTraseLocationData } from 'utils/trase';
-import traseOptions from 'modules/tool/world-map/trase-options';
+import { traseOptions } from 'modules/tool/world-map/trase-options';
 
 const getData = ({ startYear, endYear, commodity, adm0 }) =>
   fetchTraseContexts().then(response => {
     if (response.data && response.data.data) {
       const contextsForLocation = response.data.data.filter(
-        d => d.countryName === traseOptions.find(opt => opt.value === adm0).label
+        d => d.countryName === traseOptions['Source country'].find(opt => opt.value === adm0).label
       );
 
+      // @ts-ignore
       const allCommodities = uniqBy(contextsForLocation, 'commodityName').map(c => c.commodityName);
       const commoditiesForLocation = sortBy(
         allCommodities.map(c => ({

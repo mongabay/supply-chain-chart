@@ -16,7 +16,6 @@ import cx from 'classnames';
 import { formatNumber } from 'utils/functions';
 
 import WORLD_GEOGRAPHIES from './WORLD.topo.json';
-import getTraseData from './helpers';
 import './style.scss';
 
 class WorldMap extends React.PureComponent {
@@ -28,7 +27,7 @@ class WorldMap extends React.PureComponent {
     const curve = {
       forceUp: `${x1} ${y0}`,
       forceDown: `${x0} ${y1}`,
-    }[arc.curveStyle];
+    }[arc.curveStyle || 'forceUp'];
 
     return `M ${start.join(' ')} Q ${curve} ${end.join(' ')}`;
   }
@@ -127,17 +126,9 @@ class WorldMap extends React.PureComponent {
     ));
   };
 
-  componentDidMount() {
-    const { changeTraseConfig } = this.props;
-    // const data = getTraseData({startYear, endYear, commodity, adm0});
-    changeTraseConfig({ Commodity: 'potatoes' });
-    console.log(this.state);
-  }
-
   render() {
     const { tooltipConfig } = this.state;
-    const { className, changeTraseConfig } = this.props;
-    console.log({ changeTraseConfig });
+    const { className } = this.props;
     const { text, items } = tooltipConfig || {};
     return (
       <Tooltip

@@ -1,8 +1,7 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import bbox from 'turf-bbox';
 import lineString from 'turf-linestring';
-import { COUNTRIES_COORDINATES } from 'modules/tool/world-map/trase-options';
-import initialState from './trase-options';
+import { COUNTRIES_COORDINATES, initialState } from 'modules/tool/world-map/trase-options';
 
 export const SLICE_NAME = 'trase';
 
@@ -10,9 +9,7 @@ export const SLICE_NAME = 'trase';
 export const selectSettings = state => state[SLICE_NAME];
 export const selectCommodity = createSelector([selectSettings], settings => settings.commodity);
 
-// export const getSelectedContext = (state, { context }) => console.log(state) || context;
-export const getSelectedContext = state => console.log(state) || (state[SLICE_NAME] && state[SLICE_NAME].context);
-// export const getTopNodes = (state, { topNodes }) => topNodes && topNodes.targetNodes;
+export const getSelectedContext = state => state[SLICE_NAME] && state[SLICE_NAME].context;
 export const getTopNodes = state =>
   state[SLICE_NAME] && state[SLICE_NAME].topNodes && state[SLICE_NAME].topNodes.targetNodes;
 
@@ -89,8 +86,9 @@ export default traseActions =>
     initialState: initialState,
     reducers: {
       changeTraseConfig(state, action) {
-        const { key, value } = action.payload;
-        state[key] = value;
+        Object.entries(action.payload).map(([key, value]) => {
+          state[key] = value;
+        });
       },
     },
     extraReducers: {
