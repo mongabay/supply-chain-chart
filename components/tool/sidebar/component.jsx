@@ -10,10 +10,16 @@ import DownloadSuccessModal from '../download-success-modal';
 
 import './style.scss';
 
-const Sidebar = ({ exporting }) => {
+const Sidebar = ({ exporting, settings }) => {
   const [expandedAccordion, setExpandedAccordion] = useState('data-layers');
   const [previousExporting, setPreviousExporting] = useState(false);
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
+
+  const mapSettingsOptions = {
+    'Source country': traseOptions.countries,
+    Commodity: settings.commodities || traseOptions.commodities,
+    Year: settings.years || traseOptions.years,
+  };
 
   useEffect(() => {
     if (previousExporting !== exporting) {
@@ -42,7 +48,7 @@ const Sidebar = ({ exporting }) => {
           </AccordionTitle>
           <AccordionPanel>
             <div className="pt-2">
-              {Object.entries(traseOptions).map(([key, val]) => (
+              {Object.entries(mapSettingsOptions).map(([key, val]) => (
                 <div
                   key={key}
                   className="mt-4"
@@ -51,8 +57,8 @@ const Sidebar = ({ exporting }) => {
                   <label>{key}</label>
                   <Select
                     id={`data-layers-${key}`}
-                    options={val}
-                    defaultValue={val[0]?.value}
+                    options={val.length ? val : []}
+                    defaultValue={settings[key] ? settings[key] : null}
                     onChange={() => {}}
                   />
                 </div>
@@ -77,6 +83,7 @@ Sidebar.propTypes = {
   exporting: PropTypes.bool.isRequired,
   addLayer: PropTypes.func.isRequired,
   removeLayer: PropTypes.func.isRequired,
+  settings: PropTypes.object,
 };
 
 export default Sidebar;

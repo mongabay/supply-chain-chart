@@ -1,15 +1,25 @@
 import sortBy from 'lodash/sortBy';
 import uniqBy from 'lodash/uniqBy';
 import range from 'lodash/range';
+import axios from 'axios';
 
-import { fetchTraseContexts, fetchTraseLocationData } from 'utils/trase';
 import { traseOptions } from 'modules/tool/world-map/trase-options';
+
+const TRASE_API = 'https://trase.earth/api/v3';
+
+const fetchTraseContexts = () => axios.get(`${TRASE_API}/contexts`);
+const fetchTraseLocationData = (contextId, columnId, startYear, endYear) =>
+  axios.get(
+    `${TRASE_API}/contexts/${contextId}/top_nodes?column_id=${columnId}${
+      startYear ? `&start_year=${startYear}` : ''
+    }${endYear ? `&end_year=${endYear}` : ''}`
+  );
 
 const getData = ({ startYear, endYear, commodity, adm0 }) =>
   fetchTraseContexts().then(response => {
     if (response.data && response.data.data) {
       const contextsForLocation = response.data.data.filter(
-        d => d.countryName === traseOptions['Source country'].find(opt => opt.value === adm0).label
+        d => d.countryName === traseOptions.countries.find(opt => opt.value === adm0).label
       );
 
       // @ts-ignore

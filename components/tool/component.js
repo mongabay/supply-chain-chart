@@ -25,7 +25,15 @@ const Tool = ({ serializedState, restoreState, changeTraseConfig }) => {
         response => {
           // @ts-ignore
           const { data, options } = response;
-          changeTraseConfig({ ...data, commodities: options.commodity });
+          changeTraseConfig({
+            ...data,
+            commodities: options.commodity,
+            years:
+              data &&
+              data.context &&
+              data.context.years &&
+              data.context.years.map(n => ({ label: n.toString(), value: n.toString() })),
+          });
         }
       );
     },
