@@ -7,7 +7,7 @@ export const SLICE_NAME = 'trase';
 
 // sample selectors:
 export const selectSettings = state => state[SLICE_NAME];
-export const selectCommodity = createSelector([selectSettings], settings => settings.commodity);
+export const selectCommodity = createSelector([selectSettings], settings => settings.Commodity);
 export const selectYear = createSelector([selectSettings], settings => settings.Year);
 export const selectCountry = createSelector(
   [selectSettings],
