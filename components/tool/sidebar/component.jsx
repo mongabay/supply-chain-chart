@@ -10,7 +10,7 @@ import DownloadSuccessModal from '../download-success-modal';
 
 import './style.scss';
 
-const Sidebar = ({ exporting, settings }) => {
+const Sidebar = ({ exporting, settings, changeTraseConfig }) => {
   const [expandedAccordion, setExpandedAccordion] = useState('data-layers');
   const [previousExporting, setPreviousExporting] = useState(false);
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
@@ -59,7 +59,9 @@ const Sidebar = ({ exporting, settings }) => {
                     id={`data-layers-${key}`}
                     options={val.length ? val : []}
                     defaultValue={settings[key] ? settings[key] : null}
-                    onChange={() => {}}
+                    onChange={opt => {
+                      changeTraseConfig({ [key]: opt.value });
+                    }}
                   />
                 </div>
               ))}
@@ -79,11 +81,9 @@ const Sidebar = ({ exporting, settings }) => {
 };
 
 Sidebar.propTypes = {
-  activeLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
   exporting: PropTypes.bool.isRequired,
-  addLayer: PropTypes.func.isRequired,
-  removeLayer: PropTypes.func.isRequired,
   settings: PropTypes.object,
+  changeTraseConfig: PropTypes.func,
 };
 
 export default Sidebar;

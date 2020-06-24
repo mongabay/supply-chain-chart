@@ -8,6 +8,11 @@ export const SLICE_NAME = 'trase';
 // sample selectors:
 export const selectSettings = state => state[SLICE_NAME];
 export const selectCommodity = createSelector([selectSettings], settings => settings.commodity);
+export const selectYear = createSelector([selectSettings], settings => settings.Year);
+export const selectCountry = createSelector(
+  [selectSettings],
+  settings => settings['Source country']
+);
 
 export const getSelectedContext = state => state[SLICE_NAME] && state[SLICE_NAME].context;
 export const getTopNodes = state =>
@@ -87,6 +92,7 @@ export default traseActions =>
     reducers: {
       changeTraseConfig(state, action) {
         Object.entries(action.payload).map(([key, value]) => {
+          // console.log('changing keys', key, value);
           state[key] = value;
         });
       },
