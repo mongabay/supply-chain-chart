@@ -20,7 +20,6 @@ const Tool = ({ serializedState, restoreState, commodity, year, adm0, changeTras
   }, [serializedState]);
 
   useEffect(() => {
-    // console.log(year, commodity, adm0);
     getData({
       startYear: year || '2003',
       endYear: year || '2017',

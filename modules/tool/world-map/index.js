@@ -92,7 +92,6 @@ export default traseActions =>
     reducers: {
       changeTraseConfig(state, action) {
         Object.entries(action.payload).map(([key, value]) => {
-          // console.log('changing keys', key, value);
           state[key] = value;
         });
       },

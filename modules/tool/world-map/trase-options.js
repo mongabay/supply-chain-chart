@@ -2,6 +2,7 @@ import range from 'lodash/range';
 
 export const traseOptions = {
   countries: [
+    // { label: 'ARGENTINA', value: 'ARG' },
     { label: 'BRAZIL', value: 'BRA' },
     { label: 'COLOMBIA', value: 'COL' },
     { label: 'BOLIVIA', value: 'BOL' },
@@ -10,11 +11,12 @@ export const traseOptions = {
     { label: 'PARAGUAY', value: 'PRY' },
     { label: 'ECUADOR', value: 'ECU' },
   ],
+  // overwritten on fetch :
   commodities: [],
-  unit: null, // change unit
   years: range(2003, 2017).map(n => ({ label: n.toString(), value: n.toString() })),
-  municipalities: null, // regions
-  exporters: null, // Company
+  units: [{ label: 'Trade Volume', value: 't' }],
+  municipalities: [], // regions
+  exporters: [], // company
 };
 
 export const initialState = {
