@@ -18,12 +18,12 @@ const Sidebar = ({ exporting, settings, changeTraseConfig }) => {
 
   const mapSettingsOptions = {
     'Source country': traseOptions.countries,
+    'Destination country': [{ label: 'All', value: '' }, ...traseOptions.countries],
     Commodity: settings.commodities || traseOptions.commodities,
     'Change unit': settings.units || traseOptions.units,
     Year: settings.years || traseOptions.years,
     Municipality: settings.municipalities || traseOptions.municipalities,
     Exporter: settings.exporters || traseOptions.exporters,
-    'Destination country': traseOptions.countries,
   };
 
   useEffect(() => {
@@ -65,8 +65,9 @@ const Sidebar = ({ exporting, settings, changeTraseConfig }) => {
                     options={
                       options.length
                         ? options.map(opt => ({ ...opt, label: capitalize(opt.label) }))
-                        : [{ label: 'All', value: 'all' }]
+                        : [{ label: 'All', value: '' }]
                     }
+                    disabled={!options.length}
                     defaultValue={settings[key] ? settings[key] : null}
                     onChange={opt => {
                       changeTraseConfig({ [key]: opt.value });
