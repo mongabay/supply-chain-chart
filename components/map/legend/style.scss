@@ -1,0 +1,241 @@
+@import 'css/settings';
+
+.c-map-legend {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 1; // Needed to be on top of the map, but below the backdrop of the tabs
+
+  &.-exporting {
+    .vizzuality__c-legend-map {
+      width: rem(300);
+    }
+  }
+
+  .vizzuality__c-legend-map {
+    width: rem(400);
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    z-index: inherit;
+
+    button.vizzuality__toggle-legend svg {
+      margin-top: 0;
+    }
+
+    button.vizzuality__close-legend {
+      background-color: $white;
+
+      h1 {
+        font-family: $font-family-1;
+        @include font-size($font-size-base);
+        font-weight: $font-weight-bold !important;
+      }
+    }
+  }
+}
+
+// Needs to be outside because the drag item is created outside of the parent element
+li.vizzuality__c-legend-item {
+  font-family: $font-family-1;
+  @include font-size($font-size-base);
+  background-color: $body-bg;
+  border: none;
+  border-bottom: rem(1) solid $border-color-1;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .c-map-legend.-exporting & {
+    .vizzuality__legend-item-container {
+      padding: map-get($spacers, 2) map-get($spacers, 3);
+
+      .vizzuality__legend-item-header h3 {
+        @include font-size($font-size-s);
+      }
+
+      .vizzuality__c-legend-item-types {
+        margin-top: map-get($spacers, 2);
+      }
+
+      .c-legend-type-group .c-icon {
+        display: none;
+      }
+    }
+  }
+
+  .vizzuality__legend-item-container {
+    padding: map-get($spacers, 2) map-get($spacers, 3) map-get($spacers, 2) rem(30);
+
+    .vizzuality__c-legend-handler {
+      top: rem(7);
+      left: map-get($spacers, 2);
+    }
+
+    .vizzuality__legend-item-header h3 {
+      position: relative;
+      top: rem(3); // Needed to align with the drag handle
+      font-family: $font-family-1;
+      @include font-size($font-size-base);
+      font-weight: $font-weight-bold;
+    }
+
+    .vizzuality__c-legend-item-toolbar {
+      > button {
+        width: rem(18); // Slightly larger than the height for the eye icon
+        height: rem(16);
+        padding: 0;
+        border: 0;
+        border-radius: 100%;
+        vertical-align: middle;
+
+        &:focus {
+          box-shadow: $box-shadow-1;
+        }
+
+        svg {
+          display: block;
+          width: 100%;
+          height: 100%;
+
+          use {
+            fill: currentColor;
+          }
+        }
+      }
+    }
+
+    .vizzuality__c-legend-item-types {
+      margin-top: map-get($spacers, 3);
+      font-family: $font-family-1;
+      @include font-size($font-size-s);
+      background-color: transparent;
+
+      .vizzuality__c-legend-item-basic {
+        align-items: center;
+        font-family: inherit;
+        font-size: inherit;
+      }
+
+      .vizzuality__c-legend-type-choropleth {
+        .vizzuality__name {
+          font-family: $font-family-1;
+          @include font-size($font-size-s);
+        }
+      }
+    }
+
+    // Custom legend type for groups of basic legend items
+    .c-legend-type-group {
+      .c-accordion {
+        .title {
+          @include font-size($font-size-s);
+
+          .c-icon {
+            margin-right: map-get($spacers, 2);
+            vertical-align: middle;
+          }
+
+          .group-color {
+            display: inline-block;
+            width: rem(12);
+            height: rem(12);
+            margin-right: map-get($spacers, 2);
+            vertical-align: middle;
+          }
+        }
+
+        .vizzuality__c-legend-item-types {
+          margin: 0;
+        }
+      }
+    }
+
+    .vizzuality__c-legend-timestep {
+      min-height: rem(40);
+      margin-top: map-get($spacers, 3);
+
+      .vizzuality__player-btn {
+        width: rem(36);
+        height: rem(36);
+        justify-content: center;
+        align-items: center;
+        color: $white;
+        background-color: $primary;
+        border-radius: 100%;
+
+        &:focus {
+          box-shadow: $box-shadow-1;
+        }
+
+        > svg {
+          fill: currentColor;
+        }
+      }
+    }
+  }
+}
+
+// Needs to be outside because the tooltip is created outside of the parent element
+div.c-rc-tooltip {
+  &.-default {
+    .rc-tooltip-inner {
+      padding: map-get($spacers, 2);
+      font-family: $font-family-1;
+      @include font-size($font-size-xs);
+      line-height: inherit;
+      color: $body-color;
+      border: none;
+      border-radius: 0;
+      background-color: $body-bg;
+      box-shadow: $box-shadow-2;
+    }
+
+    .rc-tooltip-arrow {
+      border-top-color: $body-bg !important;
+    }
+
+    .vizzuality__c-legend-item-button-opacity-tooltip {
+      .vizzuality__slider-tooltip-container {
+        padding: map-get($spacers, 2) map-get($spacers, 2) map-get($spacers, 4);
+      }
+    }
+  }
+}
+
+// Needs to be outside because the component can be in a tooltip
+.rc-slider {
+  .rc-slider-handle {
+    background-color: $body-bg !important;
+    border: rem(3) solid $primary !important;
+    box-shadow: none !important;
+
+    &:focus {
+      box-shadow: $box-shadow-1 !important;
+    }
+  }
+
+  .rc-slider-track:not(.rc-slider-track-1):not(.rc-slider-track-2),
+  .rc-slider-track-1 {
+    background-color: $primary !important;
+  }
+
+  .rc-slider-rail,
+  .rc-slider-track-2 {
+    background-color: rgba($primary, 0.2);
+  }
+
+  .rc-slider-dot {
+    background-color: $body-bg !important;
+    border: rem(3) solid $primary !important;
+    box-shadow: none !important;
+    visibility: visible !important;
+  }
+
+  .rc-slider-mark-text {
+    font-family: $font-family-1;
+    @include font-size($font-size-xs);
+    color: $body-color !important;
+  }
+}
