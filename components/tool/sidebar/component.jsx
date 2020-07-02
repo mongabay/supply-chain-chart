@@ -67,7 +67,7 @@ const Sidebar = ({ exporting, settings, changeTraseConfig }) => {
                         ? options.map(opt => ({ ...opt, label: capitalize(opt.label) }))
                         : [{ label: 'All', value: '' }]
                     }
-                    disabled={!options.length}
+                    disabled={!options.length || options.length < 2}
                     defaultValue={settings[key] ? settings[key] : null}
                     onChange={opt => {
                       changeTraseConfig({ [key]: opt.value });

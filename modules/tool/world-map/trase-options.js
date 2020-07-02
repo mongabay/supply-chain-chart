@@ -23,7 +23,7 @@ export const initialState = {
   'Source country': 'BRA',
   Commodity: 'SOY',
   'Change unit': '',
-  Year: '2001', // startYear
+  Year: '2004', // startYear
   Municipality: '',
   Exporter: '',
   'Destination Country': '',

@@ -46,8 +46,10 @@ const getData = ({ startYear, endYear, commodity, adm0 }) =>
         startYear,
         endYear
       ).then(data => {
-        const newStartYear = !startYear || startYear < minYear ? minYear : startYear;
-        const newEndYear = !endYear || endYear > maxYear ? maxYear : endYear;
+        const newStartYear =
+          !startYear || Number(startYear) < minYear ? minYear : Number(startYear);
+        let newEndYear = !endYear || Number(endYear) > maxYear ? maxYear : Number(endYear);
+        newEndYear = newEndYear < newStartYear ? newStartYear : newEndYear;
 
         return {
           data: {
@@ -55,9 +57,9 @@ const getData = ({ startYear, endYear, commodity, adm0 }) =>
             topNodes: data.data.data,
           },
           options: {
-            years: range(newStartYear, newEndYear + 1, 1).map(y => ({
-              label: y,
-              value: y,
+            years: range(minYear, maxYear + 1, 1).map(y => ({
+              label: y.toString(),
+              value: y.toString(),
             })),
             commodity: commoditiesForLocation,
           },

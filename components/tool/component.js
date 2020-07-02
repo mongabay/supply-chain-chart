@@ -34,11 +34,7 @@ const Tool = ({ serializedState, restoreState, commodity, year, adm0, changeTras
         Commodity: options.commodity.some(el => el.value === commodity)
           ? commodity
           : options.commodity[0].value,
-        years:
-          data &&
-          data.context &&
-          data.context.years &&
-          data.context.years.map(n => ({ label: n.toString(), value: n.toString() })),
+        years: options.years,
       });
     });
   }, [year, commodity, adm0, changeTraseConfig]);
