@@ -114,9 +114,12 @@ class WorldMap extends React.PureComponent {
         key={flow.geoId}
         className="world-map-arc"
         {...flow}
-        coordinates={{
-          start: flow.coordinates,
-          end: originCoordinates,
+        line={{
+          coordinates: {
+            start: originCoordinates,
+            end: flow.coordinates,
+          },
+          curveStyle: flow.curveStyle,
         }}
         buildPath={WorldMap.buildCurves}
         strokeWidth={flow.strokeWidth}
@@ -127,7 +130,7 @@ class WorldMap extends React.PureComponent {
   };
 
   render() {
-    const { tooltipConfig } = this.state;
+    const { tooltipConfig, flows } = this.state;
     const { className } = this.props;
     const { text, items } = tooltipConfig || {};
     return (
@@ -149,17 +152,19 @@ class WorldMap extends React.PureComponent {
           className="js-visualization"
           style={{ height: '100%', display: 'flex', alignItems: 'center' }}
         >
-          <ComposableMap
-            className={cx('c-world-map')}
-            projection="robinson"
-            style={{ width: '100%', height: 'auto' }}
-            projectionConfig={{ scale: 145 }}
-          >
-            <ZoomableGroup disablePanning center={[20, 0]}>
-              <Geographies geography={WORLD_GEOGRAPHIES}>{this.renderGeographies}</Geographies>
-              <Lines>{this.renderLines()}</Lines>
-            </ZoomableGroup>
-          </ComposableMap>
+          {flows.length > 0 ? (
+            <ComposableMap
+              className={cx('c-world-map')}
+              projection="robinson"
+              style={{ width: '100%', height: 'auto' }}
+              projectionConfig={{ scale: 145 }}
+            >
+              <ZoomableGroup disablePanning center={[20, 0]}>
+                <Geographies geography={WORLD_GEOGRAPHIES}>{this.renderGeographies}</Geographies>
+                <Lines>{this.renderLines()}</Lines>
+              </ZoomableGroup>
+            </ComposableMap>
+          ) : null}
         </div>
       </Tooltip>
     );

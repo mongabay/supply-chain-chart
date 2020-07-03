@@ -92,7 +92,7 @@ export default traseActions =>
     reducers: {
       changeTraseConfig(state, action) {
         Object.entries(action.payload).map(([key, value]) => {
-          state[key] = value;
+          if (key && value) state[key] = value;
         });
       },
     },

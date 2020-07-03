@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import isEqual from 'lodash/isEqual';
 
 import { Router } from 'lib/routes';
 import Sidebar from './sidebar';
@@ -19,25 +20,38 @@ const Tool = ({ serializedState, restoreState, commodity, year, adm0, changeTras
     Router.replaceRoute('home', { state: serializedState });
   }, [serializedState]);
 
-  useEffect(() => {
-    getData({
-      startYear: year || '2003',
-      endYear: year || '2017',
-      commodity: commodity || 'SOY',
-      adm0: adm0 || 'BRA',
-    }).then(response => {
-      // @ts-ignore
-      const { data, options } = response;
-      changeTraseConfig({
-        ...data,
-        commodities: options.commodity,
-        Commodity: options.commodity.some(el => el.value === commodity)
-          ? commodity
-          : options.commodity[0].value,
-        years: options.years,
-      });
+  function usePrevious(value) {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
     });
-  }, [year, commodity, adm0, changeTraseConfig]);
+    return ref.current;
+  }
+
+  const prevYear = usePrevious(year);
+
+  useEffect(() => {
+    if (!isEqual(prevYear, year)) {
+      getData({
+        startYear: year || '2003',
+        endYear: year || '2017',
+        commodity: commodity || 'SOY',
+        adm0: adm0 || 'BRA',
+      }).then(response => {
+        // @ts-ignore
+        const { data, options } = response;
+        changeTraseConfig({
+          ...data,
+          commodities: options.commodity,
+          Commodity: options.commodity.some(el => el.value === commodity)
+            ? commodity
+            : options.commodity[0].value,
+          years: options.years,
+          Year: options.years.includes(year) ? year : options.years[0].value,
+        });
+      });
+    }
+  }, [year, prevYear, commodity, adm0, changeTraseConfig]);
 
   return (
     <div className="c-tool">
