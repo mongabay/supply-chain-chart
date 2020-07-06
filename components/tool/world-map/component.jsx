@@ -95,7 +95,7 @@ class WorldMap extends React.PureComponent {
               {
                 '-dark': WorldMap.isDestinationCountry(geography.properties.iso2, flows),
               },
-              { '-pink': originGeoId === geography.properties.iso2 }
+              { '-highlighted': originGeoId === geography.properties.iso2 }
             )}
             geography={geography}
             projection={projection}
@@ -160,7 +160,9 @@ class WorldMap extends React.PureComponent {
               projectionConfig={{ scale: 145 }}
             >
               <ZoomableGroup disablePanning center={[20, 0]}>
-                <Geographies geography={WORLD_GEOGRAPHIES}>{this.renderGeographies}</Geographies>
+                <Geographies geography={WORLD_GEOGRAPHIES} disableOptimization>
+                  {this.renderGeographies}
+                </Geographies>
                 <Lines>{this.renderLines()}</Lines>
               </ZoomableGroup>
             </ComposableMap>

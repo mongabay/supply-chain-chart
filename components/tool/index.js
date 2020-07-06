@@ -6,7 +6,6 @@ import Component from './component';
 export default connect(
   state => ({
     serializedState: toolSelectors.selectSerializedState(state),
-    // settings: traseSelectors.selectSettings(state),
     commodity: traseSelectors.selectCommodity(state),
     adm0: traseSelectors.selectCountry(state),
     year: traseSelectors.selectYear(state),

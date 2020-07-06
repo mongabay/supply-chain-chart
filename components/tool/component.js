@@ -29,9 +29,15 @@ const Tool = ({ serializedState, restoreState, commodity, year, adm0, changeTras
   }
 
   const prevYear = usePrevious(year);
+  const prevCommodity = usePrevious(commodity);
+  const prevAdm0 = usePrevious(adm0);
 
   useEffect(() => {
-    if (!isEqual(prevYear, year)) {
+    if (
+      !isEqual(prevYear, year) ||
+      !isEqual(prevCommodity, commodity) ||
+      !isEqual(prevAdm0, adm0)
+    ) {
       getData({
         startYear: year || '2003',
         endYear: year || '2017',
@@ -51,7 +57,10 @@ const Tool = ({ serializedState, restoreState, commodity, year, adm0, changeTras
         });
       });
     }
-  }, [year, prevYear, commodity, adm0, changeTraseConfig]);
+    // 1. load on start (deps: changeTraseConfig)
+    // 2. then load on change (year, commodity, country)
+    // prevYear with usePrevious exists because of object comparison in JS
+  }, [year, prevYear, commodity, prevCommodity, adm0, prevAdm0, changeTraseConfig]);
 
   return (
     <div className="c-tool">
