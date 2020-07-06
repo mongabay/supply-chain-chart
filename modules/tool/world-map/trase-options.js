@@ -3,13 +3,13 @@ import range from 'lodash/range';
 export const traseOptions = {
   countries: [
     // { label: 'ARGENTINA', value: 'ARG' },
+    { label: 'BOLIVIA', value: 'BOL' },
     { label: 'BRAZIL', value: 'BRA' },
     { label: 'COLOMBIA', value: 'COL' },
-    { label: 'BOLIVIA', value: 'BOL' },
-    { label: 'INDONESIA', value: 'IDN' },
-    { label: 'PERU', value: 'PER' },
-    { label: 'PARAGUAY', value: 'PRY' },
     { label: 'ECUADOR', value: 'ECU' },
+    { label: 'INDONESIA', value: 'IDN' },
+    { label: 'PARAGUAY', value: 'PRY' },
+    { label: 'PERU', value: 'PER' },
   ],
   // overwritten on fetch :
   commodities: [],

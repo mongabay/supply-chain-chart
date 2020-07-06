@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import capitalize from 'lodash/capitalize';
+import sortBy from 'lodash/sortBy';
 
 import { Select } from 'components/forms';
 import { Accordion, AccordionItem, AccordionTitle, AccordionPanel } from 'components/accordion';
@@ -20,7 +21,10 @@ const Sidebar = ({ flows, exporting, settings, changeTraseConfig }) => {
     'Source country': traseOptions.countries,
     'Destination country': [
       { label: 'All', value: '' },
-      ...flows.map(f => ({ label: f.name, value: f.geoId })),
+      ...sortBy(
+        flows.map(f => ({ label: f.name, value: f.geoId })),
+        'label'
+      ),
     ],
     Commodity: settings.commodities || traseOptions.commodities,
     'Change unit': settings.units || traseOptions.units,
