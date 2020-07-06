@@ -7,7 +7,7 @@ export default connect(
   state => ({
     serializedState: toolSelectors.selectSerializedState(state),
     commodity: traseSelectors.selectCommodity(state),
-    adm0: traseSelectors.selectCountry(state),
+    adm0: traseSelectors.getOriginCountry(state),
     year: traseSelectors.selectYear(state),
   }),
   {

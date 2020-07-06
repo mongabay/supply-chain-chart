@@ -44,6 +44,7 @@ const Tool = ({ serializedState, restoreState, commodity, year, adm0, changeTras
         commodity: commodity || 'SOY',
         adm0: adm0 || 'BRA',
       }).then(response => {
+        // TODO: add loader
         // @ts-ignore
         const { data, options } = response;
         changeTraseConfig({

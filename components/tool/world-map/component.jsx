@@ -42,6 +42,7 @@ class WorldMap extends React.PureComponent {
       return {
         flows: nextProps.flows,
         originGeoId: nextProps.originGeoId,
+        destination: nextProps.destination,
         originCoordinates: nextProps.originCoordinates,
       };
     }
@@ -51,6 +52,7 @@ class WorldMap extends React.PureComponent {
   state = {
     flows: [],
     originGeoId: null,
+    destination: null,
     tooltipConfig: null,
     originCoordinates: [],
   };
@@ -83,7 +85,7 @@ class WorldMap extends React.PureComponent {
   };
 
   renderGeographies = (geographies, projection) => {
-    const { flows, originGeoId } = this.state;
+    const { flows, originGeoId, destination } = this.state;
 
     return geographies.map(
       geography =>
@@ -93,7 +95,10 @@ class WorldMap extends React.PureComponent {
             className={cx(
               'world-map-geography',
               {
-                '-dark': WorldMap.isDestinationCountry(geography.properties.iso2, flows),
+                '-dark': WorldMap.isDestinationCountry(
+                  geography.properties.iso2,
+                  flows.filter(f => !destination || f.geoId === destination)
+                ),
               },
               { '-highlighted': originGeoId === geography.properties.iso2 }
             )}
@@ -107,26 +112,28 @@ class WorldMap extends React.PureComponent {
   };
 
   renderLines = () => {
-    const { originCoordinates, flows } = this.state;
+    const { originCoordinates, flows, destination } = this.state;
 
-    return flows.map(flow => (
-      <Line
-        key={flow.geoId}
-        className="world-map-arc"
-        {...flow}
-        line={{
-          coordinates: {
-            start: originCoordinates,
-            end: flow.coordinates,
-          },
-          curveStyle: flow.curveStyle,
-        }}
-        buildPath={WorldMap.buildCurves}
-        strokeWidth={flow.strokeWidth}
-        onMouseMove={this.onMouseMove}
-        onMouseLeave={this.onMouseLeave}
-      />
-    ));
+    return flows
+      .filter(f => !destination || f.geoId === destination)
+      .map(flow => (
+        <Line
+          key={flow.geoId}
+          className="world-map-arc"
+          {...flow}
+          line={{
+            coordinates: {
+              start: originCoordinates,
+              end: flow.coordinates,
+            },
+            curveStyle: flow.curveStyle,
+          }}
+          buildPath={WorldMap.buildCurves}
+          strokeWidth={flow.strokeWidth}
+          onMouseMove={this.onMouseMove}
+          onMouseLeave={this.onMouseLeave}
+        />
+      ));
   };
 
   render() {
@@ -177,6 +184,7 @@ WorldMap.propTypes = {
   className: PropTypes.string,
   flows: PropTypes.any,
   originGeoId: PropTypes.any,
+  destination: PropTypes.any,
   originCoordinates: PropTypes.any,
   changeTraseConfig: PropTypes.func,
 };

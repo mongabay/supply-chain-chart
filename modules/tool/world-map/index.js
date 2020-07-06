@@ -5,16 +5,19 @@ import { COUNTRIES_COORDINATES, initialState } from 'modules/tool/world-map/tras
 
 export const SLICE_NAME = 'trase';
 
-// sample selectors:
 export const selectSettings = state => state[SLICE_NAME];
+export const getSelectedContext = state => state[SLICE_NAME] && state[SLICE_NAME].context;
 export const selectCommodity = createSelector([selectSettings], settings => settings.Commodity);
 export const selectYear = createSelector([selectSettings], settings => settings.Year);
-export const selectCountry = createSelector(
+
+export const getOriginCountry = createSelector(
   [selectSettings],
   settings => settings['Source country']
 );
-
-export const getSelectedContext = state => state[SLICE_NAME] && state[SLICE_NAME].context;
+export const getDestinationCountry = createSelector(
+  [selectSettings],
+  settings => settings['Destination country']
+);
 export const getTopNodes = state =>
   state[SLICE_NAME] && state[SLICE_NAME].topNodes && state[SLICE_NAME].topNodes.targetNodes;
 
@@ -27,7 +30,7 @@ export const getOriginCoordinates = createSelector(getOriginGeoId, originGeoId =
 );
 
 export const getWorldMapFlows = createSelector(
-  [getOriginGeoId, getOriginCoordinates, getTopNodes],
+  [getOriginGeoId, getOriginCoordinates, getTopNodes, getDestinationCountry],
   (originGeoId, originCoordinates, countries) => {
     if (!originGeoId || !originCoordinates || !countries) {
       return [];
@@ -92,7 +95,7 @@ export default traseActions =>
     reducers: {
       changeTraseConfig(state, action) {
         Object.entries(action.payload).map(([key, value]) => {
-          if (key && value) state[key] = value;
+          state[key] = value;
         });
       },
     },

@@ -11,14 +11,17 @@ import DownloadSuccessModal from '../download-success-modal';
 
 import './style.scss';
 
-const Sidebar = ({ exporting, settings, changeTraseConfig }) => {
+const Sidebar = ({ flows, exporting, settings, changeTraseConfig }) => {
   const [expandedAccordion, setExpandedAccordion] = useState('data-layers');
   const [previousExporting, setPreviousExporting] = useState(false);
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
 
   const mapSettingsOptions = {
     'Source country': traseOptions.countries,
-    'Destination country': [{ label: 'All', value: '' }, ...traseOptions.countries],
+    'Destination country': [
+      { label: 'All', value: '' },
+      ...flows.map(f => ({ label: f.name, value: f.geoId })),
+    ],
     Commodity: settings.commodities || traseOptions.commodities,
     'Change unit': settings.units || traseOptions.units,
     Year: settings.years || traseOptions.years,
@@ -91,6 +94,7 @@ const Sidebar = ({ exporting, settings, changeTraseConfig }) => {
 };
 
 Sidebar.propTypes = {
+  flows: PropTypes.arrayOf(PropTypes.object),
   exporting: PropTypes.bool.isRequired,
   settings: PropTypes.object,
   changeTraseConfig: PropTypes.func,
