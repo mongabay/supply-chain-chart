@@ -27,7 +27,7 @@ class WorldMap extends React.PureComponent {
     const curve = {
       forceUp: `${x1} ${y0}`,
       forceDown: `${x0} ${y1}`,
-    }[arc.curveStyle || 'forceUp'];
+    }[arc.curveStyle];
 
     return `M ${start.join(' ')} Q ${curve} ${end.join(' ')}`;
   }

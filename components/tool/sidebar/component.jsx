@@ -19,6 +19,7 @@ const Sidebar = ({ flows, exporting, settings, changeTraseConfig }) => {
 
   const mapSettingsOptions = {
     'Source country': traseOptions.countries,
+    Municipality: settings.municipalities || traseOptions.municipalities,
     'Destination country': [
       { label: 'All', value: '' },
       ...sortBy(
@@ -29,7 +30,6 @@ const Sidebar = ({ flows, exporting, settings, changeTraseConfig }) => {
     Commodity: settings.commodities || traseOptions.commodities,
     'Change unit': settings.units || traseOptions.units,
     Year: settings.years || traseOptions.years,
-    Municipality: settings.municipalities || traseOptions.municipalities,
     Exporter: settings.exporters || traseOptions.exporters,
   };
 
