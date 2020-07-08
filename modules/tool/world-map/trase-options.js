@@ -14,7 +14,7 @@ export const traseOptions = {
   // overwritten on fetch :
   commodities: [],
   years: range(2003, 2017).map(n => ({ label: n.toString(), value: n.toString() })),
-  units: [{ label: 'Trade Volume', value: 't' }],
+  units: [{ label: 'Trade Volume', value: 'Volume' }],
   municipalities: [], // regions
   exporters: [], // company
 };

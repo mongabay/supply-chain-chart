@@ -8,14 +8,14 @@ import { traseOptions } from 'modules/tool/world-map/trase-options';
 const TRASE_API = 'https://trase.earth/api/v3';
 
 const fetchTraseContexts = () => axios.get(`${TRASE_API}/contexts`);
-const fetchTraseLocationData = (contextId, columnId, startYear, endYear) =>
+const fetchTraseLocationData = (contextId, columnId, startYear, endYear, indicator) =>
   axios.get(
     `${TRASE_API}/contexts/${contextId}/top_nodes?column_id=${columnId}${
       startYear ? `&start_year=${startYear}` : ''
-    }${endYear ? `&end_year=${endYear}` : ''}`
+    }${endYear ? `&end_year=${endYear}` : ''}${indicator ? `&indicator=${indicator}` : ''}`
   );
 
-const getData = ({ startYear, endYear, commodity, adm0 }) =>
+const getData = ({ startYear, endYear, commodity, adm0, indicator }) =>
   fetchTraseContexts().then(response => {
     if (response.data && response.data.data) {
       const contextsForLocation = response.data.data.filter(
@@ -44,12 +44,19 @@ const getData = ({ startYear, endYear, commodity, adm0 }) =>
         selectedContext.id,
         selectedContext.worldMap.countryColumnId,
         startYear,
-        endYear
+        endYear,
+        indicator
       ).then(data => {
         const newStartYear =
           !startYear || Number(startYear) < minYear ? minYear : Number(startYear);
         let newEndYear = !endYear || Number(endYear) > maxYear ? maxYear : Number(endYear);
         newEndYear = newEndYear < newStartYear ? newStartYear : newEndYear;
+        const selectedIndicator = selectedContext.resizeBy.find(unit => unit.name === indicator);
+        const selectedYears = selectedIndicator
+          ? selectedIndicator.years
+          : range(minYear, maxYear + 1, 1);
+
+        console.log(selectedContext, data.data.data);
 
         return {
           data: {
@@ -57,11 +64,12 @@ const getData = ({ startYear, endYear, commodity, adm0 }) =>
             topNodes: data.data.data,
           },
           options: {
-            years: range(minYear, maxYear + 1, 1).map(y => ({
+            years: selectedYears.map(y => ({
               label: y.toString(),
               value: y.toString(),
             })),
-            commodity: commoditiesForLocation,
+            commodities: commoditiesForLocation,
+            units: selectedContext.resizeBy.map(u => ({ label: u.label, value: u.name })),
           },
           settings: {
             startYear: newStartYear,
