@@ -7,6 +7,24 @@ export const downloadImage = async () => {
   const html2canvas = (await import('html2canvas')).default;
   const canvas = await html2canvas(document.querySelector('.js-visualization'), {
     scale: IMAGE_SCALE,
+    onclone(document) {
+      const img = document.querySelector('img[src$="svg"]');
+
+      if (img) {
+        const canvas = document.createElement('canvas'),
+          context = canvas.getContext('2d'),
+          styles = window.getComputedStyle(img);
+
+        context.drawImage(img, 0, 0);
+
+        for (let key of styles) {
+          const value = styles[key];
+          if (value !== '') canvas.style[key] = value;
+        }
+
+        img.replaceWith(canvas);
+      }
+    },
   });
 
   // We could directly download the image from here, but its resolution is quite poor, especially
