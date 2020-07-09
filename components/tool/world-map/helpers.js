@@ -56,8 +56,6 @@ const getData = ({ startYear, endYear, commodity, adm0, indicator }) =>
           ? selectedIndicator.years
           : range(minYear, maxYear + 1, 1);
 
-        console.log(selectedContext, data.data.data);
-
         return {
           data: {
             context: selectedContext,
