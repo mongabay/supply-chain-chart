@@ -25,7 +25,7 @@ jobs:
 
       - name: Build
         env:
-          BASE_PATH: /satellite-stamp
+          BASE_PATH: /supply-chain-chart
         run: yarn build
 
       - name: Deploy
