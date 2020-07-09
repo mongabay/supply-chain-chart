@@ -22,7 +22,7 @@ export const traseOptions = {
 export const initialState = {
   'Source country': 'BRA',
   Commodity: 'SOY',
-  'Change unit': '',
+  'Change unit': '31', // Trade volume
   Year: '2004', // startYear
   Municipality: '',
   Exporter: '',

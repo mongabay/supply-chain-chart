@@ -9,6 +9,7 @@ export const selectSettings = state => state[SLICE_NAME];
 export const getSelectedContext = state => state[SLICE_NAME] && state[SLICE_NAME].context;
 export const selectCommodity = createSelector([selectSettings], settings => settings.Commodity);
 export const selectYear = createSelector([selectSettings], settings => settings.Year);
+export const selectUnit = createSelector([selectSettings], settings => settings['Change unit']);
 
 export const getOriginCountry = createSelector(
   [selectSettings],
@@ -18,8 +19,7 @@ export const getDestinationCountry = createSelector(
   [selectSettings],
   settings => settings['Destination country']
 );
-export const getTopNodes = state =>
-  state[SLICE_NAME] && state[SLICE_NAME].topNodes && state[SLICE_NAME].topNodes.targetNodes;
+export const getTopNodes = state => state[SLICE_NAME] && state[SLICE_NAME].topNodes;
 
 export const getOriginGeoId = createSelector(getSelectedContext, selectedContext =>
   selectedContext ? selectedContext.worldMap.geoId : null

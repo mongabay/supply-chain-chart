@@ -9,6 +9,7 @@ export default connect(
     commodity: traseSelectors.selectCommodity(state),
     adm0: traseSelectors.getOriginCountry(state),
     year: traseSelectors.selectYear(state),
+    unit: traseSelectors.selectUnit(state),
   }),
   {
     restoreState: toolActions.restoreState,

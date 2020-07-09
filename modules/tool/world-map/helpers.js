@@ -1,19 +1,9 @@
 import sortBy from 'lodash/sortBy';
 import uniqBy from 'lodash/uniqBy';
 import range from 'lodash/range';
-import axios from 'axios';
 
-import { traseOptions } from 'modules/tool/world-map/trase-options';
-
-const TRASE_API = 'https://trase.earth/api/v3';
-
-const fetchTraseContexts = () => axios.get(`${TRASE_API}/contexts`);
-const fetchTraseLocationData = (contextId, columnId, startYear, endYear, indicator) =>
-  axios.get(
-    `${TRASE_API}/contexts/${contextId}/top_nodes?column_id=${columnId}${
-      startYear ? `&start_year=${startYear}` : ''
-    }${endYear ? `&end_year=${endYear}` : ''}${indicator ? `&indicator=${indicator}` : ''}`
-  );
+import { traseOptions } from './trase-options';
+import { fetchTraseContexts, fetchTraseNodeStats } from './trase-api';
 
 const getData = ({ startYear, endYear, commodity, adm0, indicator }) =>
   fetchTraseContexts().then(response => {
@@ -40,9 +30,10 @@ const getData = ({ startYear, endYear, commodity, adm0, indicator }) =>
       const minYear = selectedContext.years[0];
       const maxYear = selectedContext.years[selectedContext.years.length - 1];
 
-      return fetchTraseLocationData(
-        selectedContext.id,
-        selectedContext.worldMap.countryColumnId,
+      return fetchTraseNodeStats(
+        selectedContext.countryId, // context Id
+        selectedContext.worldMap.countryColumnId, // column Id
+        selectedContext.commodityId, // commodity Id
         startYear,
         endYear,
         indicator
@@ -59,7 +50,7 @@ const getData = ({ startYear, endYear, commodity, adm0, indicator }) =>
         return {
           data: {
             context: selectedContext,
-            topNodes: data.data.data,
+            topNodes: uniqBy(data.data.data[0].top_nodes, 'name'),
           },
           options: {
             years: selectedYears.map(y => ({
@@ -67,7 +58,10 @@ const getData = ({ startYear, endYear, commodity, adm0, indicator }) =>
               value: y.toString(),
             })),
             commodities: commoditiesForLocation,
-            units: selectedContext.resizeBy.map(u => ({ label: u.label, value: u.name })),
+            units: selectedContext.resizeBy.map(u => ({
+              label: u.label,
+              value: u.attributeId.toString(),
+            })),
           },
           settings: {
             startYear: newStartYear,

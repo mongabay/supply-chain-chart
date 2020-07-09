@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual';
 import { Router } from 'lib/routes';
 import Sidebar from './sidebar';
 import WorldMap from './world-map';
-import getData from './world-map/helpers';
+import getData from 'modules/tool/world-map/helpers';
 
 import './style.scss';
 
@@ -53,7 +53,7 @@ const Tool = ({
         endYear: year || '2017',
         commodity: commodity || 'SOY',
         adm0: adm0 || 'BRA',
-        indicator: unit || 'Land use',
+        indicator: unit || '31', // Trade volume
       }).then(response => {
         // TODO: add loader
         // @ts-ignore
