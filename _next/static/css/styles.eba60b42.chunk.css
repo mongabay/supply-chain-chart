@@ -454,18 +454,18 @@ select.c-select {
   background-color: transparent;
   -webkit-tap-highlight-color: transparent; }
   .c-world-map .world-map-geography {
-    fill: rgba(153, 153, 153, 0.3);
+    fill: #DEDEDE;
     stroke: #fff;
     stroke-width: 0.2px;
     outline: 0;
     pointer-events: visibleFill; }
-    .c-world-map .world-map-geography.-dark {
-      fill: rgba(153, 153, 153, 0.8); }
-    .c-world-map .world-map-geography.-highlighted {
-      fill: #97be32; }
+    .c-world-map .world-map-geography.-destination {
+      fill: #03755E; }
+    .c-world-map .world-map-geography.-origin {
+      fill: #F1BA30; }
   .c-world-map .world-map-arc {
     fill: transparent;
-    stroke: rgba(153, 153, 153, 0.7);
+    stroke: #222;
     stroke-linecap: round;
     outline: 0;
     pointer-events: visibleStroke; }
