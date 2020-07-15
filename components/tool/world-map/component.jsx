@@ -95,12 +95,12 @@ class WorldMap extends React.PureComponent {
             className={cx(
               'world-map-geography',
               {
-                '-dark': WorldMap.isDestinationCountry(
+                '-destination': WorldMap.isDestinationCountry(
                   geography.properties.iso2,
                   flows.filter(f => !destination || f.geoId === destination)
                 ),
               },
-              { '-highlighted': originGeoId === geography.properties.iso2 }
+              { '-origin': originGeoId === geography.properties.iso2 }
             )}
             geography={geography}
             projection={projection}

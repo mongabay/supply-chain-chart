@@ -4,31 +4,34 @@
 $white: #fff;
 $slate: #555;
 $warm-grey: #999;
-$green-gfw: #97be32;
+$origin-yellow: #F1BA30;
+$destination-green: #03755E;
+$dark-grey: #222; // flows
+$others-grey: #DEDEDE;
 
 .c-world-map {
   background-color: transparent;
   -webkit-tap-highlight-color: transparent;
 
   .world-map-geography {
-    fill: rgba($warm-grey, 0.3);
+    fill: $others-grey;
     stroke: $white;
     stroke-width: 0.2px;
     outline: 0;
     pointer-events: visibleFill;
 
-    &.-dark {
-      fill: rgba($warm-grey, 0.8);
+    &.-destination {
+      fill: $destination-green;
     }
 
-    &.-highlighted {
-      fill: $green-gfw;
+    &.-origin {
+      fill: $origin-yellow;
     }
   }
 
   .world-map-arc {
     fill: transparent;
-    stroke: rgba($warm-grey, 0.7);
+    stroke:  $dark-grey;
     stroke-linecap: round;
     outline: 0;
     pointer-events: visibleStroke;
