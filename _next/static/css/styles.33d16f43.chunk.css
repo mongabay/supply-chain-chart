@@ -465,7 +465,7 @@ select.c-select {
       fill: #F1BA30; }
   .c-world-map .world-map-arc {
     fill: transparent;
-    stroke: #222;
+    stroke: rgba(0, 0, 0, 0.7);
     stroke-linecap: round;
     outline: 0;
     pointer-events: visibleStroke; }
