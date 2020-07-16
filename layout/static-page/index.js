@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Icons as VizzIcons } from 'vizzuality-components';
 
 import Head from 'components/head';
 import Icons from 'components/icons';
@@ -20,7 +19,6 @@ const StaticPage = ({ className, children }) => (
       {children}
     </main>
     <Icons />
-    <VizzIcons />
   </div>
 );
 

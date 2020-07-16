@@ -1,7 +1,7 @@
 {
   "name": "satellite-stamp",
   "version": "1.0.0",
-  "description": "Tool to generate map images for Mongabay.",
+  "description": "Tool to generate flow map images for Mongabay.",
   "main": "index.js",
   "repository": "git@github.com:mongabay/satellite-stamp.git",
   "author": "Vizzuality <hello@vizzuality.com>",
@@ -41,25 +41,19 @@
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
     "d3-format": "^1.2.1",
-    "deck.gl": "7.3.6",
     "html2canvas": "^1.0.0-rc.5",
     "json-loader": "^0.5.7",
-    "layer-manager": "3.0.4",
-    "luma.gl": "7.3.2",
     "next": "9.3.2",
     "next-routes": "^1.4.2",
     "node-sass": "^4.13.1",
     "react": "16.12.0",
-    "react-accessible-accordion": "^3.0.1",
     "react-dom": "16.12.0",
-    "react-map-gl": "5.2.3",
     "react-modal": "^3.11.2",
     "react-redux": "^7.2.0",
     "react-simple-maps": "^0.12.1",
     "react-tippy": "^1.2.2",
+    "slugify": "^1.4.4",
     "turf-bbox": "^3.0.12",
-    "turf-linestring": "^1.0.2",
-    "viewport-mercator-project": "6.1.1",
-    "vizzuality-components": "3.0.1"
+    "turf-linestring": "^1.0.2"
   }
 }

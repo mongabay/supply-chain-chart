@@ -1,3 +1,4 @@
+import { default as slugifyExt } from 'slugify';
 import { format } from 'd3-format';
 
 /**
@@ -24,6 +25,12 @@ export const deserialize = (string, defaultState = {}) => {
     return defaultState;
   }
 };
+
+/**
+ * Return a slug based on a string
+ * @param {string} string String to slugify
+ */
+export const slugify = string => slugifyExt(string).toLowerCase();
 
 export const formatNumber = ({ num, unit }) => {
   if (unit === '') return format('.2f')(num);

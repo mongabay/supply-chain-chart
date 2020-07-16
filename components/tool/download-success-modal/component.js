@@ -7,7 +7,12 @@ import './style.scss';
 
 const ToolDownloadSuccessModal = ({ open, onClose }) => {
   return (
-    <Modal title="Map downloaded" open={open} onClose={onClose} className="c-tool-planet-modal">
+    <Modal
+      title="Map downloaded"
+      open={open}
+      onClose={onClose}
+      className="c-tool-download-success-modal"
+    >
       <h1 className="mb-3">Map downloaded!</h1>
       <p>
         Check the{' '}

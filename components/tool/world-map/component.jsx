@@ -11,9 +11,10 @@ import {
   ZoomableGroup,
 } from 'react-simple-maps';
 import { Tooltip } from 'react-tippy';
-
 import cx from 'classnames';
+
 import { formatNumber } from 'utils/functions';
+import Attributions from '../attributions';
 
 import WORLD_GEOGRAPHIES from './WORLD.topo.json';
 import './style.scss';
@@ -160,49 +161,76 @@ class WorldMap extends React.PureComponent {
 
   render() {
     const { tooltipConfig, flows } = this.state;
-    const { className } = this.props;
+    const { exporting, width, height, className } = this.props;
     const { text, items } = tooltipConfig || {};
     return (
-      <Tooltip
-        className={className}
-        // theme="tip"
-        html={
-          <div className="c-world-map-tooltip">
-            <p>{text && text.toLowerCase()}</p>
-            <p>{items && items[0].value}</p>
-            <p>{items && items[0].percentage}</p>
-          </div>
-        }
-        followCursor
-        animateFill={false}
-        open={!!tooltipConfig}
-      >
+      <div className={cx('c-world-map', `${exporting ? 'exporting' : ''}`)}>
+        {exporting && <div className="exporting-message">Exporting...</div>}
         <div
-          className="js-visualization"
-          style={{ height: '100%', display: 'flex', alignItems: 'center' }}
+          className="container-width js-visualization"
+          // We need both width and min-width:
+          // - width so that maps smaller than the parent are correctly sized
+          // - min-width so that maps bigger than the parent overflow correctly
+          style={exporting ? { width: `${width}px`, minWidth: `${width}px` } : undefined}
         >
-          {flows.length > 0 ? (
-            <ComposableMap
-              className={cx('c-world-map')}
-              projection="robinson"
-              style={{ width: '100%', height: 'auto' }}
-              projectionConfig={{ scale: 145 }}
+          <div
+            className="container-ratio"
+            style={exporting ? { height: `${height}px` } : undefined}
+          >
+            <Tooltip
+              className={className}
+              // theme="tip"
+              html={
+                <div className="c-world-map-tooltip">
+                  <p>{text && text.toLowerCase()}</p>
+                  <p>{items && items[0].value}</p>
+                  <p>{items && items[0].percentage}</p>
+                </div>
+              }
+              followCursor
+              animateFill={false}
+              open={!!tooltipConfig}
             >
-              <ZoomableGroup disablePanning center={[20, 0]}>
-                <Geographies geography={WORLD_GEOGRAPHIES} disableOptimization>
-                  {this.renderGeographies}
-                </Geographies>
-                <Lines>{this.renderLines()}</Lines>
-              </ZoomableGroup>
-            </ComposableMap>
-          ) : null}
+              <div
+                className="map-container"
+                style={
+                  exporting
+                    ? {
+                        width,
+                        height: height - 26, // 26px is the height of the attributions
+                      }
+                    : undefined
+                }
+              >
+                {flows.length > 0 ? (
+                  <ComposableMap
+                    // className={cx('c-world-map')}
+                    projection="robinson"
+                    style={{ width: '100%', height: 'auto' }}
+                    projectionConfig={{ scale: 145 }}
+                  >
+                    <ZoomableGroup disablePanning center={[20, 0]}>
+                      <Geographies geography={WORLD_GEOGRAPHIES} disableOptimization>
+                        {this.renderGeographies}
+                      </Geographies>
+                      <Lines>{this.renderLines()}</Lines>
+                    </ZoomableGroup>
+                  </ComposableMap>
+                ) : null}
+              </div>
+            </Tooltip>
+            <Attributions exporting={exporting} />
+          </div>
         </div>
-      </Tooltip>
+      </div>
     );
   }
 }
 
 WorldMap.propTypes = {
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  exporting: PropTypes.bool.isRequired,
   className: PropTypes.string,
   flows: PropTypes.any,
   originGeoId: PropTypes.any,

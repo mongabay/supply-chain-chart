@@ -8,7 +8,7 @@ const HeadComponent = ({ title, description }) => (
     <meta
       key="description"
       name="description"
-      content={description ? description : 'Tool to generate map images for Mongabay.'}
+      content={description ? description : 'Tool to generate flow map images for Mongabay.'}
     />
   </Head>
 );
