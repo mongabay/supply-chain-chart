@@ -1,6 +1,10 @@
 # supply-chain-chart
 
-Tool to generate map images for Mongabay.
+Supply chain chart is tool that generates flow map images for Mongabay's articles.
+
+<p align="center">
+  <img src="docs/assets/hero.png" alt="Supply chain chart" />
+</p>
 
 ## Getting Started
 
