@@ -87,28 +87,37 @@ class WorldMap extends React.PureComponent {
   renderGeographies = (geographies, projection) => {
     const { flows, originGeoId, destination } = this.state;
 
-    return geographies.map(
-      geography =>
-        geography.properties.iso2 !== 'AQ' && (
-          <Geography
-            key={geography.properties.cartodb_id}
-            className={cx(
-              'world-map-geography',
-              {
-                '-destination': WorldMap.isDestinationCountry(
-                  geography.properties.iso2,
-                  flows.filter(f => !destination || f.geoId === destination)
-                ),
-              },
-              { '-origin': originGeoId === geography.properties.iso2 }
-            )}
-            geography={geography}
-            projection={projection}
-            onMouseMove={this.onMouseMove}
-            onMouseLeave={this.onMouseLeave}
-          />
+    return geographies.map(geography => {
+      if (geography.properties.iso2 === 'AQ') {
+        return;
+      }
+
+      let fillColor = '#dedede';
+      if (originGeoId === geography.properties.iso2) {
+        fillColor = '#f1ba30';
+      } else if (
+        WorldMap.isDestinationCountry(
+          geography.properties.iso2,
+          flows.filter(f => !destination || f.geoId === destination)
         )
-    );
+      ) {
+        fillColor = '#03755e';
+      }
+
+      return (
+        <Geography
+          key={geography.properties.cartodb_id}
+          className="world-map-geography"
+          fill={fillColor}
+          stroke="#ffffff"
+          strokeWidth="0.2px"
+          geography={geography}
+          projection={projection}
+          onMouseMove={this.onMouseMove}
+          onMouseLeave={this.onMouseLeave}
+        />
+      );
+    });
   };
 
   renderLines = () => {
@@ -116,24 +125,37 @@ class WorldMap extends React.PureComponent {
 
     return flows
       .filter(f => !destination || f.geoId === destination)
-      .map(flow => (
-        <Line
-          key={flow.geoId}
-          className="world-map-arc"
-          {...flow}
-          line={{
-            coordinates: {
-              start: originCoordinates,
-              end: flow.coordinates,
-            },
-            curveStyle: flow.curveStyle,
-          }}
-          buildPath={WorldMap.buildCurves}
-          strokeWidth={flow.strokeWidth}
-          onMouseMove={this.onMouseMove}
-          onMouseLeave={this.onMouseLeave}
-        />
-      ));
+      .map(flow => {
+        const style = {
+          fill: 'none',
+          stroke: 'rgba(0, 0, 0, 0.7)',
+          strokeLinecap: 'round',
+          strokeWidth: flow.strokeWidth,
+        };
+
+        return (
+          <Line
+            key={flow.geoId}
+            className="world-map-arc"
+            {...flow}
+            line={{
+              coordinates: {
+                start: originCoordinates,
+                end: flow.coordinates,
+              },
+              curveStyle: flow.curveStyle,
+            }}
+            style={{
+              default: style,
+              hover: style,
+              pressed: style,
+            }}
+            buildPath={WorldMap.buildCurves}
+            onMouseMove={this.onMouseMove}
+            onMouseLeave={this.onMouseLeave}
+          />
+        );
+      });
   };
 
   render() {
