@@ -1,64 +1,22 @@
 @import 'css/settings';
 
-/* COLORS */
-$white: #fff;
-$slate: #555;
-$warm-grey: #999;
-$origin-yellow: #F1BA30;
-$destination-green: #03755E;
-$dark-grey: rgba(0, 0, 0, 0.7); // flows
-$others-grey: #DEDEDE;
-
 .c-world-map {
   background-color: transparent;
   -webkit-tap-highlight-color: transparent;
 
   .world-map-geography {
-    fill: $others-grey;
-    stroke: $white;
-    stroke-width: 0.2px;
     outline: 0;
     pointer-events: visibleFill;
-
-    &.-destination {
-      fill: $destination-green;
-    }
-
-    &.-origin {
-      fill: $origin-yellow;
-    }
   }
 
   .world-map-arc {
-    fill: transparent;
-    stroke:  $dark-grey;
-    stroke-linecap: round;
     outline: 0;
     pointer-events: visibleStroke;
-  }
-
-  .world-map-annotation-text {
-    fill: $warm-grey;
-    font-family: $font-family-1;
-    font-size: 13px;
-    text-transform: uppercase;
-    text-align: right;
-    line-height: 0.64;
-    letter-spacing: -0.7px;
-    pointer-events: none;
-
-    + path {
-      stroke: $warm-grey;
-    }
-
-    &.-label {
-      transform: translateY(3px);
-    }
   }
 }
 
 .c-world-map-tooltip {
-  background-color: $slate;
+  background-color: $background-color-1;
   padding: rem(10px) rem(15px);
   display: flex;
   flex-direction: column;
