@@ -449,39 +449,15 @@ select.c-select {
         font-size: 1rem;
         font-weight: 700; }
 
-/* COLORS */
 .c-world-map {
   background-color: transparent;
   -webkit-tap-highlight-color: transparent; }
   .c-world-map .world-map-geography {
-    fill: #DEDEDE;
-    stroke: #fff;
-    stroke-width: 0.2px;
     outline: 0;
     pointer-events: visibleFill; }
-    .c-world-map .world-map-geography.-destination {
-      fill: #03755E; }
-    .c-world-map .world-map-geography.-origin {
-      fill: #F1BA30; }
   .c-world-map .world-map-arc {
-    fill: transparent;
-    stroke: rgba(0, 0, 0, 0.7);
-    stroke-linecap: round;
     outline: 0;
     pointer-events: visibleStroke; }
-  .c-world-map .world-map-annotation-text {
-    fill: #999;
-    font-family: "Open Sans", serif;
-    font-size: 13px;
-    text-transform: uppercase;
-    text-align: right;
-    line-height: 0.64;
-    letter-spacing: -0.7px;
-    pointer-events: none; }
-    .c-world-map .world-map-annotation-text + path {
-      stroke: #999; }
-    .c-world-map .world-map-annotation-text.-label {
-      transform: translateY(3px); }
 
 .c-world-map-tooltip {
   background-color: #555;
