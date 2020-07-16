@@ -11,7 +11,12 @@ const Attributions = ({ exporting }) => (
     {!exporting && <div />}
     <div className="d-flex align-items-center">
       {/* TODO: add the attributions in the following span element */}
-      <span />
+      <span>
+        Data provided by{' '}
+        <a href="https://trase.earth/" target="_blank" rel="noopener noreferrer">
+          Trase
+        </a>
+      </span>
     </div>
   </div>
 );
