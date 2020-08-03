@@ -26,7 +26,8 @@ export const initialState = {
   Year: '2004', // startYear
   Municipality: '',
   Exporter: '',
-  'Destination Country': '',
+  'Destination country': '',
+  topNodes: [],
 };
 
 export const COUNTRIES_COORDINATES = {

@@ -38,10 +38,10 @@
   .map-container {
     display: flex;
     position: absolute;
-    top: 0;
+    top: rem(26);
     left: 0;
     width: 100%;
-    height: calc(100% - #{rem(26)}); // The attributions are 26px high
+    height: calc(100% - #{2 * rem(26)}); // The title and attributions are 26px high
     background-color: $white;
     -webkit-tap-highlight-color: $white;
     border: rem(1) solid rgba($black, 0.1);
@@ -64,6 +64,18 @@
     width: 100%;
     height: rem(26);
     background-color: $white;
+  }
+
+  .title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: rem(26);
+    background-color: $white;
+    font-weight: $font-weight-bold;
+    text-align: center;
+    text-transform: uppercase;
   }
 }
 

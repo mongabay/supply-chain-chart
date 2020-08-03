@@ -15,6 +15,7 @@ import cx from 'classnames';
 
 import { formatNumber } from 'utils/functions';
 import Attributions from '../attributions';
+import { getOriginCountryName, getDestinationCountryName, getTitleCase } from './helpers';
 
 import WORLD_GEOGRAPHIES from './WORLD.topo.json';
 import './style.scss';
@@ -161,7 +162,17 @@ class WorldMap extends React.PureComponent {
 
   render() {
     const { tooltipConfig, flows } = this.state;
-    const { exporting, width, height, className } = this.props;
+    const {
+      exporting,
+      width,
+      height,
+      className,
+      origin,
+      destination,
+      year,
+      commodity,
+      topNodes,
+    } = this.props;
     const { text, items } = tooltipConfig || {};
     return (
       <div className={cx('c-world-map', `${exporting ? 'exporting' : ''}`)}>
@@ -177,6 +188,13 @@ class WorldMap extends React.PureComponent {
             className="container-ratio"
             style={exporting ? { height: `${height}px` } : undefined}
           >
+            <div className="title">
+              {getTitleCase(commodity)} flow from {getTitleCase(getOriginCountryName(origin))}{' '}
+              {getDestinationCountryName(destination, topNodes)
+                ? `to ${getTitleCase(getDestinationCountryName(destination, topNodes))}`
+                : ''}{' '}
+              in {year}
+            </div>
             <Tooltip
               className={className}
               // theme="tip"
@@ -235,6 +253,10 @@ WorldMap.propTypes = {
   flows: PropTypes.any,
   originGeoId: PropTypes.any,
   destination: PropTypes.any,
+  origin: PropTypes.string.isRequired,
+  year: PropTypes.string.isRequired,
+  commodity: PropTypes.string.isRequired,
+  topNodes: PropTypes.arrayOf(PropTypes.object).isRequired,
   originCoordinates: PropTypes.any,
   changeTraseConfig: PropTypes.func,
 };
