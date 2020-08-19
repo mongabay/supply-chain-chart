@@ -34,7 +34,7 @@ export const getOriginCoordinates = createSelector(getOriginGeoId, originGeoId =
 );
 
 export const getWorldMapFlows = createSelector(
-  [getOriginGeoId, getOriginCoordinates, getTopNodes, getDestinationCountry],
+  [getOriginGeoId, getOriginCoordinates, getTopNodes],
   (originGeoId, originCoordinates, countries) => {
     if (!originGeoId || !originCoordinates || !countries) {
       return [];

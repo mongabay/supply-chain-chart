@@ -39,7 +39,7 @@ class WorldMap extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.flows.length !== 0 && nextProps.flows !== prevState.flows) {
+    if (nextProps.flows !== prevState.flows) {
       // avoids rendering intermediate states
       return {
         flows: nextProps.flows,
@@ -224,20 +224,18 @@ class WorldMap extends React.PureComponent {
                     : undefined
                 }
               >
-                {flows.length > 0 ? (
-                  <ComposableMap
-                    projection="robinson"
-                    style={{ width: '100%', height: '100%' }}
-                    projectionConfig={{ scale: 145 }}
-                  >
-                    <ZoomableGroup disablePanning center={[15, 12]}>
-                      <Geographies geography={WORLD_GEOGRAPHIES} disableOptimization>
-                        {this.renderGeographies}
-                      </Geographies>
-                      <Lines>{this.renderLines()}</Lines>
-                    </ZoomableGroup>
-                  </ComposableMap>
-                ) : null}
+                <ComposableMap
+                  projection="robinson"
+                  style={{ width: '100%', height: '100%' }}
+                  projectionConfig={{ scale: 145 }}
+                >
+                  <ZoomableGroup disablePanning center={[15, 12]}>
+                    <Geographies geography={WORLD_GEOGRAPHIES} disableOptimization>
+                      {this.renderGeographies}
+                    </Geographies>
+                    <Lines>{this.renderLines()}</Lines>
+                  </ZoomableGroup>
+                </ComposableMap>
               </div>
             </Tooltip>
             <Attributions exporting={exporting} />
