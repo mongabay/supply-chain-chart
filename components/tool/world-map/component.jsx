@@ -222,12 +222,11 @@ class WorldMap extends React.PureComponent {
               >
                 {flows.length > 0 ? (
                   <ComposableMap
-                    // className={cx('c-world-map')}
                     projection="robinson"
-                    style={{ width: '100%', height: 'auto' }}
+                    style={{ width: '100%', height: '100%' }}
                     projectionConfig={{ scale: 145 }}
                   >
-                    <ZoomableGroup disablePanning center={[20, 0]}>
+                    <ZoomableGroup disablePanning center={[15, 12]}>
                       <Geographies geography={WORLD_GEOGRAPHIES} disableOptimization>
                         {this.renderGeographies}
                       </Geographies>
