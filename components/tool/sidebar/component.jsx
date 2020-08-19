@@ -57,7 +57,10 @@ const Sidebar = ({ flows, exporting, settings, changeTraseConfig }) => {
                   value={settings[key] ?? ''}
                   options={
                     options.length
-                      ? options.map(opt => ({ ...opt, label: capitalize(opt.label) }))
+                      ? options.map(opt => ({
+                          ...opt,
+                          label: capitalize(opt.label).replace('Co2', 'CO₂'),
+                        }))
                       : [{ label: 'All', value: '' }]
                   }
                   disabled={!options.length || options.length < 2}
