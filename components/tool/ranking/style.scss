@@ -1,0 +1,47 @@
+@import 'css/settings';
+
+.c-tool-ranking {
+  width: rem(250);
+  counter-reset: tool-ranking;
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: map-get($spacers, 2);
+    list-style: none;
+    font-size: $font-size-m;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
+    &:before {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: rem(25);
+      height: rem(25);
+      margin-right: map-get($spacers, 2);
+      border-radius: 100%;
+      background-color: $primary;
+      color: $white;
+      font-weight: $font-weight-bold;
+      counter-increment: tool-ranking;
+      content: counter(tool-ranking);
+    }
+
+    span {
+      display: inline-block;
+
+      &:first-of-type {
+        margin-right: auto;
+        text-transform: capitalize;
+      }
+    }
+  }
+}

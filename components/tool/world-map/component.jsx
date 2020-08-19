@@ -10,10 +10,11 @@ import {
   Line,
   ZoomableGroup,
 } from 'react-simple-maps';
-import Tooltip, { followCursor } from 'components/tooltip';
 import cx from 'classnames';
 
 import { formatNumber } from 'utils/functions';
+import Tooltip, { followCursor } from 'components/tooltip';
+import Ranking from 'components/tool/ranking';
 import Attributions from '../attributions';
 import { getOriginCountryName, getDestinationCountryName, getTitleCase } from './helpers';
 
@@ -236,6 +237,7 @@ class WorldMap extends React.PureComponent {
                     <Lines>{this.renderLines()}</Lines>
                   </ZoomableGroup>
                 </ComposableMap>
+                <Ranking />
               </div>
             </Tooltip>
             <Attributions exporting={exporting} />

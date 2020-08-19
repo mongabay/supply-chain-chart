@@ -37,11 +37,13 @@
 
   .map-container {
     display: flex;
+    align-items: center;
     position: absolute;
     top: rem(26);
     left: 0;
     width: 100%;
     height: calc(100% - #{2 * rem(26)}); // The title and attributions are 26px high
+    padding: 0 map-get($spacers, 3);
     background-color: $white;
     -webkit-tap-highlight-color: $white;
     border: rem(1) solid rgba($black, 0.1);
@@ -54,6 +56,11 @@
     .world-map-arc {
       outline: 0;
       pointer-events: visibleStroke;
+    }
+
+    .c-tool-ranking {
+      flex-shrink: 0;
+      margin-left: map-get($spacers, 3);
     }
   }
 
