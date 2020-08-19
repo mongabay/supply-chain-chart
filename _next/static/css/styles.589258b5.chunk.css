@@ -83,12 +83,11 @@ select.c-select {
         transform: translateX(-50%);
         content: attr(data-label); }
 
-.tippy-popper {
+[data-tippy-root] {
   max-width: none !important;
   z-index: 9 !important; }
-  .tippy-popper div.tippy-tooltip {
-    max-width: none !important; }
-  .tippy-popper div.tippy-tooltip.light-theme {
+  [data-tippy-root] .tippy-box {
+    max-width: none !important;
     padding: 1rem;
     font-size: 1rem;
     line-height: inherit;
@@ -97,23 +96,23 @@ select.c-select {
     background-color: #fff;
     border: 0.0625rem solid rgba(34, 34, 34, 0.3);
     box-shadow: 0.0625rem 0.0625rem 0.625rem 0 rgba(0, 0, 0, 0.1); }
-    .tippy-popper div.tippy-tooltip.light-theme[data-placement^='top'] > .tippy-arrow {
+    [data-tippy-root] .tippy-box[data-placement^='top'] > .tippy-arrow {
       border-top-color: #fff; }
-      .tippy-popper div.tippy-tooltip.light-theme[data-placement^='top'] > .tippy-arrow:after {
+      [data-tippy-root] .tippy-box[data-placement^='top'] > .tippy-arrow:after {
         position: absolute;
-        top: -0.375rem;
-        left: -0.4375rem;
-        border: 0.4375rem solid transparent;
+        top: 1rem;
+        left: 0rem;
+        border: 0.5rem solid transparent;
         border-top-color: rgba(34, 34, 34, 0.3);
         z-index: -1;
         content: ''; }
-    .tippy-popper div.tippy-tooltip.light-theme[data-placement^='bottom'] > .tippy-arrow {
+    [data-tippy-root] .tippy-box[data-placement^='bottom'] > .tippy-arrow {
       border-bottom-color: #fff; }
-    .tippy-popper div.tippy-tooltip.light-theme[data-placement^='left'] > .tippy-arrow {
+    [data-tippy-root] .tippy-box[data-placement^='left'] > .tippy-arrow {
       border-left-color: #fff; }
-    .tippy-popper div.tippy-tooltip.light-theme[data-placement^='right'] > .tippy-arrow {
+    [data-tippy-root] .tippy-box[data-placement^='right'] > .tippy-arrow {
       border-right-color: #fff; }
-      .tippy-popper div.tippy-tooltip.light-theme[data-placement^='right'] > .tippy-arrow:after {
+      [data-tippy-root] .tippy-box[data-placement^='right'] > .tippy-arrow:after {
         position: absolute;
         top: -0.4375rem;
         left: -0.5rem;
@@ -122,7 +121,7 @@ select.c-select {
         z-index: -1;
         transform: rotate(90deg);
         content: ''; }
-    .tippy-popper div.tippy-tooltip.light-theme .tippy-content {
+    [data-tippy-root] .tippy-box .tippy-content {
       padding: 0; }
 
 .c-export-tooltip {
@@ -234,6 +233,39 @@ select.c-select {
       padding: 0.5rem 0;
       overflow: auto; }
 
+.c-tool-ranking {
+  width: 15.625rem;
+  counter-reset: tool-ranking; }
+  .c-tool-ranking ul {
+    margin: 0;
+    padding: 0; }
+  .c-tool-ranking li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    list-style: none;
+    font-size: 0.875rem; }
+    .c-tool-ranking li:last-of-type {
+      margin-bottom: 0; }
+    .c-tool-ranking li:before {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 1.5625rem;
+      height: 1.5625rem;
+      margin-right: 0.5rem;
+      border-radius: 100%;
+      background-color: #03755e;
+      color: #fff;
+      font-weight: 700;
+      counter-increment: tool-ranking;
+      content: counter(tool-ranking); }
+    .c-tool-ranking li span {
+      display: inline-block; }
+      .c-tool-ranking li span:first-of-type {
+        margin-right: auto;
+        text-transform: capitalize; }
+
 .c-tool-attributions {
   display: flex;
   align-items: center;
@@ -282,11 +314,13 @@ select.c-select {
     overflow: hidden; }
   .c-world-map .map-container {
     display: flex;
+    align-items: center;
     position: absolute;
     top: 1.625rem;
     left: 0;
     width: 100%;
     height: calc(100% - 3.25rem);
+    padding: 0 1rem;
     background-color: #fff;
     -webkit-tap-highlight-color: #fff;
     border: 0.0625rem solid rgba(0, 0, 0, 0.1); }
@@ -296,6 +330,9 @@ select.c-select {
     .c-world-map .map-container .world-map-arc {
       outline: 0;
       pointer-events: visibleStroke; }
+    .c-world-map .map-container .c-tool-ranking {
+      flex-shrink: 0;
+      margin-left: 1rem; }
   .c-world-map .c-tool-attributions {
     position: absolute;
     bottom: 0;
@@ -315,16 +352,17 @@ select.c-select {
     text-transform: uppercase; }
 
 .c-world-map-tooltip {
-  background-color: #555;
-  padding: 0.625rem 0.9375rem;
   display: flex;
   flex-direction: column;
+  width: 9.375rem;
   text-align: center;
   justify-content: center; }
   .c-world-map-tooltip p {
-    color: #fff;
+    margin-bottom: 0.25rem;
     text-transform: capitalize;
-    font-size: 0.875rem; }
+    font-size: 0.8125rem; }
+    .c-world-map-tooltip p:last-of-type {
+      margin-bottom: 0; }
 
 .c-tool {
   display: flex;
