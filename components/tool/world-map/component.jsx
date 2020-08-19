@@ -134,10 +134,10 @@ class WorldMap extends React.PureComponent {
   };
 
   renderLines = () => {
-    const { originCoordinates, flows, destination } = this.state;
+    const { originCoordinates, flows, originGeoId, destination } = this.state;
 
     return flows
-      .filter(f => !destination || f.geoId === destination)
+      .filter(f => (!destination || f.geoId === destination) && f.geoId !== originGeoId)
       .map(flow => {
         const style = {
           fill: 'none',
