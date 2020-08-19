@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactTippy from '@tippy.js/react';
+import ReactTippy from '@tippyjs/react';
 
 import './style.scss';
 
@@ -8,7 +8,14 @@ const Tooltip = props => {
   const mergeProps = {
     interactive: true,
     placement: 'top',
-    popperOptions: { modifiers: { flip: { enabled: false } } },
+    popperOptions: {
+      modifiers: [
+        {
+          name: 'flip',
+          enabled: false,
+        },
+      ],
+    },
     trigger: 'click',
     arrow: true,
     theme: 'light',
