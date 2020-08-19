@@ -5,7 +5,7 @@ import Component from './component';
 
 export default connect(
   state => ({
-    flows: traseSelectors.getWorldMapFlows(state),
+    topNodes: traseSelectors.getTopNodes(state),
     exporting: exportSelectors.selectExporting(state),
     settings: traseSelectors.selectSettings(state),
   }),

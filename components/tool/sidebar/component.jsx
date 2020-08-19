@@ -12,7 +12,7 @@ import DownloadSuccessModal from '../download-success-modal';
 
 import './style.scss';
 
-const Sidebar = ({ flows, exporting, settings, changeTraseConfig }) => {
+const Sidebar = ({ topNodes, exporting, settings, changeTraseConfig }) => {
   const [previousExporting, setPreviousExporting] = useState(false);
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
 
@@ -22,7 +22,7 @@ const Sidebar = ({ flows, exporting, settings, changeTraseConfig }) => {
     'Destination country': [
       { label: 'All', value: '' },
       ...sortBy(
-        flows.map(f => ({ label: f.name, value: f.geoId })),
+        topNodes.map(f => ({ label: f.name, value: f.geo_id })),
         'label'
       ),
     ],
@@ -86,7 +86,7 @@ const Sidebar = ({ flows, exporting, settings, changeTraseConfig }) => {
 };
 
 Sidebar.propTypes = {
-  flows: PropTypes.arrayOf(PropTypes.object),
+  topNodes: PropTypes.arrayOf(PropTypes.object),
   exporting: PropTypes.bool.isRequired,
   settings: PropTypes.object,
   changeTraseConfig: PropTypes.func,

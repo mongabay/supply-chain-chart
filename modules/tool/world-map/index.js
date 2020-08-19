@@ -34,15 +34,22 @@ export const getOriginCoordinates = createSelector(getOriginGeoId, originGeoId =
 );
 
 export const getWorldMapFlows = createSelector(
-  [getOriginGeoId, getOriginCoordinates, getTopNodes],
-  (originGeoId, originCoordinates, countries) => {
+  [getOriginGeoId, getOriginCoordinates, getDestinationCountry, getTopNodes],
+  (originGeoId, originCoordinates, destination, countries) => {
     if (!originGeoId || !originCoordinates || !countries) {
       return [];
     }
-
     const contextFlows = countries
       ? countries
-          .filter(country => country.geoId !== originGeoId)
+          .filter(country => {
+            let res = country.geo_id !== originGeoId;
+
+            if (destination) {
+              res = res && country.geo_id === destination;
+            }
+
+            return res;
+          })
           .sort((a, b) => {
             if (a.value < b.value) return -1;
             if (a.value > b.value) return 1;
