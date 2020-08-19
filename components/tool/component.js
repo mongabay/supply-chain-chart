@@ -65,7 +65,7 @@ const Tool = ({
             ? commodity
             : options.commodities[0].value,
           years: options.years,
-          Year: options.years.includes(year) ? year : options.years[0].value,
+          Year: options.years.some(el => el.value === year) ? year : options.years[0].value,
           units: options.units,
         });
       });
