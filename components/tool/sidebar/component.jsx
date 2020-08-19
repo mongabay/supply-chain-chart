@@ -18,7 +18,11 @@ const Sidebar = ({ topNodes, exporting, settings, changeTraseConfig }) => {
 
   const mapSettingsOptions = {
     'Source country': traseOptions.countries,
+    Commodity: settings.commodities || traseOptions.commodities,
+    'Change unit': settings.units || traseOptions.units,
+    Year: settings.years || traseOptions.years,
     Municipality: settings.municipalities || traseOptions.municipalities,
+    Exporter: settings.exporters || traseOptions.exporters,
     'Destination country': [
       { label: 'All', value: '' },
       ...sortBy(
@@ -26,10 +30,6 @@ const Sidebar = ({ topNodes, exporting, settings, changeTraseConfig }) => {
         'label'
       ),
     ],
-    Commodity: settings.commodities || traseOptions.commodities,
-    'Change unit': settings.units || traseOptions.units,
-    Year: settings.years || traseOptions.years,
-    Exporter: settings.exporters || traseOptions.exporters,
   };
 
   useEffect(() => {
