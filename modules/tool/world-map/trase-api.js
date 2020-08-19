@@ -19,14 +19,7 @@ export const fetchTraseLocationData = (contextId, columnId, startYear, endYear) 
   );
 
 // eslint-disable-next-line no-unused-vars
-export const fetchTraseNodeStats = (
-  contextId,
-  columnId,
-  commodityId,
-  startYear,
-  endYear,
-  attributeId
-) =>
+export const fetchTraseNodeStats = (contextId, columnId, startYear, endYear, attributeId) =>
   // Each target node will have (example values)
   // "id":57,
   // "name":"BRAZIL",
@@ -41,9 +34,7 @@ export const fetchTraseNodeStats = (
   // "other_attributes":[]
   axios.get(
     `${TRASE_API}/nodes_stats?column_id=${columnId}${
-      // contextId ? `&contexts_ids=${contextId}` : ''
-      // }${ Note: contexts_ids id causes 500
-      commodityId ? `&commodity_id=${commodityId}` : ''
+      contextId ? `&contexts_ids=${contextId}` : ''
     }${startYear ? `&start_year=${startYear}` : ''}${endYear ? `&end_year=${endYear}` : ''}${
       attributeId ? `&attribute_id=${attributeId}` : ''
     }`

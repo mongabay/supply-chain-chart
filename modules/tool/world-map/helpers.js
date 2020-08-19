@@ -31,9 +31,8 @@ const getData = ({ startYear, endYear, commodity, adm0, indicator }) =>
       const maxYear = selectedContext.years[selectedContext.years.length - 1];
 
       return fetchTraseNodeStats(
-        selectedContext.countryId, // context Id
+        selectedContext.id, // context Id
         selectedContext.worldMap.countryColumnId, // column Id
-        selectedContext.commodityId, // commodity Id
         startYear,
         endYear,
         indicator
