@@ -39,29 +39,38 @@ export const getWorldMapFlows = createSelector(
     if (!originGeoId || !originCoordinates || !countries) {
       return [];
     }
-    const contextFlows = countries
-      ? countries
-          .filter(country => {
-            let res = country.geo_id !== originGeoId;
 
-            if (destination) {
-              res = res && country.geo_id === destination;
-            }
+    const flows =
+      countries
+        ?.filter(country => {
+          let res = country.geo_id !== originGeoId;
 
-            return res;
-          })
-          .sort((a, b) => {
-            if (a.value < b.value) return -1;
-            if (a.value > b.value) return 1;
-            return 0;
-          })
-          .map((country, index) => ({
-            ...country,
-            strokeWidth: index + 1,
-            coordinates: COUNTRIES_COORDINATES[country.geo_id],
-            geoId: country.geo_id,
-          }))
-      : [];
+          if (destination) {
+            res = res && country.geo_id === destination;
+          }
+
+          return res;
+        })
+        .sort((a, b) => {
+          if (a.value < b.value) return -1;
+          if (a.value > b.value) return 1;
+          return 0;
+        }) ?? [];
+
+    const valueExtent = [
+      Math.min(...flows.map(f => f.attribute.value)),
+      Math.max(...flows.map(f => f.attribute.value)),
+    ];
+
+    const strokeWidthScale = value =>
+      ((value - valueExtent[0]) / (valueExtent[1] - valueExtent[0])) * 9 + 1;
+
+    const contextFlows = flows.map(flow => ({
+      ...flow,
+      strokeWidth: strokeWidthScale(flow.attribute.value),
+      coordinates: COUNTRIES_COORDINATES[flow.geo_id],
+      geoId: flow.geo_id,
+    }));
 
     const contextFlowsWithCoordinates = contextFlows.filter(
       f => typeof f.coordinates !== 'undefined'
