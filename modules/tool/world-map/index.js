@@ -42,15 +42,7 @@ export const getWorldMapFlows = createSelector(
 
     const flows =
       countries
-        ?.filter(country => {
-          let res = country.geo_id !== originGeoId;
-
-          if (destination) {
-            res = res && country.geo_id === destination;
-          }
-
-          return res;
-        })
+        ?.filter(country => !destination || country.geo_id === destination)
         .sort((a, b) => {
           if (a.value < b.value) return -1;
           if (a.value > b.value) return 1;
