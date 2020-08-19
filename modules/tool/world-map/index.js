@@ -1,7 +1,9 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import bbox from 'turf-bbox';
 import lineString from 'turf-linestring';
+
 import { COUNTRIES_COORDINATES, initialState } from 'modules/tool/world-map/trase-options';
+import { formatNumber } from 'utils/functions';
 
 export const SLICE_NAME = 'trase';
 
@@ -33,6 +35,17 @@ export const getOriginCoordinates = createSelector(getOriginGeoId, originGeoId =
   originGeoId ? COUNTRIES_COORDINATES[originGeoId] : null
 );
 
+export const selectRankingFlows = createSelector([getTopNodes], topNodes =>
+  [...topNodes]
+    .sort((a, b) => (a.attribute.value < b.attribute.value ? 1 : -1))
+    .slice(0, 5)
+    .map(flow => ({
+      id: flow.id,
+      country: flow.name.toLowerCase(),
+      value: formatNumber({ num: flow.attribute.value, unit: flow.attribute.unit }),
+    }))
+);
+
 export const getWorldMapFlows = createSelector(
   [getOriginGeoId, getOriginCoordinates, getDestinationCountry, getTopNodes],
   (originGeoId, originCoordinates, destination, countries) => {
@@ -41,13 +54,9 @@ export const getWorldMapFlows = createSelector(
     }
 
     const flows =
-      countries
+      [...countries]
         ?.filter(country => !destination || country.geo_id === destination)
-        .sort((a, b) => {
-          if (a.value < b.value) return -1;
-          if (a.value > b.value) return 1;
-          return 0;
-        }) ?? [];
+        .sort((a, b) => (a.attribute.value < b.attribute.value ? 1 : -1)) ?? [];
 
     const valueExtent = [
       Math.min(...flows.map(f => f.attribute.value)),

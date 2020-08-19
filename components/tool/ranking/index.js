@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 
-import { getWorldMapFlows } from 'modules/tool/world-map';
+import { selectRankingFlows } from 'modules/tool/world-map';
 import Component from './component';
 
 export default connect(state => ({
-  flows: getWorldMapFlows(state),
+  flows: selectRankingFlows(state),
 }))(Component);
