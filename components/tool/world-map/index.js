@@ -17,6 +17,7 @@ export default connect(
     topNodes: traseSelectors.getTopNodes(state),
     selectedContext: traseSelectors.getSelectedContext(state),
     originCoordinates: traseSelectors.getOriginCoordinates(state),
+    unit: traseSelectors.selectUnitLabel(state),
   }),
   {}
 )(Component);

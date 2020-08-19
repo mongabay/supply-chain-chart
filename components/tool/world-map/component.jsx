@@ -10,7 +10,7 @@ import {
   Line,
   ZoomableGroup,
 } from 'react-simple-maps';
-import { Tooltip } from 'react-tippy';
+import Tooltip, { followCursor } from 'components/tooltip';
 import cx from 'classnames';
 
 import { formatNumber } from 'utils/functions';
@@ -59,27 +59,37 @@ class WorldMap extends React.PureComponent {
     originCoordinates: [],
   };
 
-  onMouseMove = (geometry, e) => {
+  onMouseMove = ({ properties }, e) => {
     const { flows } = this.state;
-    const geoId = geometry.properties ? geometry.properties.iso2 : geometry.geoId;
-    if (WorldMap.isDestinationCountry(geoId, flows)) {
-      const x = e.clientX + 10;
-      const y = e.clientY + window.scrollY + 10;
-      const text = geometry.name || geometry.properties.name;
-      const title = 'Trade Volume';
-      const unit = 't';
-      const volume = geometry.value || (flows.find(flow => flow.geoId === geoId) || {}).value;
-      const height = geometry.height || (flows.find(flow => flow.geoId === geoId) || {}).height;
-      const value = formatNumber({ num: volume, unit: 't' });
-      const percentage = formatNumber({ num: height * 100, unit: '%' });
-      const tooltipConfig = {
-        x,
-        y,
-        text,
-        items: [{ title, value, unit, percentage }],
-      };
-      this.setState(() => ({ tooltipConfig }));
+    const { unit } = this.props;
+    const geoId = properties?.iso2;
+
+    if (!properties || !WorldMap.isDestinationCountry(geoId, flows)) {
+      return;
     }
+
+    const x = e.clientX + 10;
+    const y = e.clientY + window.scrollY + 10;
+
+    const flow = flows.find(flow => flow.geoId === geoId);
+
+    const title = 'Trade Volume';
+    const text = properties.name;
+
+    const volume = flow?.attribute.value;
+    const height = flow?.attribute.height;
+
+    const value = formatNumber({ num: volume, unit });
+    const percentage = formatNumber({ num: height * 100, unit: '%' });
+
+    const tooltipConfig = {
+      x,
+      y,
+      text,
+      items: [{ title, value, unit, percentage }],
+    };
+
+    this.setState(() => ({ tooltipConfig }));
   };
 
   onMouseLeave = () => {
@@ -162,18 +172,9 @@ class WorldMap extends React.PureComponent {
 
   render() {
     const { tooltipConfig, flows } = this.state;
-    const {
-      exporting,
-      width,
-      height,
-      className,
-      origin,
-      destination,
-      year,
-      commodity,
-      topNodes,
-    } = this.props;
+    const { exporting, width, height, origin, destination, year, commodity, topNodes } = this.props;
     const { text, items } = tooltipConfig || {};
+
     return (
       <div className={cx('c-world-map', `${exporting ? 'exporting' : ''}`)}>
         {exporting && <div className="exporting-message">Exporting...</div>}
@@ -196,18 +197,21 @@ class WorldMap extends React.PureComponent {
               in {year}
             </div>
             <Tooltip
-              className={className}
-              // theme="tip"
-              html={
+              visible={!!tooltipConfig}
+              content={
                 <div className="c-world-map-tooltip">
-                  <p>{text && text.toLowerCase()}</p>
+                  <p>
+                    <strong>{text && text.toLowerCase()}</strong>
+                  </p>
                   <p>{items && items[0].value}</p>
                   <p>{items && items[0].percentage}</p>
                 </div>
               }
+              duration={0}
               followCursor
-              animateFill={false}
-              open={!!tooltipConfig}
+              plugins={[followCursor]}
+              interactive={false}
+              trigger="mouseenter focus"
             >
               <div
                 className="map-container"
@@ -258,6 +262,11 @@ WorldMap.propTypes = {
   topNodes: PropTypes.arrayOf(PropTypes.object).isRequired,
   originCoordinates: PropTypes.any,
   changeTraseConfig: PropTypes.func,
+  unit: PropTypes.string,
+};
+
+WorldMap.defaultProps = {
+  unit: 't',
 };
 
 export default WorldMap;

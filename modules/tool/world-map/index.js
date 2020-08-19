@@ -21,6 +21,10 @@ export const getDestinationCountry = createSelector(
 );
 export const getTopNodes = state => state[SLICE_NAME] && state[SLICE_NAME].topNodes;
 
+export const selectUnitLabel = createSelector([getTopNodes], topNodes =>
+  topNodes.length ? topNodes[0].attribute.unit : null
+);
+
 export const getOriginGeoId = createSelector(getSelectedContext, selectedContext =>
   selectedContext ? selectedContext.worldMap.geoId : null
 );

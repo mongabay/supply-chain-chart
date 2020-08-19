@@ -33,6 +33,11 @@ export const deserialize = (string, defaultState = {}) => {
 export const slugify = string => slugifyExt(string).toLowerCase();
 
 export const formatNumber = ({ num, unit }) => {
+  if (num === undefined || num === null) {
+    return '−';
+  }
+
+  // FIXME: this code is completely illegible
   if (unit === '') return format('.2f')(num);
   let p = unit === '%' ? '2' : '3';
   // @ts-ignore
@@ -48,5 +53,5 @@ export const formatNumber = ({ num, unit }) => {
   } else if (num > 0 && num < 0.01 && unit !== '%') {
     formattedNum = '<0.01';
   }
-  return `${formattedNum}${unit && unit !== 'counts' ? unit : ''}`;
+  return `${formattedNum} ${unit && unit !== 'counts' ? unit : ''}`;
 };

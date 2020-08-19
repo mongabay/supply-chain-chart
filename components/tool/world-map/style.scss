@@ -80,16 +80,19 @@
 }
 
 .c-world-map-tooltip {
-  background-color: $background-color-1;
-  padding: rem(10px) rem(15px);
   display: flex;
   flex-direction: column;
+  width: rem(150);
   text-align: center;
   justify-content: center;
 
   p {
-    color: $white;
+    margin-bottom: map-get($spacers, 1);
     text-transform: capitalize;
-    font-size: rem(14px);
+    font-size: $font-size-s;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
   }
 }
