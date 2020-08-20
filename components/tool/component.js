@@ -67,6 +67,9 @@ const Tool = ({
           years: options.years,
           Year: options.years.some(el => el.value === year) ? year : options.years[0].value,
           units: options.units,
+          'Change unit': options.units.some(el => el.value === unit)
+            ? unit
+            : options.units[0].value,
         });
       });
     }
