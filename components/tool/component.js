@@ -8,7 +8,7 @@ import {
   fetchTraseContexts,
   fetchTraseRegions,
   fetchTraseExporters,
-  fetchTraseRanking,
+  fetchTraseFlows,
   fetchTraseDestinationCountries,
 } from 'modules/tool/world-map/trase-api';
 
@@ -30,8 +30,8 @@ const Tool = ({
   updateRegions,
   updateExportersLoading,
   updateExporters,
-  updateRankingLoading,
-  updateRanking,
+  updateFlowsLoading,
+  updateFlows,
   updateCountriesLoading,
   updateCountries,
 }) => {
@@ -85,19 +85,19 @@ const Tool = ({
     }
   }, [context, updateExportersLoading, updateExporters]);
 
-  // Fetch the ranking data when a setting is updated
+  // Fetch the flows data when a setting is updated
   useEffect(() => {
     if (country !== null && commodity !== null && unit !== null && year !== null) {
-      const fetchRanking = async () => {
-        updateRankingLoading(true);
-        const ranking = await fetchTraseRanking(country, commodity, unit, year, region, exporter);
-        updateRanking(ranking);
-        updateRankingLoading(false);
+      const fetchFlows = async () => {
+        updateFlowsLoading(true);
+        const flows = await fetchTraseFlows(country, commodity, unit, year, region, exporter);
+        updateFlows(flows);
+        updateFlowsLoading(false);
       };
 
-      fetchRanking();
+      fetchFlows();
     }
-  }, [country, commodity, unit, year, region, exporter, updateRankingLoading, updateRanking]);
+  }, [country, commodity, unit, year, region, exporter, updateFlowsLoading, updateFlows]);
 
   // Fetch the list of destination countries when the countext is updated
   useEffect(() => {
@@ -140,8 +140,8 @@ Tool.propTypes = {
   updateRegions: PropTypes.func.isRequired,
   updateExportersLoading: PropTypes.func.isRequired,
   updateExporters: PropTypes.func.isRequired,
-  updateRankingLoading: PropTypes.func.isRequired,
-  updateRanking: PropTypes.func.isRequired,
+  updateFlowsLoading: PropTypes.func.isRequired,
+  updateFlows: PropTypes.func.isRequired,
   updateCountriesLoading: PropTypes.func.isRequired,
   updateCountries: PropTypes.func.isRequired,
 };

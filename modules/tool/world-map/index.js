@@ -19,8 +19,8 @@ export const selectRegion = state => state[SLICE_NAME].region;
 export const selectExportersLoading = state => state[SLICE_NAME].exportersLoading;
 export const selectExporters = state => state[SLICE_NAME].exporters;
 export const selectExporter = state => state[SLICE_NAME].exporter;
-export const selectRankingLoading = state => state[SLICE_NAME].rankingLoading;
-export const selectRanking = state => state[SLICE_NAME].ranking;
+export const selectFlowsLoading = state => state[SLICE_NAME].flowsLoading;
+export const selectFlows = state => state[SLICE_NAME].flows;
 export const selectCountriesLoading = state => state[SLICE_NAME].countriesLoading;
 export const selectCountries = state => state[SLICE_NAME].countries;
 
@@ -133,9 +133,9 @@ export const selectExporterName = createSelector(
 );
 
 export const selectRankingData = createSelector(
-  [selectRanking, selectContext, selectUnit],
-  (ranking, context, unit) =>
-    ranking.map(({ x0, y }) => ({
+  [selectFlows, selectContext, selectUnit],
+  (flows, context, unit) =>
+    flows.map(({ x0, y }) => ({
       country: capitalize(y),
       value: formatNumber({
         num: x0,
@@ -151,10 +151,10 @@ export const selectCountriesISODict = createSelector([selectCountries], countrie
     .reduce((res, country) => ({ ...res, [country.name]: country.iso }), {})
 );
 
-export const selectFlowScale = createSelector([selectRanking], ranking => {
+export const selectFlowScale = createSelector([selectFlows], flows => {
   const valueExtent = [
-    Math.min(...ranking.map(({ x0 }) => x0)),
-    Math.max(...ranking.map(({ x0 }) => x0)),
+    Math.min(...flows.map(({ x0 }) => x0)),
+    Math.max(...flows.map(({ x0 }) => x0)),
   ];
 
   return value => ((value - valueExtent[0]) / (valueExtent[1] - valueExtent[0])) * 9 + 1;
@@ -169,25 +169,25 @@ export const selectCountryIso = createSelector([selectContext], context => {
 });
 
 export const selectDestinationCountriesIso = createSelector(
-  [selectRanking, selectCountriesISODict],
-  (ranking, isoDict) => ranking.map(({ y }) => isoDict[y.toLowerCase()] ?? null)
+  [selectFlows, selectCountriesISODict],
+  (flows, isoDict) => flows.map(({ y }) => isoDict[y.toLowerCase()] ?? null)
 );
 
 export const selectMapData = createSelector(
   [
-    selectRanking,
+    selectFlows,
     selectCountriesISODict,
     selectFlowScale,
     selectContext,
     selectUnit,
     selectCountryIso,
   ],
-  (ranking, isoDict, flowScale, context, unit, countryIso) => {
+  (flows, isoDict, flowScale, context, unit, countryIso) => {
     if (!Object.keys(isoDict).length || !countryIso) {
       return [];
     }
 
-    return ranking
+    return flows
       .map(({ x0, y }) => {
         // The dictionary might not have had the time to update yet (we're making a request) so some
         // ISOs may be missing
@@ -214,13 +214,13 @@ export const selectMapData = createSelector(
 export const selectLoading = createSelector(
   [
     selectContextsLoading,
-    selectRankingLoading,
+    selectFlowsLoading,
     selectCountriesLoading,
     selectRegionsLoading,
     selectExportersLoading,
   ],
-  (contextsLoading, rankingLoading, countriesLoading, regionsLoading, exportersLoading) =>
-    contextsLoading || rankingLoading || countriesLoading || regionsLoading || exportersLoading
+  (contextsLoading, flowsLoading, countriesLoading, regionsLoading, exportersLoading) =>
+    contextsLoading || flowsLoading || countriesLoading || regionsLoading || exportersLoading
 );
 
 export const selectSerializedState = createSelector(
@@ -380,11 +380,11 @@ export default traseActions =>
       updateExporter(state, action) {
         state.exporter = action.payload;
       },
-      updateRankingLoading(state, action) {
-        state.rankingLoading = action.payload;
+      updateFlowsLoading(state, action) {
+        state.flowsLoading = action.payload;
       },
-      updateRanking(state, action) {
-        state.ranking = action.payload;
+      updateFlows(state, action) {
+        state.flows = action.payload;
       },
       updateCountriesLoading(state, action) {
         state.countriesLoading = action.payload;

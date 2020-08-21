@@ -22,8 +22,8 @@ export default connect(
     updateRegions: traseActions.updateRegions,
     updateExportersLoading: traseActions.updateExportersLoading,
     updateExporters: traseActions.updateExporters,
-    updateRankingLoading: traseActions.updateRankingLoading,
-    updateRanking: traseActions.updateRanking,
+    updateFlowsLoading: traseActions.updateFlowsLoading,
+    updateFlows: traseActions.updateFlows,
     updateCountriesLoading: traseActions.updateCountriesLoading,
     updateCountries: traseActions.updateCountries,
   }

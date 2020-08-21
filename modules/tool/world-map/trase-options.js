@@ -11,8 +11,8 @@ export const initialState = {
   exportersLoading: false,
   exporters: [],
   exporter: '', // '' is the value of the “All” option
-  rankingLoading: false,
-  ranking: [],
+  flowsLoading: false,
+  flows: [],
   countriesLoading: false,
   countries: [], // List of destination countries
 };
