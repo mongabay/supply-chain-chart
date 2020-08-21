@@ -135,7 +135,7 @@ export const selectExporterName = createSelector(
 export const selectRankingData = createSelector(
   [selectFlows, selectContext, selectUnit],
   (flows, context, unit) =>
-    flows.map(({ x0, y }) => ({
+    flows.slice(0, 5).map(({ x0, y }) => ({
       country: capitalize(y),
       value: formatNumber({
         num: x0,
