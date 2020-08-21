@@ -5,11 +5,29 @@ import Component from './component';
 
 export default connect(
   state => ({
-    topNodes: traseSelectors.getTopNodes(state),
+    loading: traseSelectors.selectLoading(state),
+    countryOptions: traseSelectors.selectSourceCountryOptions(state),
+    country: traseSelectors.selectCountry(state),
+    commodityOptions: traseSelectors.selectCommodityOptions(state),
+    commodity: traseSelectors.selectCommodity(state),
+    unitOptions: traseSelectors.selectUnitOptions(state),
+    unit: traseSelectors.selectUnit(state),
+    yearOptions: traseSelectors.selectYearOptions(state),
+    year: traseSelectors.selectYear(state),
+    regionsLoading: traseSelectors.selectRegionsLoading(state),
+    regionOptions: traseSelectors.selectRegionOptions(state),
+    region: traseSelectors.selectRegion(state),
+    exportersLoading: traseSelectors.selectExportersLoading(state),
+    exporterOptions: traseSelectors.selectExporterOptions(state),
+    exporter: traseSelectors.selectExporter(state),
     exporting: exportSelectors.selectExporting(state),
-    settings: traseSelectors.selectSettings(state),
   }),
   {
-    changeTraseConfig: traseActions.changeTraseConfig,
+    updateCountry: traseActions.updateCountry,
+    updateCommodity: traseActions.updateCommodity,
+    updateUnit: traseActions.updateUnit,
+    updateYear: traseActions.updateYear,
+    updateRegion: traseActions.updateRegion,
+    updateExporter: traseActions.updateExporter,
   }
 )(Component);

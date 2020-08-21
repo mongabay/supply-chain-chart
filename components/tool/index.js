@@ -6,13 +6,25 @@ import Component from './component';
 export default connect(
   state => ({
     serializedState: toolSelectors.selectSerializedState(state),
+    context: traseSelectors.selectContext(state),
+    country: traseSelectors.selectCountry(state),
     commodity: traseSelectors.selectCommodity(state),
-    adm0: traseSelectors.getOriginCountry(state),
-    year: traseSelectors.selectYear(state),
     unit: traseSelectors.selectUnit(state),
+    year: traseSelectors.selectYear(state),
+    region: traseSelectors.selectRegion(state),
+    exporter: traseSelectors.selectExporter(state),
   }),
   {
     restoreState: toolActions.restoreState,
-    changeTraseConfig: traseActions.changeTraseConfig,
+    updateContextsLoading: traseActions.updateContextsLoading,
+    updateContexts: traseActions.updateContexts,
+    updateRegionsLoading: traseActions.updateRegionsLoading,
+    updateRegions: traseActions.updateRegions,
+    updateExportersLoading: traseActions.updateExportersLoading,
+    updateExporters: traseActions.updateExporters,
+    updateRankingLoading: traseActions.updateRankingLoading,
+    updateRanking: traseActions.updateRanking,
+    updateCountriesLoading: traseActions.updateCountriesLoading,
+    updateCountries: traseActions.updateCountries,
   }
 )(Component);

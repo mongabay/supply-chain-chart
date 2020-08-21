@@ -3,21 +3,16 @@ import { connect } from 'react-redux';
 import { exportSelectors, traseSelectors } from 'modules/tool';
 import Component from './component';
 
-export default connect(
-  state => ({
-    width: exportSelectors.selectWidth(state),
-    height: exportSelectors.selectHeight(state),
-    exporting: exportSelectors.selectExporting(state),
-    flows: traseSelectors.getWorldMapFlows(state),
-    originGeoId: traseSelectors.getOriginGeoId(state),
-    origin: traseSelectors.getOriginCountry(state),
-    destination: traseSelectors.getDestinationCountry(state),
-    year: traseSelectors.selectYear(state),
-    commodity: traseSelectors.selectCommodity(state),
-    topNodes: traseSelectors.getTopNodes(state),
-    selectedContext: traseSelectors.getSelectedContext(state),
-    originCoordinates: traseSelectors.getOriginCoordinates(state),
-    unit: traseSelectors.selectUnitLabel(state),
-  }),
-  {}
-)(Component);
+export default connect(state => ({
+  width: exportSelectors.selectWidth(state),
+  height: exportSelectors.selectHeight(state),
+  exporting: exportSelectors.selectExporting(state),
+  commodityName: traseSelectors.selectCommodityName(state),
+  countryName: traseSelectors.selectSourceCountryName(state),
+  year: traseSelectors.selectYear(state),
+  regionName: traseSelectors.selectRegionName(state),
+  exporterName: traseSelectors.selectExporterName(state),
+  mapData: traseSelectors.selectMapData(state),
+  countryIso: traseSelectors.selectCountryIso(state),
+  destinationCountriesIso: traseSelectors.selectDestinationCountriesIso(state),
+}))(Component);

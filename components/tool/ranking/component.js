@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import './style.scss';
 
-const Ranking = ({ flows }) => (
+const Ranking = ({ rankingData }) => (
   <div className="c-tool-ranking">
     <ul>
-      {flows.map(flow => (
-        <li key={flow.id}>
+      {rankingData.map(flow => (
+        <li key={flow.country}>
           <span>{flow.country}</span>
           <span>{flow.value}</span>
         </li>
@@ -17,7 +17,12 @@ const Ranking = ({ flows }) => (
 );
 
 Ranking.propTypes = {
-  flows: PropTypes.arrayOf(PropTypes.object).isRequired,
+  rankingData: PropTypes.arrayOf(
+    PropTypes.shape({
+      country: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ).isRequired,
 };
 
 export default Ranking;

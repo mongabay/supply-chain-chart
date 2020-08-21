@@ -11,6 +11,7 @@ const Select = ({
   onChange,
   disabled,
   'aria-label': ariaLabel,
+  'aria-describedby': ariaDescribedBy,
   className,
   required,
 }) => {
@@ -28,6 +29,7 @@ const Select = ({
       className={['c-select', 'custom-select', ...(className ? [className] : [])].join(' ')}
       disabled={disabled}
       aria-label={ariaLabel}
+      aria-describedby={ariaDescribedBy}
       defaultValue={defaultValue}
       value={value}
       onChange={onChangeSelect}
@@ -56,6 +58,7 @@ Select.propTypes = {
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   'aria-label': PropTypes.string,
+  'aria-describedby': PropTypes.string,
   className: PropTypes.string,
   required: PropTypes.bool,
 };
@@ -66,6 +69,7 @@ Select.defaultProps = {
   onChange: () => null,
   disabled: false,
   'aria-label': null,
+  'aria-describedby': null,
   className: undefined,
   required: false,
 };

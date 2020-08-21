@@ -20,10 +20,13 @@ const traseSlice = createTraseSlice(actions);
 
 // Common selectors for the tool module
 const selectors = {
-  selectSerializedState: createSelector([exportModule.selectSerializedState], exportState =>
-    serialize({
-      [exportModule.SLICE_NAME]: exportState,
-    })
+  selectSerializedState: createSelector(
+    [exportModule.selectSerializedState, traseModule.selectSerializedState],
+    (exportState, traseState) =>
+      serialize({
+        [exportModule.SLICE_NAME]: exportState,
+        [traseModule.SLICE_NAME]: traseState,
+      })
   ),
 };
 

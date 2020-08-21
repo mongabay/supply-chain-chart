@@ -1,22 +1,39 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import isEqual from 'lodash/isEqual';
 
 import { Router } from 'lib/routes';
 import Sidebar from './sidebar';
 import WorldMap from './world-map';
-import getData from 'modules/tool/world-map/helpers';
+import {
+  fetchTraseContexts,
+  fetchTraseRegions,
+  fetchTraseExporters,
+  fetchTraseRanking,
+  fetchTraseDestinationCountries,
+} from 'modules/tool/world-map/trase-api';
 
 import './style.scss';
 
 const Tool = ({
   serializedState,
-  restoreState,
+  context,
+  country,
   commodity,
-  year,
-  adm0,
   unit,
-  changeTraseConfig,
+  year,
+  region,
+  exporter,
+  restoreState,
+  updateContextsLoading,
+  updateContexts,
+  updateRegionsLoading,
+  updateRegions,
+  updateExportersLoading,
+  updateExporters,
+  updateRankingLoading,
+  updateRanking,
+  updateCountriesLoading,
+  updateCountries,
 }) => {
   // When the component is mounted, we restore its state from the URL
   useEffect(() => {
@@ -28,55 +45,76 @@ const Tool = ({
     Router.replaceRoute('home', { state: serializedState });
   }, [serializedState]);
 
-  function usePrevious(value) {
-    const ref = useRef();
-    useEffect(() => {
-      ref.current = value;
-    });
-    return ref.current;
-  }
-
-  const prevYear = usePrevious(year);
-  const prevCommodity = usePrevious(commodity);
-  const prevAdm0 = usePrevious(adm0);
-  const prevUnit = usePrevious(unit);
-
+  // Load the contexts on mount
   useEffect(() => {
-    if (
-      !isEqual(prevYear, year) ||
-      !isEqual(prevCommodity, commodity) ||
-      !isEqual(prevAdm0, adm0) ||
-      !isEqual(prevUnit, unit)
-    ) {
-      getData({
-        startYear: year || '2003',
-        endYear: year || '2017',
-        commodity: commodity || 'SOY',
-        adm0: adm0 || 'BRA',
-        indicator: unit || '31', // Trade volume
-      }).then(response => {
-        // TODO: add loader
-        // @ts-ignore
-        const { data, options } = response;
-        changeTraseConfig({
-          ...data,
-          commodities: options.commodities,
-          Commodity: options.commodities.some(el => el.value === commodity)
-            ? commodity
-            : options.commodities[0].value,
-          years: options.years,
-          Year: options.years.some(el => el.value === year) ? year : options.years[0].value,
-          units: options.units,
-          'Change unit': options.units.some(el => el.value === unit)
-            ? unit
-            : options.units[0].value,
-        });
-      });
+    const fetchContexts = async () => {
+      updateContextsLoading(true);
+      const contexts = await fetchTraseContexts();
+      updateContexts(contexts);
+      updateContextsLoading(false);
+    };
+
+    fetchContexts();
+  }, [updateContextsLoading, updateContexts]);
+
+  // When the context changes, we fetch the new regions
+  useEffect(() => {
+    if (context) {
+      const fetchRegions = async () => {
+        updateRegionsLoading(true);
+        const regions = await fetchTraseRegions(context.id, context.defaultColumns[0].id);
+        updateRegions(regions);
+        updateRegionsLoading(false);
+      };
+
+      fetchRegions();
     }
-    // 1. load on start (deps: changeTraseConfig)
-    // 2. then load on change (year, commodity, country)
-    // prevYear with usePrevious exists because of object comparison in JS
-  }, [year, prevYear, commodity, prevCommodity, adm0, prevAdm0, unit, prevUnit, changeTraseConfig]);
+  }, [context, updateRegionsLoading, updateRegions]);
+
+  // When the context changes, we fetch the new exporters
+  useEffect(() => {
+    if (context) {
+      const fetchExporters = async () => {
+        updateExportersLoading(true);
+        const exporters = await fetchTraseExporters(context.id, context.defaultColumns[1].id);
+        updateExporters(exporters);
+        updateExportersLoading(false);
+      };
+
+      fetchExporters();
+    }
+  }, [context, updateExportersLoading, updateExporters]);
+
+  // Fetch the ranking data when a setting is updated
+  useEffect(() => {
+    if (country !== null && commodity !== null && unit !== null && year !== null) {
+      const fetchRanking = async () => {
+        updateRankingLoading(true);
+        const ranking = await fetchTraseRanking(country, commodity, unit, year, region, exporter);
+        updateRanking(ranking);
+        updateRankingLoading(false);
+      };
+
+      fetchRanking();
+    }
+  }, [country, commodity, unit, year, region, exporter, updateRankingLoading, updateRanking]);
+
+  // Fetch the list of destination countries when the countext is updated
+  useEffect(() => {
+    if (context) {
+      const fetchCountries = async () => {
+        updateCountriesLoading(true);
+        const countries = await fetchTraseDestinationCountries(
+          context.id,
+          context.defaultColumns[3].id
+        );
+        updateCountries(countries);
+        updateCountriesLoading(false);
+      };
+
+      fetchCountries();
+    }
+  }, [context, updateCountriesLoading, updateCountries]);
 
   return (
     <div className="c-tool">
@@ -88,12 +126,32 @@ const Tool = ({
 
 Tool.propTypes = {
   serializedState: PropTypes.string.isRequired,
-  restoreState: PropTypes.func.isRequired,
-  changeTraseConfig: PropTypes.func,
+  context: PropTypes.object,
+  country: PropTypes.string,
   commodity: PropTypes.string,
-  year: PropTypes.string,
-  adm0: PropTypes.string,
   unit: PropTypes.string,
+  year: PropTypes.string,
+  region: PropTypes.string.isRequired,
+  exporter: PropTypes.string.isRequired,
+  restoreState: PropTypes.func.isRequired,
+  updateContextsLoading: PropTypes.func.isRequired,
+  updateContexts: PropTypes.func.isRequired,
+  updateRegionsLoading: PropTypes.func.isRequired,
+  updateRegions: PropTypes.func.isRequired,
+  updateExportersLoading: PropTypes.func.isRequired,
+  updateExporters: PropTypes.func.isRequired,
+  updateRankingLoading: PropTypes.func.isRequired,
+  updateRanking: PropTypes.func.isRequired,
+  updateCountriesLoading: PropTypes.func.isRequired,
+  updateCountries: PropTypes.func.isRequired,
+};
+
+Tool.defaultProps = {
+  context: null,
+  country: null,
+  commodity: null,
+  unit: null,
+  year: null,
 };
 
 export default Tool;

@@ -74,6 +74,9 @@
   }
 
   .title {
+    display: flex;
+    justify-content: center;
+    min-width: 0;
     position: absolute;
     top: 0;
     left: 0;
@@ -81,8 +84,17 @@
     height: rem(26);
     background-color: $white;
     font-weight: $font-weight-bold;
-    text-align: center;
     text-transform: uppercase;
+
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      &:not(.shrink) {
+        flex-shrink: 0;
+      }
+    }
   }
 }
 
@@ -95,8 +107,7 @@
 
   p {
     margin-bottom: map-get($spacers, 1);
-    text-transform: capitalize;
-    font-size: $font-size-s;
+    @include font-size($font-size-s);
 
     &:last-of-type {
       margin-bottom: 0;

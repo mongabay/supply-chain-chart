@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -10,110 +9,59 @@ import {
   Line,
   ZoomableGroup,
 } from 'react-simple-maps';
+import bbox from '@turf/bbox';
+import lineString from 'turf-linestring';
 import cx from 'classnames';
 
-import { formatNumber } from 'utils/functions';
 import Tooltip, { followCursor } from 'components/tooltip';
 import Ranking from 'components/tool/ranking';
 import Attributions from '../attributions';
-import { getOriginCountryName, getDestinationCountryName, getTitleCase } from './helpers';
 
 import WORLD_GEOGRAPHIES from './WORLD.topo.json';
 import './style.scss';
 
 class WorldMap extends React.PureComponent {
-  static buildCurves(start, end, arc) {
-    const x0 = start[0];
-    const x1 = end[0];
-    const y0 = start[1];
-    const y1 = end[1];
-    const curve = {
-      forceUp: `${x1} ${y0}`,
-      forceDown: `${x0} ${y1}`,
-    }[arc.curveStyle];
-
-    return `M ${start.join(' ')} Q ${curve} ${end.join(' ')}`;
-  }
-
-  static isDestinationCountry(iso, countries) {
-    return countries.map(f => f.geoId).includes(iso);
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.flows !== prevState.flows) {
-      // avoids rendering intermediate states
-      return {
-        flows: nextProps.flows,
-        originGeoId: nextProps.originGeoId,
-        destination: nextProps.destination,
-        originCoordinates: nextProps.originCoordinates,
-      };
-    }
-    return prevState;
-  }
-
   state = {
-    flows: [],
-    originGeoId: null,
-    destination: null,
-    tooltipConfig: null,
-    originCoordinates: [],
+    tooltipContent: null,
   };
 
-  onMouseMove = ({ properties }, e) => {
-    const { flows } = this.state;
-    const { unit } = this.props;
-    const geoId = properties?.iso2;
+  onMouseMove = ({ properties }) => {
+    const { mapData } = this.props;
 
-    if (!properties || !WorldMap.isDestinationCountry(geoId, flows)) {
+    const { iso2 } = properties;
+    const flow = mapData.find(flow => flow.iso === iso2);
+
+    if (!iso2 || !flow) {
+      this.setState({ tooltipContent: null });
       return;
     }
 
-    const x = e.clientX + 10;
-    const y = e.clientY + window.scrollY + 10;
+    // We avoid useless re-renders
+    if (this.state.tooltipContent?.country === flow.country) {
+      return;
+    }
 
-    const flow = flows.find(flow => flow.geoId === geoId);
-
-    const title = 'Trade Volume';
-    const text = properties.name;
-
-    const volume = flow?.attribute.value;
-    const height = flow?.attribute.height;
-
-    const value = formatNumber({ num: volume, unit });
-    const percentage = formatNumber({ num: height * 100, unit: '%' });
-
-    const tooltipConfig = {
-      x,
-      y,
-      text,
-      items: [{ title, value, unit, percentage }],
-    };
-
-    this.setState(() => ({ tooltipConfig }));
+    this.setState({
+      tooltipContent: {
+        country: flow.country,
+        value: flow.value,
+      },
+    });
   };
 
   onMouseLeave = () => {
-    this.setState(() => ({ tooltipConfig: null }));
+    this.setState({ tooltipContent: null });
   };
 
   renderGeographies = (geographies, projection) => {
-    const { flows, originGeoId, destination } = this.state;
+    const { countryIso, destinationCountriesIso } = this.props;
 
     return geographies.map(geography => {
-      if (geography.properties.iso2 === 'AQ') {
-        return;
-      }
-
+      const iso = geography.properties.iso2;
       let fillColor = '#dedede';
-      if (originGeoId === geography.properties.iso2) {
+      if (iso === countryIso) {
         fillColor = '#f1ba30';
-      } else if (
-        WorldMap.isDestinationCountry(
-          geography.properties.iso2,
-          flows.filter(f => !destination || f.geoId === destination)
-        )
-      ) {
+      } else if (destinationCountriesIso.indexOf(iso) !== -1) {
         fillColor = '#03755e';
       }
 
@@ -134,47 +82,75 @@ class WorldMap extends React.PureComponent {
   };
 
   renderLines = () => {
-    const { originCoordinates, flows, originGeoId, destination } = this.state;
+    const { mapData } = this.props;
 
-    return flows
-      .filter(f => (!destination || f.geoId === destination) && f.geoId !== originGeoId)
-      .map(flow => {
-        const style = {
-          fill: 'none',
-          stroke: 'rgba(0, 0, 0, 0.7)',
-          strokeLinecap: 'round',
-          strokeWidth: flow.strokeWidth,
-        };
+    const buildCurves = (start, end) => {
+      const [x0, y0] = start;
+      const [x1, y1] = end;
 
-        return (
-          <Line
-            key={flow.geoId}
-            className="world-map-arc"
-            {...flow}
-            line={{
-              coordinates: {
-                start: originCoordinates,
-                end: flow.coordinates,
-              },
-              curveStyle: flow.curveStyle,
-            }}
-            style={{
-              default: style,
-              hover: style,
-              pressed: style,
-            }}
-            buildPath={WorldMap.buildCurves}
-            onMouseMove={this.onMouseMove}
-            onMouseLeave={this.onMouseLeave}
-          />
-        );
-      });
+      const [minX, , maxX] = bbox(lineString(end));
+      const medianX = (maxX + minX) / 2;
+      const originLeftOfBbox = start[0] < medianX;
+      const pointOfControl = {
+        x: originLeftOfBbox ? minX - 10 : maxX + 10,
+      };
+
+      const curveStyle = end[0] < pointOfControl.x ? 'forceDown' : 'forceUp';
+
+      const curve = {
+        forceUp: `${x1} ${y0}`,
+        forceDown: `${x0} ${y1}`,
+      }[curveStyle];
+
+      return `M ${start.join(' ')} Q ${curve} ${end.join(' ')}`;
+    };
+
+    return mapData.map(flow => {
+      const style = {
+        fill: 'none',
+        stroke: 'rgba(0, 0, 0, 0.7)',
+        strokeLinecap: 'round',
+        strokeWidth: flow.strokeWidth,
+      };
+
+      return (
+        <Line
+          key={flow.iso}
+          className="world-map-arc"
+          line={{
+            coordinates: {
+              start: flow.sourceCoordinates,
+              end: flow.destinationCoordinates,
+            },
+            properties: {
+              iso2: flow.iso,
+            },
+          }}
+          style={{
+            default: style,
+            hover: style,
+            pressed: style,
+          }}
+          buildPath={buildCurves}
+          onMouseMove={this.onMouseMove}
+          onMouseLeave={this.onMouseLeave}
+        />
+      );
+    });
   };
 
   render() {
-    const { tooltipConfig, flows } = this.state;
-    const { exporting, width, height, origin, destination, year, commodity, topNodes } = this.props;
-    const { text, items } = tooltipConfig || {};
+    const {
+      exporting,
+      width,
+      height,
+      commodityName,
+      countryName,
+      regionName,
+      exporterName,
+      year,
+    } = this.props;
+    const { tooltipContent } = this.state;
 
     return (
       <div className={cx('c-world-map', `${exporting ? 'exporting' : ''}`)}>
@@ -191,21 +167,28 @@ class WorldMap extends React.PureComponent {
             style={exporting ? { height: `${height}px` } : undefined}
           >
             <div className="title">
-              {getTitleCase(commodity)} flow from {getTitleCase(getOriginCountryName(origin))}{' '}
-              {getDestinationCountryName(destination, topNodes)
-                ? `to ${getTitleCase(getDestinationCountryName(destination, topNodes))}`
-                : ''}{' '}
-              in {year}
+              {!!commodityName && !!countryName && !!year && (
+                <>
+                  <span>{commodityName} flow from&nbsp;</span>
+                  <span className="shrink">{regionName ? `${regionName}` : ''}</span>
+                  <span>
+                    {regionName ? ', ' : ''}
+                    {countryName}
+                  </span>
+                  <span>&nbsp;in {year}</span>
+                  {!!exporterName && <span>&nbsp;by</span>}
+                  {!!exporterName && <span className="shrink">&nbsp;{exporterName}</span>}
+                </>
+              )}
             </div>
             <Tooltip
-              visible={!!tooltipConfig}
+              visible={!!tooltipContent}
               content={
                 <div className="c-world-map-tooltip">
                   <p>
-                    <strong>{text && text.toLowerCase()}</strong>
+                    <strong>{tooltipContent?.country}</strong>
                   </p>
-                  <p>{items && items[0].value}</p>
-                  <p>{items && items[0].percentage}</p>
+                  <p>{tooltipContent?.value}</p>
                 </div>
               }
               duration={0}
@@ -252,21 +235,32 @@ WorldMap.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   exporting: PropTypes.bool.isRequired,
-  className: PropTypes.string,
-  flows: PropTypes.any,
-  originGeoId: PropTypes.any,
-  destination: PropTypes.any,
-  origin: PropTypes.string.isRequired,
-  year: PropTypes.string.isRequired,
-  commodity: PropTypes.string.isRequired,
-  topNodes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  originCoordinates: PropTypes.any,
-  changeTraseConfig: PropTypes.func,
-  unit: PropTypes.string,
+  commodityName: PropTypes.string,
+  countryName: PropTypes.string,
+  year: PropTypes.string,
+  regionName: PropTypes.string,
+  exporterName: PropTypes.string,
+  mapData: PropTypes.arrayOf(
+    PropTypes.shape({
+      country: PropTypes.string,
+      iso: PropTypes.string,
+      sourceCoordinates: PropTypes.arrayOf(PropTypes.number),
+      destinationCoordinates: PropTypes.arrayOf(PropTypes.number),
+      strokeWidth: PropTypes.number,
+      value: PropTypes.string,
+    })
+  ),
+  countryIso: PropTypes.string,
+  destinationCountriesIso: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 WorldMap.defaultProps = {
-  unit: 't',
+  year: null,
+  commodityName: null,
+  countryName: null,
+  regionName: null,
+  exporterName: null,
+  countryIso: null,
 };
 
 export default WorldMap;

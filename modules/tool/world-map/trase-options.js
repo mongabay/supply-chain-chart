@@ -1,33 +1,20 @@
-import range from 'lodash/range';
-
-export const traseOptions = {
-  countries: [
-    // { label: 'ARGENTINA', value: 'ARG' },
-    { label: 'BOLIVIA', value: 'BOL' },
-    { label: 'BRAZIL', value: 'BRA' },
-    { label: 'COLOMBIA', value: 'COL' },
-    { label: 'ECUADOR', value: 'ECU' },
-    { label: 'INDONESIA', value: 'IDN' },
-    { label: 'PARAGUAY', value: 'PRY' },
-    { label: 'PERU', value: 'PER' },
-  ],
-  // overwritten on fetch :
-  commodities: [],
-  years: range(2003, 2017).map(n => ({ label: n.toString(), value: n.toString() })),
-  units: [{ label: 'Trade Volume', value: 'Volume' }],
-  municipalities: [], // regions
-  exporters: [], // company
-};
-
 export const initialState = {
-  'Source country': 'BRA',
-  Commodity: 'SOY',
-  'Change unit': '31', // Trade volume
-  Year: '2004', // startYear
-  Municipality: '',
-  Exporter: '',
-  'Destination country': '',
-  topNodes: [],
+  contextsLoading: false,
+  contexts: [],
+  country: null,
+  commodity: null,
+  unit: null,
+  year: null,
+  regionsLoading: false,
+  regions: [],
+  region: '', // '' is the value of the “All” option
+  exportersLoading: false,
+  exporters: [],
+  exporter: '', // '' is the value of the “All” option
+  rankingLoading: false,
+  ranking: [],
+  countriesLoading: false,
+  countries: [], // List of destination countries
 };
 
 // FIXME: some coordinates are wrong (e.g. France)

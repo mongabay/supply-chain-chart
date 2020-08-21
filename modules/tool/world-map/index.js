@@ -1,6 +1,5 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
-import bbox from 'turf-bbox';
-import lineString from 'turf-linestring';
+import capitalize from 'lodash/capitalize';
 
 import { COUNTRIES_COORDINATES, initialState } from 'modules/tool/world-map/trase-options';
 import { formatNumber } from 'utils/functions';
@@ -8,105 +7,232 @@ import { formatNumber } from 'utils/functions';
 export const SLICE_NAME = 'trase';
 
 export const selectSettings = state => state[SLICE_NAME];
-export const getSelectedContext = state => state[SLICE_NAME] && state[SLICE_NAME].context;
-export const selectCommodity = createSelector([selectSettings], settings => settings.Commodity);
-export const selectYear = createSelector([selectSettings], settings => settings.Year);
-export const selectUnit = createSelector([selectSettings], settings => settings['Change unit']);
+export const selectContextsLoading = state => state[SLICE_NAME].contextsLoading;
+export const selectContexts = state => state[SLICE_NAME].contexts;
+export const selectCountry = state => state[SLICE_NAME].country;
+export const selectCommodity = state => state[SLICE_NAME].commodity;
+export const selectYear = state => state[SLICE_NAME].year;
+export const selectUnit = state => state[SLICE_NAME].unit;
+export const selectRegionsLoading = state => state[SLICE_NAME].regionsLoading;
+export const selectRegions = state => state[SLICE_NAME].regions;
+export const selectRegion = state => state[SLICE_NAME].region;
+export const selectExportersLoading = state => state[SLICE_NAME].exportersLoading;
+export const selectExporters = state => state[SLICE_NAME].exporters;
+export const selectExporter = state => state[SLICE_NAME].exporter;
+export const selectRankingLoading = state => state[SLICE_NAME].rankingLoading;
+export const selectRanking = state => state[SLICE_NAME].ranking;
+export const selectCountriesLoading = state => state[SLICE_NAME].countriesLoading;
+export const selectCountries = state => state[SLICE_NAME].countries;
 
-export const getOriginCountry = createSelector(
-  [selectSettings],
-  settings => settings['Source country']
-);
-export const getDestinationCountry = createSelector(
-  [selectSettings],
-  settings => settings['Destination country']
-);
-export const getTopNodes = state => state[SLICE_NAME] && state[SLICE_NAME].topNodes;
-
-export const selectUnitLabel = createSelector([getTopNodes], topNodes =>
-  topNodes.length ? topNodes[0].attribute.unit : null
-);
-
-export const getOriginGeoId = createSelector(getSelectedContext, selectedContext =>
-  selectedContext ? selectedContext.worldMap.geoId : null
-);
-
-export const getOriginCoordinates = createSelector(getOriginGeoId, originGeoId =>
-  originGeoId ? COUNTRIES_COORDINATES[originGeoId] : null
+export const selectSourceCountryOptions = createSelector([selectContexts], contexts =>
+  contexts
+    .map(context => ({ label: capitalize(context.countryName), value: `${context.countryId}` }))
+    .filter((option, index, options) => options.findIndex(o => o.value === option.value) === index)
+    .sort((optionA, optionB) => optionA.label.localeCompare(optionB.label))
 );
 
-export const selectRankingFlows = createSelector([getTopNodes], topNodes =>
-  [...topNodes]
-    .sort((a, b) => (a.attribute.value < b.attribute.value ? 1 : -1))
-    .slice(0, 5)
-    .map(flow => ({
-      id: flow.id,
-      country: flow.name.toLowerCase(),
-      value: formatNumber({ num: flow.attribute.value, unit: flow.attribute.unit }),
-    }))
+export const selectSourceCountryName = createSelector(
+  [selectSourceCountryOptions, selectCountry],
+  (sourceCountryOptions, country) =>
+    sourceCountryOptions.find(option => option.value === country)?.label ?? null
 );
 
-export const getWorldMapFlows = createSelector(
-  [getOriginGeoId, getOriginCoordinates, getDestinationCountry, getTopNodes],
-  (originGeoId, originCoordinates, destination, countries) => {
-    if (!originGeoId || !originCoordinates || !countries) {
+export const selectCommodityOptions = createSelector(
+  [selectContexts, selectCountry],
+  (contexts, country) => {
+    if (!contexts.length || country === null) {
       return [];
     }
 
-    const flows =
-      [...countries]
-        ?.filter(country => !destination || country.geo_id === destination)
-        .sort((a, b) => (a.attribute.value < b.attribute.value ? 1 : -1)) ?? [];
+    return contexts
+      .filter(context => context.countryId === +country)
+      .map(context => ({
+        label: capitalize(context.commodityName),
+        value: `${context.commodityId}`,
+      }));
+  }
+);
 
-    const valueExtent = [
-      Math.min(...flows.map(f => f.attribute.value)),
-      Math.max(...flows.map(f => f.attribute.value)),
-    ];
+export const selectCommodityName = createSelector(
+  [selectCommodityOptions, selectCommodity],
+  (commodityOptions, commodity) =>
+    commodityOptions.find(option => option.value === commodity)?.label ?? null
+);
 
-    const strokeWidthScale = value =>
-      ((value - valueExtent[0]) / (valueExtent[1] - valueExtent[0])) * 9 + 1;
-
-    const contextFlows = flows.map(flow => ({
-      ...flow,
-      strokeWidth: strokeWidthScale(flow.attribute.value),
-      coordinates: COUNTRIES_COORDINATES[flow.geo_id],
-      geoId: flow.geo_id,
-    }));
-
-    const contextFlowsWithCoordinates = contextFlows.filter(
-      f => typeof f.coordinates !== 'undefined'
-    );
-
-    if (contextFlowsWithCoordinates.length !== contextFlows.length) {
-      console.warn('World map flows are missing geoids. Check your database.');
+export const selectContext = createSelector(
+  [selectContexts, selectCountry, selectCommodity],
+  (contexts, country, commodity) => {
+    if (country === null || commodity === null) {
+      return null;
     }
 
-    const [minX, , maxX] = bbox(
-      lineString(
-        contextFlowsWithCoordinates.map(f => f.coordinates),
-        {} // properties
-      )
+    return contexts.find(
+      context => context.countryId === +country && context.commodityId === +commodity
     );
-    const medianX = (maxX + minX) / 2;
-    const originLeftOfBbox = originCoordinates[0] < medianX;
-    const pointOfControl = {
-      x: originLeftOfBbox ? minX - 10 : maxX + 10,
-    };
-
-    const getCurveStyle = destination => {
-      if (destination[0] < pointOfControl.x) {
-        // left
-        return 'forceDown';
-      }
-      // right
-      return 'forceUp';
-    };
-
-    return contextFlowsWithCoordinates.map(destination => ({
-      ...destination,
-      curveStyle: getCurveStyle(destination.coordinates),
-    }));
   }
+);
+
+export const selectUnitOptions = createSelector([selectContext], context => {
+  if (!context) {
+    return [];
+  }
+
+  return context.resizeBy.map(({ label, attributeId }) => ({
+    label: capitalize(label).replace('Co2', 'CO₂'),
+    value: `${attributeId}`,
+  }));
+});
+
+export const selectYearOptions = createSelector([selectContext, selectUnit], (context, unit) => {
+  if (!context || !unit) {
+    return [];
+  }
+
+  return (
+    context.resizeBy
+      .find(u => u.attributeId === +unit)
+      ?.years.map(year => ({
+        label: `${year}`,
+        value: `${year}`,
+      })) ?? []
+  );
+});
+
+export const selectRegionOptions = createSelector([selectRegions], regions => [
+  { label: 'All', value: '' },
+  ...regions
+    .map(region => ({
+      label: capitalize(region.name),
+      value: `${region.id}`,
+    }))
+    .sort((optionA, optionB) => optionA.label.localeCompare(optionB.label)),
+]);
+
+export const selectRegionName = createSelector(
+  [selectRegionOptions, selectRegion],
+  (regionOptions, region) =>
+    region === '' ? null : regionOptions.find(option => option.value === region)?.label ?? null
+);
+
+export const selectExporterOptions = createSelector([selectExporters], exporters => [
+  { label: 'All', value: '' },
+  ...exporters
+    .map(exporter => ({
+      label: capitalize(exporter.name),
+      value: `${exporter.id}`,
+    }))
+    .sort((optionA, optionB) => optionA.label.localeCompare(optionB.label)),
+]);
+
+export const selectExporterName = createSelector(
+  [selectExporterOptions, selectExporter],
+  (exporterRegions, exporter) =>
+    exporter === ''
+      ? null
+      : exporterRegions.find(option => option.value === exporter)?.label ?? null
+);
+
+export const selectRankingData = createSelector(
+  [selectRanking, selectContext, selectUnit],
+  (ranking, context, unit) =>
+    ranking.map(({ x0, y }) => ({
+      country: capitalize(y),
+      value: formatNumber({
+        num: x0,
+        unit: context?.resizeBy.find(u => u.attributeId === +unit)?.unit ?? '−',
+      }),
+    }))
+);
+
+export const selectCountriesISODict = createSelector([selectCountries], countries =>
+  countries
+    .map(({ name, geoId }) => ({ name: name.toLowerCase(), iso: geoId }))
+    .filter(country => !!country.iso)
+    .reduce((res, country) => ({ ...res, [country.name]: country.iso }), {})
+);
+
+export const selectFlowScale = createSelector([selectRanking], ranking => {
+  const valueExtent = [
+    Math.min(...ranking.map(({ x0 }) => x0)),
+    Math.max(...ranking.map(({ x0 }) => x0)),
+  ];
+
+  return value => ((value - valueExtent[0]) / (valueExtent[1] - valueExtent[0])) * 9 + 1;
+});
+
+export const selectCountryIso = createSelector([selectContext], context => {
+  if (!context) {
+    return null;
+  }
+
+  return context.worldMap.geoId;
+});
+
+export const selectDestinationCountriesIso = createSelector(
+  [selectRanking, selectCountriesISODict],
+  (ranking, isoDict) => ranking.map(({ y }) => isoDict[y.toLowerCase()] ?? null)
+);
+
+export const selectMapData = createSelector(
+  [
+    selectRanking,
+    selectCountriesISODict,
+    selectFlowScale,
+    selectContext,
+    selectUnit,
+    selectCountryIso,
+  ],
+  (ranking, isoDict, flowScale, context, unit, countryIso) => {
+    if (!Object.keys(isoDict).length || !countryIso) {
+      return [];
+    }
+
+    return ranking
+      .map(({ x0, y }) => {
+        // The dictionary might not have had the time to update yet (we're making a request) so some
+        // ISOs may be missing
+        if (!isoDict[y.toLowerCase()]) {
+          return null;
+        }
+
+        return {
+          country: capitalize(y),
+          iso: isoDict[y.toLowerCase()],
+          sourceCoordinates: COUNTRIES_COORDINATES[countryIso],
+          destinationCoordinates: COUNTRIES_COORDINATES[isoDict[y.toLowerCase()]],
+          strokeWidth: flowScale(x0),
+          value: formatNumber({
+            num: x0,
+            unit: context?.resizeBy.find(u => u.attributeId === +unit)?.unit ?? '−',
+          }),
+        };
+      })
+      .filter(data => data !== null);
+  }
+);
+
+export const selectLoading = createSelector(
+  [
+    selectContextsLoading,
+    selectRankingLoading,
+    selectCountriesLoading,
+    selectRegionsLoading,
+    selectExportersLoading,
+  ],
+  (contextsLoading, rankingLoading, countriesLoading, regionsLoading, exportersLoading) =>
+    contextsLoading || rankingLoading || countriesLoading || regionsLoading || exportersLoading
+);
+
+export const selectSerializedState = createSelector(
+  [selectCountry, selectCommodity, selectUnit, selectYear, selectRegion, selectExporter],
+  (country, commodity, unit, year, region, exporter) => ({
+    country,
+    commodity,
+    unit,
+    year,
+    region,
+    exporter,
+  })
 );
 
 export default traseActions =>
@@ -114,10 +240,157 @@ export default traseActions =>
     name: SLICE_NAME,
     initialState: initialState,
     reducers: {
-      changeTraseConfig(state, action) {
-        Object.entries(action.payload).map(([key, value]) => {
-          state[key] = value;
-        });
+      updateContextsLoading(state, action) {
+        state.contextsLoading = action.payload;
+      },
+      updateContexts(state, action) {
+        state.contexts = action.payload;
+
+        // We set the default options
+        let newState = { [SLICE_NAME]: state };
+        const countryOptions = selectSourceCountryOptions(newState);
+        const country = selectCountry(newState);
+
+        if (countryOptions.length && !countryOptions.find(({ value }) => value === country)) {
+          state.country = countryOptions[0].value;
+        }
+
+        newState = { [SLICE_NAME]: state };
+        const commodityOptions = selectCommodityOptions(newState);
+        const commodity = selectCommodity(newState);
+
+        if (commodityOptions.length && !commodityOptions.find(({ value }) => value === commodity)) {
+          state.commodity = commodityOptions[0].value;
+        }
+
+        newState = { [SLICE_NAME]: state };
+        const unitOptions = selectUnitOptions(newState);
+        const unit = selectUnit(newState);
+
+        if (unitOptions.length && !unitOptions.find(({ value }) => value === unit)) {
+          state.unit = unitOptions[0].value;
+        }
+
+        newState = { [SLICE_NAME]: state };
+        const yearOptions = selectYearOptions(newState);
+        const year = selectYear(newState);
+
+        if (yearOptions.length && !yearOptions.find(({ value }) => value === year)) {
+          state.year = yearOptions[0].value;
+        }
+      },
+      updateCountry(state, action) {
+        state.country = action.payload;
+
+        // We also update the default commodity as it depends on the source country
+        let newState = { [SLICE_NAME]: state };
+        const commodityOptions = selectCommodityOptions(newState);
+        const commodity = selectCommodity(newState);
+
+        if (commodityOptions.length && !commodityOptions.find(({ value }) => value === commodity)) {
+          state.commodity = commodityOptions[0].value;
+        }
+
+        // We also update the default unit as it depends on the context (country + commodity)
+        newState = { [SLICE_NAME]: state };
+        const unitOptions = selectUnitOptions(newState);
+        const unit = selectUnit(newState);
+
+        if (unitOptions.length && !unitOptions.find(({ value }) => value === unit)) {
+          state.unit = unitOptions[0].value;
+        }
+
+        // We also update the default year as it depends on the context (country + commodity) and
+        // the unit
+        newState = { [SLICE_NAME]: state };
+        const yearOptions = selectYearOptions(newState);
+        const year = selectYear(newState);
+
+        if (yearOptions.length && !yearOptions.find(({ value }) => value === year)) {
+          state.year = yearOptions[0].value;
+        }
+      },
+      updateCommodity(state, action) {
+        state.commodity = action.payload;
+
+        // We also update the default unit as it depends on the context (country + commodity)
+        let newState = { [SLICE_NAME]: state };
+        const unitOptions = selectUnitOptions(newState);
+        const unit = selectUnit(newState);
+
+        if (unitOptions.length && !unitOptions.find(({ value }) => value === unit)) {
+          state.unit = unitOptions[0].value;
+        }
+
+        // We also update the default year as it depends on the context (country + commodity) and
+        // the unit
+        newState = { [SLICE_NAME]: state };
+        const yearOptions = selectYearOptions(newState);
+        const year = selectYear(newState);
+
+        if (yearOptions.length && !yearOptions.find(({ value }) => value === year)) {
+          state.year = yearOptions[0].value;
+        }
+      },
+      updateUnit(state, action) {
+        state.unit = action.payload;
+
+        // We also update the default year as it depends on the context (country + commodity) and
+        // the unit
+        const newState = { [SLICE_NAME]: state };
+        const yearOptions = selectYearOptions(newState);
+        const year = selectYear(newState);
+
+        if (yearOptions.length && !yearOptions.find(({ value }) => value === year)) {
+          state.year = yearOptions[0].value;
+        }
+      },
+      updateYear(state, action) {
+        state.year = action.payload;
+      },
+      updateRegionsLoading(state, action) {
+        state.regionsLoading = action.payload;
+      },
+      updateRegions(state, action) {
+        state.regions = action.payload;
+
+        const newState = { [SLICE_NAME]: state };
+        const regionOptions = selectRegionOptions(newState);
+        const region = selectRegion(newState);
+        if (regionOptions.length && !regionOptions.find(({ value }) => value === region)) {
+          state.region = regionOptions[0].value;
+        }
+      },
+      updateRegion(state, action) {
+        state.region = action.payload;
+      },
+      updateExportersLoading(state, action) {
+        state.exportersLoading = action.payload;
+      },
+      updateExporters(state, action) {
+        state.exporters = action.payload;
+
+        const newState = { [SLICE_NAME]: state };
+        const exporterOptions = selectExporterOptions(newState);
+        const exporter = selectExporter(newState);
+        if (exporterOptions.length && !exporterOptions.find(({ value }) => value === exporter)) {
+          state.exporter = exporterOptions[0].value;
+        }
+      },
+      updateExporter(state, action) {
+        state.exporter = action.payload;
+      },
+      updateRankingLoading(state, action) {
+        state.rankingLoading = action.payload;
+      },
+      updateRanking(state, action) {
+        state.ranking = action.payload;
+      },
+      updateCountriesLoading(state, action) {
+        state.countriesLoading = action.payload;
+      },
+      updateCountries(state, action) {
+        state.countries = action.payload;
       },
     },
     extraReducers: {
