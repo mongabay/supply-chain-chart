@@ -115,7 +115,7 @@ const Sidebar = ({
               />
             </div>
             <div id="setting-region-note" className="note">
-              This {"setting's"} options are not filtered by change unit or year.
+              This {"setting's"} options are not filtered by change unit nor year.
             </div>
           </div>
           <div className="form-group">
@@ -133,7 +133,7 @@ const Sidebar = ({
               />
             </div>
             <div id="setting-exporter-note" className="note">
-              This {"setting's"} options are not filtered by change unit, year or region.
+              This {"setting's"} options are not filtered by change unit, year nor region.
             </div>
           </div>
         </div>
