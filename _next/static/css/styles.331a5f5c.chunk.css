@@ -157,6 +157,78 @@ select.c-select {
         stroke: rgba(34, 34, 34, 0.3);
         fill: transparent; }
 
+.c-loading-spinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.4); }
+  .c-loading-spinner.-transparent {
+    background-color: transparent; }
+  .c-loading-spinner.-inner {
+    position: absolute; }
+  .c-loading-spinner.-inline {
+    position: relative;
+    display: inline-block;
+    width: 3.75rem;
+    height: 3.75rem;
+    vertical-align: text-top;
+    z-index: initial; }
+  .c-loading-spinner.-mini > svg {
+    width: 1.125rem;
+    height: 1.125rem; }
+  .c-loading-spinner.-mini.-inline {
+    width: 1.125rem;
+    height: 1.125rem; }
+  .c-loading-spinner > svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    height: 3.75rem;
+    width: 3.75rem;
+    -webkit-animation: rotate 2s linear infinite;
+            animation: rotate 2s linear infinite; }
+    .c-loading-spinner > svg > circle {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+      -webkit-animation: dash 1.5s ease-in-out infinite;
+              animation: dash 1.5s ease-in-out infinite;
+      stroke-linecap: round;
+      stroke: #03755e; }
+
+@-webkit-keyframes rotate {
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg); } }
+
+@keyframes rotate {
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg); } }
+
+@-webkit-keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0; }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35; }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124; } }
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0; }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35; }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124; } }
+
 .c-icon {
   width: 1.375rem;
   height: 1.375rem;
@@ -232,6 +304,11 @@ select.c-select {
       margin: 0.5rem 0;
       padding: 0.5rem 0;
       overflow: auto; }
+    .c-tool-sidebar .content .note {
+      margin-top: 0.5rem;
+      font-size: 0.8125rem; }
+  .c-tool-sidebar .loading-text {
+    font-size: 0.875rem; }
 
 .c-tool-ranking {
   width: 15.625rem;
@@ -341,6 +418,9 @@ select.c-select {
     height: 1.625rem;
     background-color: #fff; }
   .c-world-map .title {
+    display: flex;
+    justify-content: center;
+    min-width: 0;
     position: absolute;
     top: 0;
     left: 0;
@@ -348,8 +428,13 @@ select.c-select {
     height: 1.625rem;
     background-color: #fff;
     font-weight: 700;
-    text-align: center;
     text-transform: uppercase; }
+    .c-world-map .title span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap; }
+      .c-world-map .title span:not(.shrink) {
+        flex-shrink: 0; }
 
 .c-world-map-tooltip {
   display: flex;
@@ -359,7 +444,6 @@ select.c-select {
   justify-content: center; }
   .c-world-map-tooltip p {
     margin-bottom: 0.25rem;
-    text-transform: capitalize;
     font-size: 0.8125rem; }
     .c-world-map-tooltip p:last-of-type {
       margin-bottom: 0; }
