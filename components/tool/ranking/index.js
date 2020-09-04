@@ -1,8 +1,10 @@
 import { connect } from 'react-redux';
 
-import { selectRankingData } from 'modules/tool/world-map';
+import { traseSelectors } from 'modules/tool';
 import Component from './component';
 
 export default connect(state => ({
-  rankingData: selectRankingData(state),
+  unit: traseSelectors.selectUnit(state),
+  unitOptions: traseSelectors.selectUnitOptions(state),
+  rankingData: traseSelectors.selectRankingData(state),
 }))(Component);

@@ -33,6 +33,30 @@
     width: 100%;
     padding-top: 66.66%;
     overflow: hidden;
+
+    > .title {
+      display: flex;
+      justify-content: center;
+      min-width: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: rem(26);
+      background-color: $white;
+      font-weight: $font-weight-bold;
+      text-transform: uppercase;
+
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &:not(.shrink) {
+          flex-shrink: 0;
+        }
+      }
+    }
   }
 
   .map-container {
@@ -71,30 +95,6 @@
     width: 100%;
     height: rem(26);
     background-color: $white;
-  }
-
-  .title {
-    display: flex;
-    justify-content: center;
-    min-width: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: rem(26);
-    background-color: $white;
-    font-weight: $font-weight-bold;
-    text-transform: uppercase;
-
-    span {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-
-      &:not(.shrink) {
-        flex-shrink: 0;
-      }
-    }
   }
 }
 

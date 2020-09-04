@@ -3,6 +3,14 @@
 .c-tool-ranking {
   width: rem(250);
 
+  .title {
+    display: block;
+    margin-bottom: map-get($spacers, 2);
+    font-family: $font-family-1;
+    @include font-size($font-size-base);
+    font-weight: $font-weight-bold;
+  }
+
   ul {
     margin: 0;
     padding: 0;
