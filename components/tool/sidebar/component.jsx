@@ -102,7 +102,7 @@ const Sidebar = ({
           </div>
           <div className="form-group">
             <label htmlFor="setting-region">
-              Region {regionsLoading && <LoadingSpinner inline mini />}
+              Region (optional) {regionsLoading && <LoadingSpinner inline mini />}
             </label>
             <div className="input-group">
               <Select
@@ -120,7 +120,7 @@ const Sidebar = ({
           </div>
           <div className="form-group">
             <label htmlFor="setting-exporter">
-              Exporter {exportersLoading && <LoadingSpinner inline mini />}
+              Exporter (optional) {exportersLoading && <LoadingSpinner inline mini />}
             </label>
             <div className="input-group">
               <Select
