@@ -7,6 +7,14 @@ export const downloadImage = async () => {
   const html2canvas = (await import('html2canvas')).default;
   const canvas = await html2canvas(document.querySelector('.js-visualization'), {
     scale: IMAGE_SCALE,
+    onclone: document => {
+      const svg = /** @type {SVGElement} */ (document.querySelector('.map-container svg'));
+
+      // Without the next 2 lines, the map in the exported image is distorted on Webkit and Blink
+      // based browsers
+      svg.setAttribute('width', `${svg.clientWidth}`);
+      svg.setAttribute('height', `${svg.clientHeight}`);
+    },
   });
 
   // We could directly download the image from here, but its resolution is quite poor, especially
