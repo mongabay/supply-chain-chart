@@ -9,7 +9,7 @@ const Ranking = ({ unit, unitOptions, rankingData }) => {
       return null;
     }
 
-    return unitOptions.find(option => option.value === unit).label;
+    return unitOptions.find(option => option.value === unit)?.label;
   }, [unit, unitOptions]);
 
   return (
