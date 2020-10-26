@@ -18,7 +18,7 @@ export const fetchTraseExporters = (contextId, columnId) =>
 export const fetchTraseFlows = (countryId, commodityId, unitId, year, regionId, exporterId) =>
   axios
     .get(
-      `${TRASE_API}/dashboards/charts/single_year_no_ncont_node_type_view?country_id=${countryId}&commodity_id=${commodityId}&cont_attribute_id=${unitId}&node_type_id=33&start_year=${year}&sources_ids=${regionId}&exporters_ids=${exporterId}&top_n=10`
+      `${TRASE_API}/dashboards/charts/single_year_no_ncont_node_type_view?country_id=${countryId}&commodity_id=${commodityId}&cont_attribute_id=${unitId}&node_type_id=15&start_year=${year}&sources_ids=${regionId}&exporters_ids=${exporterId}&top_n=10`
     )
     .then(({ data }) => data?.data.slice(0, 10) ?? []);
 
