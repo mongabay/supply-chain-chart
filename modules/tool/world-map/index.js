@@ -191,9 +191,10 @@ export const selectMapData = createSelector(
 
     return flows
       .map(({ x0, y }) => {
-        // The dictionary might not have had the time to update yet (we're making a request) so some
-        // ISOs may be missing
-        if (!isoDict[y.toLowerCase()]) {
+        // The dictionary might not have had the time to update yet (we're making a request) or some
+        // countries may be returned as “OTHER” by the Trase API so some ISOs may be missing
+        // We may also not have the coordinates for some countries (e.g. Channel islands)
+        if (!isoDict[y.toLowerCase()] || !COUNTRIES_COORDINATES[isoDict[y.toLowerCase()]]) {
           return null;
         }
 
