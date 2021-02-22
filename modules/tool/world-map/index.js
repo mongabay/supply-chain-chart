@@ -9,6 +9,8 @@ export const SLICE_NAME = 'trase';
 export const selectSettings = state => state[SLICE_NAME];
 export const selectContextsLoading = state => state[SLICE_NAME].contextsLoading;
 export const selectContexts = state => state[SLICE_NAME].contexts;
+export const selectColumnsLoading = state => state[SLICE_NAME].columnsLoading;
+export const selectColumns = state => state[SLICE_NAME].columns;
 export const selectCountry = state => state[SLICE_NAME].country;
 export const selectCommodity = state => state[SLICE_NAME].commodity;
 export const selectYear = state => state[SLICE_NAME].year;
@@ -214,13 +216,26 @@ export const selectMapData = createSelector(
 export const selectLoading = createSelector(
   [
     selectContextsLoading,
+    selectColumnsLoading,
     selectFlowsLoading,
     selectCountriesLoading,
     selectRegionsLoading,
     selectExportersLoading,
   ],
-  (contextsLoading, flowsLoading, countriesLoading, regionsLoading, exportersLoading) =>
-    contextsLoading || flowsLoading || countriesLoading || regionsLoading || exportersLoading
+  (
+    contextsLoading,
+    columnsLoading,
+    flowsLoading,
+    countriesLoading,
+    regionsLoading,
+    exportersLoading
+  ) =>
+    contextsLoading ||
+    columnsLoading ||
+    flowsLoading ||
+    countriesLoading ||
+    regionsLoading ||
+    exportersLoading
 );
 
 export const selectSerializedState = createSelector(
@@ -278,6 +293,16 @@ export default traseActions =>
         if (yearOptions.length && !yearOptions.find(({ value }) => value === year)) {
           state.year = yearOptions[0].value;
         }
+      },
+      updateColumnsLoading(state, action) {
+        state.columnsLoading = action.payload;
+      },
+      updateColumns(state, action) {
+        state.columns = {
+          regions: action.payload.find(({ name }) => name === 'PROVINCE' || name === 'STATE')?.id,
+          exporters: action.payload.find(({ name }) => name === 'EXPORTER GROUP')?.id,
+          countries: action.payload.find(({ name }) => name === 'COUNTRY')?.id,
+        };
       },
       updateCountry(state, action) {
         state.country = action.payload;

@@ -7,6 +7,7 @@ export default connect(
   state => ({
     serializedState: toolSelectors.selectSerializedState(state),
     context: traseSelectors.selectContext(state),
+    columns: traseSelectors.selectColumns(state),
     country: traseSelectors.selectCountry(state),
     commodity: traseSelectors.selectCommodity(state),
     unit: traseSelectors.selectUnit(state),
@@ -18,6 +19,8 @@ export default connect(
     restoreState: toolActions.restoreState,
     updateContextsLoading: traseActions.updateContextsLoading,
     updateContexts: traseActions.updateContexts,
+    updateColumnsLoading: traseActions.updateColumnsLoading,
+    updateColumns: traseActions.updateColumns,
     updateRegionsLoading: traseActions.updateRegionsLoading,
     updateRegions: traseActions.updateRegions,
     updateExportersLoading: traseActions.updateExportersLoading,

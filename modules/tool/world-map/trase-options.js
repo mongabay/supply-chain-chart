@@ -1,6 +1,8 @@
 export const initialState = {
   contextsLoading: false,
   contexts: [],
+  columnsLoading: false,
+  columns: {},
   country: null,
   commodity: null,
   unit: null,
