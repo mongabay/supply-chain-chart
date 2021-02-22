@@ -303,7 +303,7 @@ export default traseActions =>
           regions: action.payload.find(({ name }) => name === 'PROVINCE' || name === 'STATE')?.id,
           exporters: action.payload.find(({ name }) => name === 'EXPORTER GROUP')?.id,
           countries: action.payload.find(
-            // Bolivia - Cocoa doesn't have a country columns but economic bloc instead
+            // Colombia - Cocoa doesn't have a country columns but economic bloc instead
             // In this case, the map is not displayed 100% correctly because we don't have
             // geometries for the EU for example, though the ranking is correct
             ({ name }) => name === 'COUNTRY' || name === 'ECONOMIC BLOC'
