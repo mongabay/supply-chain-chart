@@ -28,6 +28,9 @@ jobs:
           BASE_PATH:
         run: yarn build
 
+      - name: Create CNAME file
+        run: cp CNAME out/CNAME
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
