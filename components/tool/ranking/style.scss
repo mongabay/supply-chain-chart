@@ -5,7 +5,7 @@
 
   .title {
     display: block;
-    margin-bottom: map-get($spacers, 2);
+    margin-bottom: 20px;
     font-family: $font-family-1;
     @include font-size($font-size-base);
     font-weight: $font-weight-bold;
@@ -16,12 +16,51 @@
     padding: 0;
   }
 
-  li {
+  &__title {
     display: flex;
-    justify-content: flex-start;
-    margin-bottom: map-get($spacers, 2);
-    list-style: none;
+    justify-content: space-between;
+    margin-bottom: map-get($spacers, 1);
     font-size: $font-size-m;
+    font-size: 12px;
+    span:last-of-type {
+      color: $primary;
+    }
+  }
+
+  &__volume {
+    display: flex;
+    height: 10px;
+    .progress-bar {
+      display: block;
+      flex-grow: 0;
+      flex-shrink: 0;
+    }
+    &__line {
+      position: relative;
+      display: block;
+      flex-grow: 1;
+      border-top: 1px dashed rgba($black, 0.1);
+      transform: translateY(50%);
+    }
+  }
+
+  &__legend {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid rgba($black, 0.1);
+    padding-top: 4px;
+    margin-top: 12px;
+    color: rgba($black, 0.5);
+    font-size: 12px;
+  }
+
+  li {
+    list-style: none;
+    margin-bottom: map-get($spacers, 2);
+
+    .volume {
+      width: 100%;
+    }
 
     &:last-of-type {
       margin-bottom: 0;
@@ -29,24 +68,6 @@
 
     span {
       display: inline-block;
-
-      &:first-of-type {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        width: rem(25);
-        height: rem(25);
-        margin-right: map-get($spacers, 2);
-        border-radius: 100%;
-        background-color: $primary;
-        color: $white;
-        font-weight: $font-weight-bold;
-      }
-
-      &:nth-of-type(2) {
-        margin-right: auto;
-        text-transform: capitalize;
-      }
     }
   }
 }
