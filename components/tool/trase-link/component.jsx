@@ -1,0 +1,69 @@
+import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
+import { TRASE_API } from 'modules/tool/world-map/trase-api.js';
+import './style.scss';
+
+const TraseLink = ({ country, commodity, unit, year }) => {
+  const href = useMemo(() => {
+    const traseAppUpl = TRASE_API.split('/api')[0];
+    return `${traseAppUpl}/flows/data-view?toolLayout=1&countries=${country}&commodities=${commodity}&selectedYears=${year}&selectedYears=${year}&selectedResizeBy=${unit}`;
+  }, [commodity, country, unit, year]);
+
+  return (
+    <div className="c-tool-trase-link">
+      <a href={href} target="_blank" rel="noreferrer">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="19"
+          height="19"
+          viewBox="0 0 19 19"
+          fill="none"
+          className="mr-2"
+        >
+          <path
+            d="M9.29762 3.83333H3.125C2.56142 3.83333 2.02091 4.05722 1.6224 4.45573C1.22388 4.85425 1 5.39475 1 5.95833V15.875C1 16.4386 1.22388 16.9791 1.6224 17.3776C2.02091 17.7761 2.56142 18 3.125 18H13.0417C13.6053 18 14.1458 17.7761 14.5443 17.3776C14.9428 16.9791 15.1667 16.4386 15.1667 15.875V9.70238M5.25 13.75L18 1M18 1H13.0417M18 1V5.95833"
+            stroke="#444242"
+            strokeWidth="1.61905"
+            strokeLinecap="square"
+          />
+        </svg>
+        <span>Check data on Trase</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+        >
+          <path
+            d="M7 0.4375C10.6244 0.4375 13.5625 3.37563 13.5625 7C13.5625 10.6244 10.6244 13.5625 7 13.5625C3.37563 13.5625 0.4375 10.6244 0.4375 7C0.4375 3.37563 3.37563 0.4375 7 0.4375Z"
+            stroke="#222222"
+            strokeWidth="0.875"
+          />
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M6.30029 6.30029H7.70029V10.5003H6.30029V6.30029Z"
+            fill="#222222"
+          />
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M6.30029 3.5H7.70029V4.9H6.30029V3.5Z"
+            fill="#222222"
+          />
+        </svg>
+      </a>
+    </div>
+  );
+};
+
+TraseLink.propTypes = {
+  country: PropTypes.string,
+  commodity: PropTypes.string,
+  unit: PropTypes.string,
+  year: PropTypes.number,
+  region: PropTypes.string,
+};
+
+export default TraseLink;

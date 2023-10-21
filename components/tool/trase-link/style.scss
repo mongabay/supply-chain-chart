@@ -1,0 +1,19 @@
+@import 'css/settings';
+
+.c-tool-trase-link {
+  margin-left: 16px;
+  margin-top: 32px;
+  width: 100%;
+  a {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    span {
+      color: #444242;
+      font-size: $font-size-m;
+      font-weight: 600;
+      text-decoration-line: underline;
+      text-decoration-color: rgba(black, 0.2);
+    }
+  }
+}

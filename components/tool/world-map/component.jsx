@@ -19,6 +19,7 @@ import Attributions from '../attributions';
 
 import WORLD_GEOGRAPHIES from './WORLD.topo.json';
 import './style.scss';
+import TraseLink from '../trase-link';
 
 class WorldMap extends React.PureComponent {
   state = {
@@ -220,7 +221,10 @@ class WorldMap extends React.PureComponent {
                     <Lines>{this.renderLines()}</Lines>
                   </ZoomableGroup>
                 </ComposableMap>
-                <Ranking />
+                <div>
+                  <Ranking />
+                  {!exporting && <TraseLink />}
+                </div>
               </div>
             </Tooltip>
             <Attributions exporting={exporting} />
