@@ -84,7 +84,7 @@
 
     .c-tool-ranking {
       flex-shrink: 0;
-      margin-left: map-get($spacers, 3);
+      margin-inline: map-get($spacers, 3);
     }
   }
 

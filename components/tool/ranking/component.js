@@ -35,9 +35,7 @@ const Ranking = ({ unit, unitOptions, rankingData }) => {
 
   const getVolume = value => {
     const volume = value;
-    console.log((volume * 100) / MAX_VOLUME.value);
-
-    return (volume * 100) / MAX_VOLUME.value;
+    return MAX_VOLUME.value === 0 ? 0 : (volume * 100) / MAX_VOLUME.value;
   };
 
   return (
@@ -47,7 +45,7 @@ const Ranking = ({ unit, unitOptions, rankingData }) => {
         {rankingData.map(flow => {
           const volume = getVolume(flow.value);
           return (
-            <li className="" key={flow.country}>
+            <li key={flow.country}>
               <div className="c-tool-ranking__title">
                 <span className="flex-grow-3">{flow.country}</span>
                 <span className="text-right flex-grow-1">{flow.formattedValue}</span>
