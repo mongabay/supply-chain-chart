@@ -139,10 +139,12 @@ export const selectRankingData = createSelector(
   (flows, context, unit) =>
     flows.slice(0, 5).map(({ x0, y }) => ({
       country: capitalize(y),
-      value: formatNumber({
+      value: x0,
+      formattedValue: formatNumber({
         num: x0,
         unit: context?.resizeBy.find(u => u.attributeId === +unit)?.unit ?? '−',
       }),
+      unit: context?.resizeBy.find(u => u.attributeId === +unit)?.unit ?? '−',
     }))
 );
 

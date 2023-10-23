@@ -12,21 +12,62 @@ const Ranking = ({ unit, unitOptions, rankingData }) => {
     return unitOptions.find(option => option.value === unit)?.label;
   }, [unit, unitOptions]);
 
+  const MAX_VOLUME = useMemo(
+    () =>
+      rankingData.reduce(
+        (acc, flow) => {
+          return acc.value < flow.value
+            ? { value: flow.value, formattedValue: flow.formattedValue }
+            : acc;
+        },
+        {
+          value: 0,
+          formattedValue: '',
+        }
+      ),
+    [rankingData]
+  );
+
+  const unitSymbol = useMemo(() => {
+    const value = rankingData?.[0]?.unit;
+    return value;
+  }, [rankingData]);
+
+  const getVolume = value => {
+    const volume = value;
+    return MAX_VOLUME.value === 0 ? 0 : (volume * 100) / MAX_VOLUME.value;
+  };
+
   return (
     <div className="c-tool-ranking">
       {title && <span className="title">{title}</span>}
       <ul>
-        {rankingData.map((flow, index) => (
-          <li key={flow.country}>
-            {/* The position number of the flow can be rendered using a pseudo-element and a CSS
-            counter because html2canvas has issues to render them in Safari:
-            https://github.com/niklasvh/html2canvas/issues/2256 */}
-            <span>{index + 1}</span>
-            <span>{flow.country}</span>
-            <span>{flow.value}</span>
-          </li>
-        ))}
+        {rankingData.map(flow => {
+          const volume = getVolume(flow.value);
+          return (
+            <li key={flow.country}>
+              <div className="c-tool-ranking__title">
+                <span className="flex-grow-3">{flow.country}</span>
+                <span className="text-right flex-grow-1">{flow.formattedValue}</span>
+              </div>
+              <div className="c-tool-ranking__volume progress bg-white shadow-none rounded-0">
+                <div
+                  className="progress-bar shadow-none bg-primary"
+                  style={{ width: `${volume}%` }}
+                  aria-valuenow={volume}
+                  aria-valuemin={0}
+                  aria-valuemax={MAX_VOLUME.value}
+                ></div>
+                <div className="c-tool-ranking__volume__line"></div>
+              </div>
+            </li>
+          );
+        })}
       </ul>
+      <div className="c-tool-ranking__legend">
+        <span className="min">0 {unitSymbol}</span>
+        <span className="max text-right">{MAX_VOLUME.formattedValue}</span>
+      </div>
     </div>
   );
 };
@@ -42,7 +83,9 @@ Ranking.propTypes = {
   rankingData: PropTypes.arrayOf(
     PropTypes.shape({
       country: PropTypes.string,
-      value: PropTypes.string,
+      value: PropTypes.number,
+      formattedValue: PropTypes.string,
+      unit: PropTypes.string,
     })
   ).isRequired,
 };
