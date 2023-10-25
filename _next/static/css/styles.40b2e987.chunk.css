@@ -314,37 +314,51 @@ select.c-select {
   width: 15.625rem; }
   .c-tool-ranking .title {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 20px;
     font-family: "Open Sans", serif;
     font-size: 1rem;
     font-weight: 700; }
   .c-tool-ranking ul {
     margin: 0;
     padding: 0; }
-  .c-tool-ranking li {
+  .c-tool-ranking__title {
     display: flex;
-    justify-content: flex-start;
-    margin-bottom: 0.5rem;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
+    font-size: 12px; }
+    .c-tool-ranking__title span:last-of-type {
+      color: #03755e; }
+  .c-tool-ranking__volume {
+    display: flex;
+    height: 10px; }
+    .c-tool-ranking__volume .progress-bar {
+      display: block;
+      flex-grow: 0;
+      flex-shrink: 0; }
+    .c-tool-ranking__volume__line {
+      position: relative;
+      display: block;
+      flex-grow: 1;
+      border-top: 1px dashed rgba(0, 0, 0, 0.1);
+      transform: translateY(50%); }
+  .c-tool-ranking__legend {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding-top: 4px;
+    margin-top: 12px;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 12px; }
+  .c-tool-ranking li {
     list-style: none;
-    font-size: 0.875rem; }
+    margin-bottom: 0.5rem; }
+    .c-tool-ranking li .volume {
+      width: 100%; }
     .c-tool-ranking li:last-of-type {
       margin-bottom: 0; }
     .c-tool-ranking li span {
       display: inline-block; }
-      .c-tool-ranking li span:first-of-type {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        width: 1.5625rem;
-        height: 1.5625rem;
-        margin-right: 0.5rem;
-        border-radius: 100%;
-        background-color: #03755e;
-        color: #fff;
-        font-weight: 700; }
-      .c-tool-ranking li span:nth-of-type(2) {
-        margin-right: auto;
-        text-transform: capitalize; }
 
 .c-tool-attributions {
   display: flex;
@@ -430,7 +444,7 @@ select.c-select {
       pointer-events: visibleStroke; }
     .c-world-map .map-container .c-tool-ranking {
       flex-shrink: 0;
-      margin-left: 1rem; }
+      margin-inline: 1rem; }
   .c-world-map .c-tool-attributions {
     position: absolute;
     bottom: 0;
@@ -450,6 +464,23 @@ select.c-select {
     font-size: 0.8125rem; }
     .c-world-map-tooltip p:last-of-type {
       margin-bottom: 0; }
+
+.c-tool-trase-link {
+  margin-left: 16px;
+  margin-top: 32px;
+  width: 100%; }
+  .c-tool-trase-link a {
+    display: flex;
+    gap: 12px;
+    align-items: center; }
+    .c-tool-trase-link a span {
+      color: #444242;
+      font-size: 0.875rem;
+      font-weight: 600;
+      -webkit-text-decoration-line: underline;
+              text-decoration-line: underline;
+      -webkit-text-decoration-color: rgba(0, 0, 0, 0.2);
+              text-decoration-color: rgba(0, 0, 0, 0.2); }
 
 .c-tool {
   display: flex;
