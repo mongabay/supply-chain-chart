@@ -477,8 +477,6 @@ select.c-select {
       color: #444242;
       font-size: 0.875rem;
       font-weight: 600;
-      -webkit-text-decoration-line: underline;
-              text-decoration-line: underline;
       -webkit-text-decoration-color: rgba(0, 0, 0, 0.2);
               text-decoration-color: rgba(0, 0, 0, 0.2); }
 
