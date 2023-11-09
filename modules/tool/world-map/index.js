@@ -304,11 +304,16 @@ export default traseActions =>
         state.columns = {
           regions: action.payload.find(({ name }) => name === 'PROVINCE' || name === 'STATE')?.id,
           exporters: action.payload.find(({ name }) => name === 'EXPORTER GROUP')?.id,
-          countries: action.payload.find(
-            // Colombia - Cocoa doesn't have a country columns but economic bloc instead
-            // In this case, the map is not displayed 100% correctly because we don't have
-            // geometries for the EU for example, though the ranking is correct
-            ({ name }) => name === 'COUNTRY' || name === 'ECONOMIC BLOC'
+          // The order of these columns is important. We only fallback if we can't find the most
+          // relevant one.
+          countries: (
+            action.payload.find(({ name }) => name === 'COUNTRY OF DESTINATION') ||
+            action.payload.find(({ name }) => name === 'COUNTRY') ||
+            action.payload.find(({ name }) => name === 'COUNTRY OF FIRST IMPORT') ||
+            // As much as possible we'd want countries instead of economic blocs because the
+            // implementation of the map expects countries. Unfortunately, there is at least one
+            // known case where we don't have country-level information: Colombia / Cocoa.
+            action.payload.find(({ name }) => name === 'ECONOMIC BLOC')
           )?.id,
         };
       },
