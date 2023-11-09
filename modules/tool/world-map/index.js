@@ -90,10 +90,13 @@ export const selectYearOptions = createSelector([selectContext, selectUnit], (co
     return [];
   }
 
+  const years = context.resizeBy.find(u => u.attributeId === +unit)?.years;
+
   return (
-    context.resizeBy
-      .find(u => u.attributeId === +unit)
-      ?.years.map(year => ({
+    [...(years ?? [])]
+      .sort()
+      .reverse()
+      .map(year => ({
         label: `${year}`,
         value: `${year}`,
       })) ?? []
