@@ -21,6 +21,38 @@ import WORLD_GEOGRAPHIES from './WORLD.topo.json';
 import './style.scss';
 import TraseLink from '../trase-link';
 
+// For some combinations such as Colombia / Cocoa, we don't have information at the country level
+// but economic bloc instead. For this reason, we're adding EU 27 here.
+const EU_COUNTRIES = [
+  'AT',
+  'BE',
+  'BG',
+  'HR',
+  'CY',
+  'CZ',
+  'DK',
+  'EE',
+  'FI',
+  'FR',
+  'DE',
+  'GR',
+  'HU',
+  'IE',
+  'IT',
+  'LV',
+  'LT',
+  'LU',
+  'MT',
+  'NL',
+  'PL',
+  'PT',
+  'RO',
+  'SK',
+  'SI',
+  'ES',
+  'SE',
+];
+
 class WorldMap extends React.PureComponent {
   state = {
     tooltipContent: null,
@@ -30,7 +62,9 @@ class WorldMap extends React.PureComponent {
     const { mapData } = this.props;
 
     const { iso2 } = properties;
-    const flow = mapData.find(flow => flow.iso === iso2);
+    const flow = mapData.find(
+      flow => flow.iso === iso2 || (flow.iso === 'EU' && EU_COUNTRIES.indexOf(iso2) !== -1)
+    );
 
     if (!iso2 || !flow) {
       this.setState({ tooltipContent: null });
@@ -60,9 +94,12 @@ class WorldMap extends React.PureComponent {
     return geographies.map(geography => {
       const iso = geography.properties.iso2;
       let fillColor = '#dedede';
-      if (iso === countryIso) {
+      if (iso === countryIso || (countryIso === 'EU' && EU_COUNTRIES.indexOf(iso) !== -1)) {
         fillColor = '#f1ba30';
-      } else if (destinationCountriesIso.indexOf(iso) !== -1) {
+      } else if (
+        destinationCountriesIso.indexOf(iso) !== -1 ||
+        (destinationCountriesIso.indexOf('EU') !== -1 && EU_COUNTRIES.indexOf(iso) !== -1)
+      ) {
         fillColor = '#03755e';
       }
 

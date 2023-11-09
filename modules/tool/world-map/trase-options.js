@@ -85,6 +85,9 @@ export const COUNTRIES_COORDINATES = {
   ER: [39, 15],
   ES: [-4, 40],
   ET: [38, 8],
+  // For some combinations such as Colombia / Cocoa, we don't have information at the country level
+  // but economic bloc instead. For this reason, we're adding EU 27 here.
+  EU: [14.22160493, 48.67716049],
   FI: [26, 64],
   FJ: [175, -18],
   FK: [-59, -51.75],
