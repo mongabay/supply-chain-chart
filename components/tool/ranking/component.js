@@ -1,7 +1,15 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { format } from 'd3-format';
 
 import './style.scss';
+
+// The units are sent only abbreviated, so we need to map them to their full names
+const units = {
+  ha: 'hectares',
+  t: 'tonnes',
+  't CO2': 'tonnes of CO2',
+};
 
 const Ranking = ({ unit, unitOptions, rankingData }) => {
   const title = useMemo(() => {
@@ -29,8 +37,8 @@ const Ranking = ({ unit, unitOptions, rankingData }) => {
   );
 
   const unitSymbol = useMemo(() => {
-    const value = rankingData?.[0]?.unit;
-    return value;
+    const value = units[rankingData?.[0]?.unit];
+    return value || rankingData?.[0]?.unit;
   }, [rankingData]);
 
   const getVolume = value => {
@@ -66,7 +74,9 @@ const Ranking = ({ unit, unitOptions, rankingData }) => {
       </ul>
       <div className="c-tool-ranking__legend">
         <span className="min">0 {unitSymbol}</span>
-        <span className="max text-right">{MAX_VOLUME.formattedValue}</span>
+        <span className="max text-right">
+          {format('.3s')(Number(MAX_VOLUME.value))} {unitSymbol}
+        </span>
       </div>
     </div>
   );

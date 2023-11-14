@@ -50,44 +50,13 @@ const Sidebar = ({
     <aside className="c-tool-sidebar">
       <DownloadSuccessModal open={downloadModalOpen} onClose={() => setDownloadModalOpen(false)} />
       <div className="content">
-        <h1>Supply Chain</h1>
+        <h1>Supply Chain Data Tool</h1>
+        <p>
+          Create images of maps with flows representing the exchange of a variety of commodities
+          across the world.
+        </p>
+        <h2>Data Layers</h2>
         <div className="scrollable-container pt-2">
-          <div className="form-group">
-            <label htmlFor="setting-country">Source country</label>
-            <div className="input-group">
-              <Select
-                id="setting-country"
-                options={countryOptions}
-                value={country ?? ''}
-                onChange={({ value }) => updateCountry(value)}
-                disabled={countryOptions.length === 0}
-              />
-            </div>
-          </div>
-          <div className="form-group">
-            <label htmlFor="setting-commodity">Commodity</label>
-            <div className="input-group">
-              <Select
-                id="setting-commodity"
-                options={commodityOptions}
-                value={commodity ?? ''}
-                onChange={({ value }) => updateCommodity(value)}
-                disabled={commodityOptions.length === 0}
-              />
-            </div>
-          </div>
-          <div className="form-group">
-            <label htmlFor="setting-unit">Change unit</label>
-            <div className="input-group">
-              <Select
-                id="setting-unit"
-                options={unitOptions}
-                value={unit ?? ''}
-                onChange={({ value }) => updateUnit(value)}
-                disabled={unitOptions.length === 0}
-              />
-            </div>
-          </div>
           <div className="form-group">
             <label htmlFor="setting-year">Year</label>
             <div className="input-group">
@@ -136,11 +105,47 @@ const Sidebar = ({
               This {"setting's"} options are not filtered by change unit, year nor region.
             </div>
           </div>
+          <div className="form-group">
+            <label htmlFor="setting-country">Source country</label>
+            <div className="input-group">
+              <Select
+                id="setting-country"
+                options={countryOptions}
+                value={country ?? ''}
+                onChange={({ value }) => updateCountry(value)}
+                disabled={countryOptions.length === 0}
+              />
+            </div>
+          </div>
+          <div className="form-group">
+            <label htmlFor="setting-commodity">Commodity</label>
+            <div className="input-group">
+              <Select
+                id="setting-commodity"
+                options={commodityOptions}
+                value={commodity ?? ''}
+                onChange={({ value }) => updateCommodity(value)}
+                disabled={commodityOptions.length === 0}
+              />
+            </div>
+          </div>
+          <div className="form-group">
+            <label htmlFor="setting-unit">Change unit</label>
+            <div className="input-group">
+              <Select
+                id="setting-unit"
+                options={unitOptions}
+                value={unit ?? ''}
+                onChange={({ value }) => updateUnit(value)}
+                disabled={unitOptions.length === 0}
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div className="d-flex align-items-center mt-4">
         <Tooltip sticky="popper" plugins={[sticky]} content={<ExportTooltip />}>
-          <button type="button" className="btn btn-primary" disabled={loading}>
+          <button type="button" className="btn btn-primary py-2" disabled={loading}>
             Export
           </button>
         </Tooltip>
