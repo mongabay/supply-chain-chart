@@ -2,10 +2,6 @@
 
 .p-home {
   width: 100%;
-  height: 100%;
+  height: calc(100% - #{$header-height});
   padding: map-get($spacers, 5);
-
-  .l-static-page {
-    height: 100%;
-  }
 }

@@ -9,26 +9,10 @@ const Icons = () => (
     xlink="http://www.w3.org/1999/xlink"
   >
     <defs>
-      <symbol id="icon-close" viewBox="0 0 51 51">
+      <symbol id="icon-close" viewBox="0 0 9 9">
         <title>Close</title>
-        <line
-          x1="14.186"
-          y1="14.1863"
-          x2="36.8134"
-          y2="36.8137"
-          stroke="inherit"
-          strokeWidth="3"
-          strokeLinecap="round"
-        />
-        <line
-          x1="36.8135"
-          y1="14.1863"
-          x2="14.1861"
-          y2="36.8137"
-          stroke="inherit"
-          strokeWidth="3"
-          strokeLinecap="round"
-        />
+        <path d="M7.41.839l1.087 1.087-7.07 7.071L.338 7.91z" />
+        <path d="M8.498 7.91L7.41 8.998.339 1.927 1.427.839z" />
       </symbol>
       <symbol id="icon-bottom-arrow" viewBox="0 0 15 15">
         <title>Bottom arrow</title>
@@ -57,6 +41,26 @@ const Icons = () => (
         <circle cx="2.41379" cy="18.0864" r="2.41379" fill="#FFFDF8" />
         <circle cx="9.99973" cy="18.0864" r="2.41379" fill="#FFFDF8" />
         <circle cx="17.5866" cy="18.0864" r="2.41379" fill="#FFFDF8" />
+      </symbol>
+      <symbol id="icon-menu-close" width="51" height="51" viewBox="0 0 51 51" fill="none">
+        <line
+          x1="14.186"
+          y1="14.1863"
+          x2="36.8134"
+          y2="36.8137"
+          stroke="#444242"
+          stroke-width="3"
+          stroke-linecap="round"
+        />
+        <line
+          x1="36.8135"
+          y1="14.1863"
+          x2="14.1861"
+          y2="36.8137"
+          stroke="#444242"
+          stroke-width="3"
+          stroke-linecap="round"
+        />
       </symbol>
       <symbol id="icon-satellite" width="22" height="22" viewBox="0 0 22 22" fill="none">
         <path

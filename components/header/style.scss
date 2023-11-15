@@ -3,7 +3,7 @@
 .header {
   background-color: $primary;
   padding-inline: 3rem;
-  padding-block: 10px;
+  height: $header-height;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -14,7 +14,22 @@
       height: 20.176px;
     }
   }
+  &__content {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    > p {
+      margin-bottom: 0;
+      color: white;
+      font-family: $font-family-1;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-strong;
+      letter-spacing: 0.96px;
+      text-transform: uppercase;
+    }
+  }
   &__menu {
+    flex-shrink: 0;
     &__icon {
       width: 29px;
       height: 29px;
@@ -25,7 +40,7 @@
       top: 0;
       right: 0;
       height: 100%;
-      z-index: 2;
+      z-index: 3;
       transition: all 300ms ease-in-out;
       background-color: white;
       display: flex;
@@ -41,7 +56,6 @@
         min-width: 543px;
         width: 100%;
         min-height: 50%;
-        // margin-top: auto;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -54,8 +68,9 @@
           top: 10px;
           &__icon.c-icon {
             stroke: $text-color-1;
-            width: 35px;
-            height: 35px;
+            width: 51px;
+            height: 51px;
+            stroke-width: 0px;
           }
         }
         &__title {
@@ -72,11 +87,16 @@
               display: flex;
               align-items: center;
               gap: 16px;
-              font: $font-weight-semi-bold $font-size-m $font-family-1;
+              font: $font-weight-strong $font-size-m $font-family-1;
               text-transform: uppercase;
               color: $text-color-1;
+              border-radius: 22px;
               &:hover {
                 text-decoration: underline;
+              }
+              &:focus-visible {
+                outline: $primary auto 1px;
+                outline-offset: 8px;
               }
               div {
                 width: 40px;
@@ -85,6 +105,14 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                .c-icon {
+                  width: 22px;
+                  height: 22px;
+                  &.--lg {
+                    width: 24px;
+                    height: 24px;
+                  }
+                }
               }
             }
           }
@@ -94,7 +122,7 @@
           display: flex;
           align-items: flex-end;
           gap: 12px;
-          font: $font-weight-semi-bold $font-size-s $font-family-1;
+          font: $font-weight-strong $font-size-s $font-family-1;
         }
       }
     }
@@ -102,19 +130,35 @@
       position: fixed;
       top: 0;
       right: 0;
-      transition: all ease-in-out 300;
+      transition: opacity 300ms ease-in-out;
       &.--open {
         width: 100%;
         height: 100%;
         position: fixed;
         background-color: $text-color-1;
+        z-index: 2;
         opacity: 0.3;
-        z-index: 1;
       }
       &.--close {
         opacity: 0;
-        z-index: 10;
+        z-index: -10;
       }
+    }
+  }
+  .--transparent.btn.btn-light {
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+    border-radius: 50%;
+    &:active {
+      background-color: transparent;
+      box-shadow: none;
+    }
+  }
+  .btn {
+    &:focus-visible {
+      outline: $primary auto 1px;
+      outline-offset: 2px;
     }
   }
 }

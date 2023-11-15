@@ -4,11 +4,20 @@ import HeaderMenu from './menu';
 
 const Header = () => {
   return (
-    <header className="header">
-      <div className="header__logo">
-        <img src={`${process.env.BASE_PATH ?? ''}/images/mongabay-logo-white.png`} alt="Mongabay" />
+    <header>
+      <div className="header">
+        <div className="header__logo">
+          <img
+            className="logo"
+            src={`${process.env.BASE_PATH ?? ''}/images/mongabay-logo-white.png`}
+            alt="Mongabay"
+          />
+        </div>
+        <div className="header__content">
+          <p>supply chain Tool</p>
+          <HeaderMenu />
+        </div>
       </div>
-      <HeaderMenu />
     </header>
   );
 };

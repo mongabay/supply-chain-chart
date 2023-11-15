@@ -7,8 +7,8 @@ import './style.scss';
 // The units are sent only abbreviated, so we need to map them to their full names
 const units = {
   ha: 'hectares',
-  t: 'tonnes',
-  't CO2': 'tonnes of CO2',
+  t: 'metric tons',
+  't CO2': 'tonnes of CO₂',
 };
 
 const Ranking = ({ unit, unitOptions, rankingData }) => {

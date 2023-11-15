@@ -10,8 +10,8 @@ import Header from 'components/header';
 
 const StaticPage = ({ className, children }) => (
   <div>
+    <Head />
     <main className="l-static-page">
-      <Head />
       <Header />
       <div className={classNames('l-simple-page', className)}>{children}</div>
     </main>

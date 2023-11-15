@@ -7,6 +7,9 @@
   align-items: center;
   flex-grow: 1;
   overflow: hidden;
+  &.exporting {
+    align-items: flex-start;
+  }
 
   .exporting-message {
     position: absolute;
@@ -95,6 +98,7 @@
     width: 100%;
     height: rem(26);
     background-color: $white;
+    padding: 10px;
   }
 }
 

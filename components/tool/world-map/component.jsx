@@ -100,7 +100,7 @@ class WorldMap extends React.PureComponent {
         destinationCountriesIso.indexOf(iso) !== -1 ||
         (destinationCountriesIso.indexOf('EU') !== -1 && EU_COUNTRIES.indexOf(iso) !== -1)
       ) {
-        fillColor = '#03755e';
+        fillColor = '#7E56D8';
       }
 
       return (
