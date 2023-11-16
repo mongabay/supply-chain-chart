@@ -226,7 +226,7 @@ class WorldMap extends React.PureComponent {
                   <p>
                     <strong>{tooltipContent?.country}</strong>
                   </p>
-                  <p>{tooltipContent?.value}</p>
+                  <p>{tooltipContent?.value.replace('CO2', 'CO₂')}</p>
                 </div>
               }
               duration={0}

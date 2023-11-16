@@ -58,6 +58,42 @@ const Sidebar = ({
         <h2>Data Layers</h2>
         <div className="scrollable-container pt-2">
           <div className="form-group">
+            <label htmlFor="setting-country">Source country</label>
+            <div className="input-group">
+              <Select
+                id="setting-country"
+                options={countryOptions}
+                value={country ?? ''}
+                onChange={({ value }) => updateCountry(value)}
+                disabled={countryOptions.length === 0}
+              />
+            </div>
+          </div>
+          <div className="form-group">
+            <label htmlFor="setting-commodity">Commodity</label>
+            <div className="input-group">
+              <Select
+                id="setting-commodity"
+                options={commodityOptions}
+                value={commodity ?? ''}
+                onChange={({ value }) => updateCommodity(value)}
+                disabled={commodityOptions.length === 0}
+              />
+            </div>
+          </div>
+          <div className="form-group">
+            <label htmlFor="setting-unit">Change unit</label>
+            <div className="input-group">
+              <Select
+                id="setting-unit"
+                options={unitOptions}
+                value={unit ?? ''}
+                onChange={({ value }) => updateUnit(value)}
+                disabled={unitOptions.length === 0}
+              />
+            </div>
+          </div>
+          <div className="form-group">
             <label htmlFor="setting-year">Year</label>
             <div className="input-group">
               <Select
@@ -103,42 +139,6 @@ const Sidebar = ({
             </div>
             <div id="setting-exporter-note" className="note">
               This {"setting's"} options are not filtered by change unit, year nor region.
-            </div>
-          </div>
-          <div className="form-group">
-            <label htmlFor="setting-country">Source country</label>
-            <div className="input-group">
-              <Select
-                id="setting-country"
-                options={countryOptions}
-                value={country ?? ''}
-                onChange={({ value }) => updateCountry(value)}
-                disabled={countryOptions.length === 0}
-              />
-            </div>
-          </div>
-          <div className="form-group">
-            <label htmlFor="setting-commodity">Commodity</label>
-            <div className="input-group">
-              <Select
-                id="setting-commodity"
-                options={commodityOptions}
-                value={commodity ?? ''}
-                onChange={({ value }) => updateCommodity(value)}
-                disabled={commodityOptions.length === 0}
-              />
-            </div>
-          </div>
-          <div className="form-group">
-            <label htmlFor="setting-unit">Change unit</label>
-            <div className="input-group">
-              <Select
-                id="setting-unit"
-                options={unitOptions}
-                value={unit ?? ''}
-                onChange={({ value }) => updateUnit(value)}
-                disabled={unitOptions.length === 0}
-              />
             </div>
           </div>
         </div>

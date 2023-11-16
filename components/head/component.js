@@ -4,11 +4,17 @@ import Head from 'next/head';
 
 const HeadComponent = ({ title, description }) => (
   <Head>
-    <title key="title">{title ? `${title} | Supply chain` : 'Supply chain'}</title>
+    <title key="title">
+      {title ? `${title} | Supply Chain Data Tool` : 'Supply Chain Data Tool'}
+    </title>
     <meta
       key="description"
       name="description"
-      content={description ? description : 'Tool to generate flow map images for Mongabay.'}
+      content={
+        description
+          ? description
+          : 'Create images of maps with flows representing the exchange of a variety of commodities across the world.'
+      }
     />
   </Head>
 );

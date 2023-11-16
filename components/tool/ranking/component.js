@@ -52,11 +52,12 @@ const Ranking = ({ unit, unitOptions, rankingData }) => {
       <ul>
         {rankingData.map(flow => {
           const volume = getVolume(flow.value);
+          const formattedValue = flow.formattedValue.replace('CO2', 'CO₂');
           return (
             <li key={flow.country}>
               <div className="c-tool-ranking__title">
                 <span className="flex-grow-3">{flow.country}</span>
-                <span className="text-right flex-grow-1">{flow.formattedValue}</span>
+                <span className="text-right flex-grow-1">{formattedValue}</span>
               </div>
               <div className="c-tool-ranking__volume progress bg-white shadow-none rounded-0">
                 <div
