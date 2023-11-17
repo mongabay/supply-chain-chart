@@ -1,5 +1,8 @@
 .l-static-page {
-  position: relative; }
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column; }
   .l-static-page > .logo {
     position: absolute;
     right: 0;
@@ -8,11 +11,148 @@
     display: block;
     height: 1.25rem; }
 
+.header {
+  background-color: #7e56d8;
+  padding-inline: 3rem;
+  height: 45px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+  .header__logo img {
+    width: 136px;
+    height: 20.176px; }
+  .header__content {
+    display: flex;
+    align-items: center;
+    gap: 36px; }
+    .header__content > p {
+      margin-bottom: 0;
+      color: white;
+      font-family: "Open Sans", serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.96px;
+      text-transform: uppercase; }
+  .header__menu {
+    flex-shrink: 0; }
+    .header__menu__icon {
+      width: 29px;
+      height: 29px; }
+    .header__menu__content {
+      position: fixed;
+      padding-block: 10px;
+      top: 0;
+      right: 0;
+      height: 100%;
+      z-index: 3;
+      transition: all 300ms ease-in-out;
+      background-color: white;
+      display: flex;
+      align-items: center; }
+      .header__menu__content.\--open {
+        transform: translateX(0); }
+      .header__menu__content.\--close {
+        transform: translateX(100%); }
+      .header__menu__content__wrap {
+        min-width: 543px;
+        width: 100%;
+        min-height: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-inline: 88px;
+        gap: 60px; }
+        .header__menu__content__wrap__close-btn {
+          position: absolute;
+          right: 2rem;
+          top: 10px; }
+          .header__menu__content__wrap__close-btn__icon.c-icon {
+            stroke: #222222;
+            width: 51px;
+            height: 51px;
+            stroke-width: 0px; }
+        .header__menu__content__wrap__title {
+          font: 700 1.875rem "Cardo", sans-serif; }
+        .header__menu__content__wrap ul {
+          display: flex;
+          gap: 28px;
+          flex-direction: column;
+          padding: 0; }
+          .header__menu__content__wrap ul li {
+            list-style: none; }
+            .header__menu__content__wrap ul li a {
+              display: flex;
+              align-items: center;
+              gap: 16px;
+              font: 600 0.875rem "Open Sans", serif;
+              text-transform: uppercase;
+              color: #222222;
+              border-radius: 22px; }
+              .header__menu__content__wrap ul li a:hover {
+                text-decoration: underline; }
+              .header__menu__content__wrap ul li a:focus-visible {
+                outline: #7e56d8 auto 1px;
+                outline-offset: 8px; }
+              .header__menu__content__wrap ul li a div {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center; }
+                .header__menu__content__wrap ul li a div .c-icon {
+                  width: 22px;
+                  height: 22px; }
+                  .header__menu__content__wrap ul li a div .c-icon.\--lg {
+                    width: 24px;
+                    height: 24px; }
+        .header__menu__content__wrap__buttons {
+          padding-top: 42px;
+          display: flex;
+          align-items: flex-end;
+          gap: 12px;
+          font: 600 0.8125rem "Open Sans", serif; }
+    .header__menu__mask {
+      position: fixed;
+      top: 0;
+      right: 0;
+      transition: opacity 300ms ease-in-out; }
+      .header__menu__mask.\--open {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        background-color: #222222;
+        z-index: 2;
+        opacity: 0.3; }
+      .header__menu__mask.\--close {
+        opacity: 0;
+        z-index: -10; }
+  .header .\--transparent.btn.btn-light {
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+    border-radius: 50%; }
+    .header .\--transparent.btn.btn-light:active {
+      background-color: transparent;
+      box-shadow: none; }
+  .header .btn:focus-visible {
+    outline: #7e56d8 auto 1px;
+    outline-offset: 2px; }
+
+.c-icon {
+  width: 1.375rem;
+  height: 1.375rem;
+  fill: #222222; }
+  .c-icon.-big {
+    width: 2.5rem;
+    height: 2.5rem; }
+
 .c-radio .custom-control-input:checked:not(:disabled):active ~ .custom-control-label:before {
   background-color: transparent; }
 
 .c-radio .custom-control-input:checked ~ .custom-control-label {
-  color: #03755e;
+  color: #7e56d8;
   font-weight: 700; }
   .c-radio .custom-control-input:checked ~ .custom-control-label:before {
     border-width: 2px; }
@@ -22,7 +162,7 @@
     width: 0.75rem;
     height: 0.75rem;
     border-radius: 50%;
-    background-color: #03755e; }
+    background-color: #7e56d8; }
 
 .c-radio + .c-radio {
   margin-top: 1rem; }
@@ -31,7 +171,7 @@
   background-color: transparent; }
 
 .c-checkbox .custom-control-input:checked ~ .custom-control-label {
-  color: #03755e;
+  color: #7e56d8;
   font-weight: 700; }
   .c-checkbox .custom-control-input:checked ~ .custom-control-label:before {
     border-width: 2px; }
@@ -41,7 +181,7 @@
     width: 0.75rem;
     height: 0.75rem;
     border-radius: 0.125rem;
-    background-color: #03755e; }
+    background-color: #7e56d8; }
 
 .c-checkbox + .c-checkbox {
   margin-top: 1rem; }
@@ -147,8 +287,8 @@ select.c-select {
         opacity: 0.4;
         cursor: not-allowed; }
       .c-export-tooltip .grid-buttons input:checked + label .c-icon use {
-        stroke: #03755e;
-        fill: #03755e; }
+        stroke: #7e56d8;
+        fill: #7e56d8; }
     .c-export-tooltip .grid-buttons label .c-icon {
       width: 2.8125rem;
       height: 2.1875rem;
@@ -197,7 +337,7 @@ select.c-select {
       -webkit-animation: dash 1.5s ease-in-out infinite;
               animation: dash 1.5s ease-in-out infinite;
       stroke-linecap: round;
-      stroke: #03755e; }
+      stroke: #7e56d8; }
 
 @-webkit-keyframes rotate {
   100% {
@@ -229,21 +369,13 @@ select.c-select {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -124; } }
 
-.c-icon {
-  width: 1.375rem;
-  height: 1.375rem;
-  fill: #222222; }
-  .c-icon.-big {
-    width: 2.5rem;
-    height: 2.5rem; }
-
 .ReactModal__Overlay {
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: auto;
   z-index: 10;
-  background-color: rgba(3, 117, 94, 0.7) !important;
+  background-color: rgba(126, 86, 216, 0.7) !important;
   opacity: 0;
   transform: scale(1.15);
   transition: transform 0.1s cubic-bezier(0.465, 0.183, 0.153, 0.946), opacity 0.1s cubic-bezier(0.465, 0.183, 0.153, 0.946);
@@ -276,13 +408,14 @@ select.c-select {
     background: #fff; }
     .c-modal .close-button .c-icon {
       width: 0.625rem;
-      height: 0.625rem; }
+      height: 0.625rem;
+      stroke: #222222; }
       .c-modal .close-button .c-icon use {
         fill: currentColor; }
     .c-modal .close-button:hover {
-      background: #03755e; }
+      background: #7e56d8; }
   .c-modal .content {
-    overflow: scroll;
+    overflow: auto;
     -webkit-overflow-scrolling: touch; }
 
 .c-tool-download-success-modal {
@@ -300,6 +433,14 @@ select.c-select {
     flex-direction: column;
     flex-grow: 1;
     overflow: hidden; }
+    .c-tool-sidebar .content h1 {
+      line-height: 3rem;
+      /* 33px */
+      font-weight: 700; }
+    .c-tool-sidebar .content h2 {
+      margin-top: 20px;
+      font-weight: 400;
+      font-size: 30px; }
     .c-tool-sidebar .content .scrollable-container {
       margin: 0.5rem 0;
       padding: 0.5rem 0;
@@ -328,7 +469,7 @@ select.c-select {
     font-size: 0.875rem;
     font-size: 12px; }
     .c-tool-ranking__title span:last-of-type {
-      color: #03755e; }
+      color: #7e56d8; }
   .c-tool-ranking__volume {
     display: flex;
     height: 10px; }
@@ -386,6 +527,8 @@ select.c-select {
   align-items: center;
   flex-grow: 1;
   overflow: hidden; }
+  .c-world-map.exporting {
+    align-items: flex-start; }
   .c-world-map .exporting-message {
     position: absolute;
     top: 0;
@@ -451,7 +594,8 @@ select.c-select {
     left: 0;
     width: 100%;
     height: 1.625rem;
-    background-color: #fff; }
+    background-color: #fff;
+    padding: 10px; }
 
 .c-world-map-tooltip {
   display: flex;
@@ -489,9 +633,7 @@ select.c-select {
   overflow: hidden; }
 
 .p-home {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: calc(100% - 45px);
   padding: 3rem; }
-  .p-home .l-static-page {
-    height: 100%; }
 
