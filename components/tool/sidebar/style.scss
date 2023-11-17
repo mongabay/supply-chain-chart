@@ -13,6 +13,15 @@
     flex-direction: column;
     flex-grow: 1;
     overflow: hidden;
+    h1 {
+      line-height: 3rem; /* 33px */
+      font-weight: 700;
+    }
+    h2 {
+      margin-top: 20px;
+      font-weight: 400;
+      font-size: 30px;
+    }
 
     .scrollable-container {
       margin: map-get($spacers, 2) 0;

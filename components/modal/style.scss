@@ -47,7 +47,7 @@
     .c-icon {
       width: rem(10);
       height: rem(10);
-
+      stroke: $text-color-1;
       use {
         fill: currentColor;
       }
@@ -59,7 +59,7 @@
   }
 
   .content {
-    overflow: scroll;
+    overflow: auto;
     -webkit-overflow-scrolling: touch;
   }
 }

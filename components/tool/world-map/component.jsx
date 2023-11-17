@@ -100,7 +100,7 @@ class WorldMap extends React.PureComponent {
         destinationCountriesIso.indexOf(iso) !== -1 ||
         (destinationCountriesIso.indexOf('EU') !== -1 && EU_COUNTRIES.indexOf(iso) !== -1)
       ) {
-        fillColor = '#03755e';
+        fillColor = '#7E56D8';
       }
 
       return (
@@ -226,7 +226,7 @@ class WorldMap extends React.PureComponent {
                   <p>
                     <strong>{tooltipContent?.country}</strong>
                   </p>
-                  <p>{tooltipContent?.value}</p>
+                  <p>{tooltipContent?.value.replace('CO2', 'CO₂')}</p>
                 </div>
               }
               duration={0}

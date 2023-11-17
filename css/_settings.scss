@@ -5,7 +5,7 @@
 
 // Colors
 
-$primary: #03755e;
+$primary: #7e56d8;
 $light: $white;
 
 $text-color-1: #222222;
@@ -14,6 +14,7 @@ $text-color-3: #717171;
 
 $theme-colors: (
   'primary': $primary,
+  'gray-dark': $text-color-1,
 );
 
 $border-color-1: rgba($text-color-1, 0.3);
@@ -44,6 +45,8 @@ $font-size-xxs: rem(10);
 
 $headings-font-family: $font-family-2;
 $h1-font-size: $font-size-l;
+
+$font-weight-strong: 600;
 
 // $mark-padding: 0 0.2rem;
 // $mark-bg: #fac080;
@@ -107,3 +110,5 @@ $custom-range-thumb-focus-box-shadow: 0 0 0 1px $body-bg, $input-focus-box-shado
 
 $enable-shadows: true;
 $enable-responsive-font-sizes: true;
+
+$header-height: 45px;

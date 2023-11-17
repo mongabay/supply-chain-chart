@@ -2,7 +2,9 @@
 
 .l-static-page {
   position: relative;
-
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
   > .logo {
     position: absolute;
     right: 0;

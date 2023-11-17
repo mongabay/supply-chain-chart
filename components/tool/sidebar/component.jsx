@@ -50,7 +50,12 @@ const Sidebar = ({
     <aside className="c-tool-sidebar">
       <DownloadSuccessModal open={downloadModalOpen} onClose={() => setDownloadModalOpen(false)} />
       <div className="content">
-        <h1>Supply Chain</h1>
+        <h1>Supply Chain Data Tool</h1>
+        <p>
+          Create images of maps with flows representing the exchange of a variety of commodities
+          across the world.
+        </p>
+        <h2>Data Layers</h2>
         <div className="scrollable-container pt-2">
           <div className="form-group">
             <label htmlFor="setting-country">Source country</label>
@@ -140,7 +145,7 @@ const Sidebar = ({
       </div>
       <div className="d-flex align-items-center mt-4">
         <Tooltip sticky="popper" plugins={[sticky]} content={<ExportTooltip />}>
-          <button type="button" className="btn btn-primary" disabled={loading}>
+          <button type="button" className="btn btn-primary py-2" disabled={loading}>
             Export
           </button>
         </Tooltip>
