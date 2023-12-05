@@ -1,6 +1,6 @@
-# supply-chain-chart
+# Trade Flow Map
 
-Supply chain chart is tool that generates flow map images for Mongabay's articles.
+Create images of maps with flows representing the exchange of a variety of commodities across the world.
 
 <p align="center">
   <img src="docs/assets/hero.png" alt="Supply chain chart" />

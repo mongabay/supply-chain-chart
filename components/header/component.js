@@ -14,7 +14,7 @@ const Header = () => {
           />
         </div>
         <div className="header__content">
-          <p>supply chain Tool</p>
+          <p className="header__content__name">Trade Flow Map</p>
           <HeaderMenu />
         </div>
       </div>

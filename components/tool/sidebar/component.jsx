@@ -50,7 +50,7 @@ const Sidebar = ({
     <aside className="c-tool-sidebar">
       <DownloadSuccessModal open={downloadModalOpen} onClose={() => setDownloadModalOpen(false)} />
       <div className="content">
-        <h1>Supply Chain Data Tool</h1>
+        <h1>Trade Flow Map</h1>
         <p>
           Create images of maps with flows representing the exchange of a variety of commodities
           across the world.

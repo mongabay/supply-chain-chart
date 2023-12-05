@@ -4,9 +4,7 @@ import Head from 'next/head';
 
 const HeadComponent = ({ title, description }) => (
   <Head>
-    <title key="title">
-      {title ? `${title} | Supply Chain Data Tool` : 'Supply Chain Data Tool'}
-    </title>
+    <title key="title">{title ? `${title} | Trade Flow Map` : 'Trade Flow Map'}</title>
     <meta
       key="description"
       name="description"
