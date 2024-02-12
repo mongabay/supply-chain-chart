@@ -121,7 +121,9 @@ const Tool = ({
           columns.countries,
           year,
           region,
-          exporter
+          exporter,
+          columns.regions,
+          columns.exporters
         );
         updateFlows(flows);
         updateFlowsLoading(false);
