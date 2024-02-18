@@ -52,8 +52,8 @@ const Sidebar = ({
       <div className="content">
         <h1>Trade Flow Map</h1>
         <p>
-          Create images of maps with flows representing the exchange of a variety of commodities
-          across the world.
+          Agricultural commodities move globally and cause deforestation. Find, follow, and create
+          maps of their trail with data from Trase.earth.
         </p>
         <h2>Data Layers</h2>
         <div className="scrollable-container pt-2">
@@ -145,7 +145,7 @@ const Sidebar = ({
       </div>
       <div className="d-flex align-items-center mt-4">
         <Tooltip sticky="popper" plugins={[sticky]} content={<ExportTooltip />}>
-          <button type="button" className="btn btn-primary py-2" disabled={loading}>
+          <button type="button" className="btn btn-primary py-2 px-6" disabled={loading}>
             Export
           </button>
         </Tooltip>
