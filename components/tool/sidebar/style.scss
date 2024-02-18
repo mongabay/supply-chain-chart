@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  flex-basis: rem(300);
+  flex-basis: rem(356);
   max-height: 100%;
   margin-right: map-get($spacers, 5);
 
@@ -15,24 +15,40 @@
     overflow: hidden;
     h1 {
       line-height: 3rem; /* 33px */
-      font-weight: 700;
+      font-weight: 300;
+      font-family: $font-family-1;
+      font-size: 44px;
     }
     h2 {
       margin-top: 20px;
       font-weight: 400;
-      font-size: 30px;
+      font-size: 28px;
     }
 
     .scrollable-container {
       margin: map-get($spacers, 2) 0;
       padding: map-get($spacers, 2) 0;
       overflow: auto;
+      label {
+        text-transform: uppercase;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 16px; /* 133.333% */
+        text-transform: uppercase;
+        padding-bottom: 4px;
+      }
     }
 
     .note {
       margin-top: map-get($spacers, 2);
       @include font-size($font-size-s);
     }
+  }
+
+  .btn {
+    padding: 12px 32px;
+    width: 172px;
   }
 
   .loading-text {
