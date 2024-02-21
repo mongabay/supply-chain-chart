@@ -145,7 +145,7 @@ const Sidebar = ({
       </div>
       <div className="d-flex align-items-center mt-4">
         <Tooltip sticky="popper" plugins={[sticky]} content={<ExportTooltip />}>
-          <button type="button" className="btn btn-primary py-2 px-6" disabled={loading}>
+          <button type="button" className="btn btn-primary" disabled={loading}>
             Export
           </button>
         </Tooltip>
