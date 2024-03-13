@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const TRASE_API = 'https://us-west1-trase-mongabay-shim.cloudfunctions.net/trase-api-prod';
+export const TRASE_API = 'https://europe-west1-trase-mongabay-shim.cloudfunctions.net/trase-api-prod';
 
 export const fetchTraseContexts = () =>
   axios.get(`${TRASE_API}-contexts`).then(({ data }) => data?.data ?? []);
