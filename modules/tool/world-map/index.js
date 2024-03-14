@@ -47,7 +47,7 @@ export const selectCommodityOptions = createSelector(
     }
 
     return contexts
-      .filter(context => context.countryId === +country)
+      .filter(context => context.countryId === country)
       .map(context => ({
         label: capitalize(context.commodityName),
         value: `${context.commodityId}`,
@@ -69,7 +69,7 @@ export const selectContext = createSelector(
     }
 
     return contexts.find(
-      context => context.countryId === +country && context.commodityId === +commodity
+      context => context.countryId === country && context.commodityId === commodity
     );
   }
 );
@@ -90,7 +90,7 @@ export const selectYearOptions = createSelector([selectContext, selectUnit], (co
     return [];
   }
 
-  const years = context.resizeBy.find(u => u.attributeId === +unit)?.years;
+  const years = context.resizeBy.find(u => u.attributeId === unit)?.years;
 
   return (
     [...(years ?? [])]
@@ -145,9 +145,9 @@ export const selectRankingData = createSelector(
       value: x0,
       formattedValue: formatNumber({
         num: x0,
-        unit: context?.resizeBy.find(u => u.attributeId === +unit)?.unit ?? '−',
+        unit: context?.resizeBy.find(u => u.attributeId === unit)?.unit ?? '−',
       }),
-      unit: context?.resizeBy.find(u => u.attributeId === +unit)?.unit ?? '−',
+      unit: context?.resizeBy.find(u => u.attributeId === unit)?.unit ?? '−',
     }))
 );
 
@@ -305,18 +305,20 @@ export default traseActions =>
       },
       updateColumns(state, action) {
         state.columns = {
-          regions: action.payload.find(({ name }) => name === 'PROVINCE' || name === 'STATE')?.id,
-          exporters: action.payload.find(({ name }) => name === 'EXPORTER GROUP')?.id,
+          // for the regions, the id of the column is sometimes region_production_1, sometimes region_production_2 - depending on number of subnational levels supported
+          // so the get the state or province, we must depend on the name rather than id to get the right column
+          regions: action.payload.find(({ name }) => name.toUpperCase().indexOf('PROVINCE') >= 0 || name.toUpperCase().indexOf('STATE') >= 0)?.id,
+          exporters: action.payload.find(({ id }) => id === 'exporter_group')?.id,
           // The order of these columns is important. We only fallback if we can't find the most
           // relevant one.
           countries: (
-            action.payload.find(({ name }) => name === 'COUNTRY OF DESTINATION') ||
-            action.payload.find(({ name }) => name === 'COUNTRY') ||
-            action.payload.find(({ name }) => name === 'COUNTRY OF FIRST IMPORT') ||
+            action.payload.find(({ id }) => id === 'country_of_destination') ||
+            action.payload.find(({ id }) => id === 'country_of_import') ||
             // As much as possible we'd want countries instead of economic blocs because the
             // implementation of the map expects countries. Unfortunately, there is at least one
             // known case where we don't have country-level information: Colombia / Cocoa.
-            action.payload.find(({ name }) => name === 'ECONOMIC BLOC')
+            // Update: Colombia / Cocoa now has country of destination
+            action.payload.find(({ id }) => id === 'economic_bloc')
           )?.id,
         };
       },

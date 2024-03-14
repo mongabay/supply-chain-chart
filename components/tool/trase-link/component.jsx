@@ -5,8 +5,9 @@ import './style.scss';
 
 const TraseLink = ({ country, commodity, unit, year }) => {
   const href = useMemo(() => {
-    const traseAppUpl = TRASE_API.split('/api')[0];
-    return `${traseAppUpl}/flows/data-view?toolLayout=1&countries=${country}&commodities=${commodity}&selectedYears=${year}&selectedYears=${year}&selectedResizeBy=${unit}`;
+    const newTraseSiteURL = 'https://trase.earth';
+    // https://trase.earth/explore/supply-chain/brazil/soy?year=2004&indicator=volume
+    return `${newTraseSiteURL}/explore/supply-chain/${country}/${commodity}?year=${year}&indicator=${unit}`;
   }, [commodity, country, unit, year]);
 
   return (
